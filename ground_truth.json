@@ -122,7 +122,7 @@
   {
     "question_id": "q16",
     "question": "From Figure 5 (performance curve) in the MobileNetV2 paper, how does MobileNetV2 compare to ShuffleNet and NASNet across the range of multiply-adds shown?",
-    "relevant_chunk_ids": [],
+    "relevant_chunk_ids": ["e8a2d323-b6a1-4c05-81f4-e10a3c8ab464","359683e8-6f2c-4805-9d70-0cf8f3f019ae"],
     "ground_truth": "Figure 5 shows that MobileNetV2 consistently achieves higher top-1 accuracy than ShuffleNet across comparable MAdds ranges. At around 300-600M MAdds, MobileNetV2 (1.0 and 1.4 multiplier) is competitive with or outperforms NASNet. MobileNetV2 forms a strong Pareto frontier across the spectrum of model sizes from ~7M to 585M MAdds.",
     "modality": "image",
     "source_paper": "MobileNetV2_Inverted_Residuals_and_Linear_Bottlenecks.pdf"
@@ -130,7 +130,7 @@
   {
     "question_id": "q17",
     "question": "From Figure 1 in the MobileNetV2 paper showing ReLU transformations of low-dimensional manifolds, what happens to the manifold when the output dimensionality is n=2 or n=3 versus n=15 or n=30?",
-    "relevant_chunk_ids": [],
+    "relevant_chunk_ids": ["2bb9e6c6-fce0-4fa5-bf69-e91d67ae6527"],
     "ground_truth": "When output dimensionality is n=2 or n=3, the ReLU transformation causes information loss where certain points of the manifold collapse into each other (the spiral shape is lost or distorted severely). For n=15 to n=30, the transformation is highly non-convex but the manifold structure is largely preserved — the spiral shape remains recognizable after projection back to 2D.",
     "modality": "image",
     "source_paper": "MobileNetV2_Inverted_Residuals_and_Linear_Bottlenecks.pdf"
@@ -138,7 +138,7 @@
   {
     "question_id": "q18",
     "question": "From Table 6 in the MobileNetV2 paper, how do MobileNetV2+SSDLite and MobileNetV1+SSDLite compare to SSD300 and YOLOv2 in terms of mAP, parameters, and MAdds on COCO?",
-    "relevant_chunk_ids": [],
+    "relevant_chunk_ids": ["359683e8-6f2c-4805-9d70-0cf8f3f019ae"],
     "ground_truth": "MobileNetV2+SSDLite achieves 22.1 mAP with 4.3M parameters and 0.8B MAdds. MobileNetV1+SSDLite achieves 22.2 mAP with 5.1M parameters and 1.3B MAdds. In comparison, SSD300 achieves 23.2 mAP with 36.1M parameters and 35.2B MAdds, and YOLOv2 achieves 21.6 mAP with 50.7M parameters and 17.5B MAdds. MobileNetV2+SSDLite is notably 20x more efficient and 10x smaller than YOLOv2 while achieving better mAP.",
     "modality": "table",
     "source_paper": "MobileNetV2_Inverted_Residuals_and_Linear_Bottlenecks.pdf"
@@ -146,7 +146,7 @@
   {
     "question_id": "q19",
     "question": "From Figure 6(a) in the MobileNetV2 paper, what does the impact of non-linearity in the bottleneck layer show about linear vs ReLU6 bottlenecks during training?",
-    "relevant_chunk_ids": [],
+    "relevant_chunk_ids": ["a521add4-cd87-4ebe-80ca-d3d94b0ea2a8"],
     "ground_truth": "Figure 6(a) shows that the linear bottleneck consistently achieves higher top-1 accuracy on ImageNet throughout training compared to using ReLU6 in the bottleneck. This empirically validates the paper's hypothesis that non-linearities in narrow bottleneck layers destroy information and hurt performance — linear bottlenecks preserve representational power better in low-dimensional spaces.",
     "modality": "image",
     "source_paper": "MobileNetV2_Inverted_Residuals_and_Linear_Bottlenecks.pdf"
@@ -154,7 +154,7 @@
   {
     "question_id": "q20",
     "question": "In the ResNet paper, what is the degradation problem and how do residual connections address it?",
-    "relevant_chunk_ids": [],
+    "relevant_chunk_ids": ["c34788f5-7483-4587-bbfd-74ae73517df2"],
     "ground_truth": "The degradation problem is that with increasing network depth, accuracy gets saturated and then degrades rapidly — and this degradation is NOT caused by overfitting. Adding more layers leads to higher training error. Residual connections address this by reformulating the layers to learn residual functions F(x) := H(x) - x instead of the full mapping H(x). If identity mappings are optimal, the solver can push residual weights toward zero, making it easier to optimize than learning the identity mapping directly through stacked nonlinear layers.",
     "modality": "text",
     "source_paper": "ResNet_Deep_Residual_Learning_for_Image_Recognition__He_et_al_2016_.pdf"
@@ -162,7 +162,7 @@
   {
     "question_id": "q21",
     "question": "From Figure 1 in the ResNet paper showing training and test error on CIFAR-10, what is the paradoxical behavior observed with the 56-layer plain network compared to the 20-layer plain network?",
-    "relevant_chunk_ids": [],
+    "relevant_chunk_ids": ["a59017b7-f103-437f-96ed-d312c9478387","c34788f5-7483-4587-bbfd-74ae73517df2"],
     "ground_truth": "Figure 1 shows that the deeper 56-layer plain network has HIGHER training error and test error than the shallower 20-layer plain network throughout the entire training procedure. This is paradoxical because the solution space of the 20-layer network is a subspace of the 56-layer one, so the deeper network should theoretically be at least as good. This demonstrates the degradation problem — not overfitting, but an optimization difficulty.",
     "modality": "image",
     "source_paper": "ResNet_Deep_Residual_Learning_for_Image_Recognition__He_et_al_2016_.pdf"
@@ -170,7 +170,7 @@
   {
     "question_id": "q22",
     "question": "From Table 1 in the ResNet paper, how many convolutional layers does ResNet-50 have in conv4_x and what is the bottleneck block configuration used?",
-    "relevant_chunk_ids": [],
+    "relevant_chunk_ids": ["bc12bfd6-d502-459c-b63e-e964b3c3ddb3","9fa9c56e-8bb0-46bf-9dd3-a1ce52b6aca3"],
     "ground_truth": "ResNet-50 has 6 repeated bottleneck blocks in conv4_x (operating on 14x14 feature maps). Each bottleneck block consists of three layers: 1x1 conv with 256 filters, 3x3 conv with 256 filters, and 1x1 conv with 1024 filters. The total number of FLOPs for ResNet-50 is 3.8×10^9.",
     "modality": "table",
     "source_paper": "ResNet_Deep_Residual_Learning_for_Image_Recognition__He_et_al_2016_.pdf"
@@ -178,7 +178,7 @@
   {
     "question_id": "q23",
     "question": "From Figure 4 in the ResNet paper comparing plain vs residual network training on ImageNet, what does the training curve for ResNet-34 vs ResNet-18 demonstrate about the effect of residual learning on deeper networks?",
-    "relevant_chunk_ids": [],
+    "relevant_chunk_ids": ["bc12bfd6-d502-459c-b63e-e964b3c3ddb3","cc382fd4-b5d6-43f0-a6c6-2b87b3322ac0"],
     "ground_truth": "Figure 4 (right) shows that with residual learning, the 34-layer ResNet achieves both lower training error and lower validation error than the 18-layer ResNet — the opposite of what plain networks show. This demonstrates that residual learning successfully addresses the degradation problem, allowing deeper networks to genuinely benefit from increased depth. The 34-layer ResNet also converges more smoothly compared to its plain counterpart.",
     "modality": "image",
     "source_paper": "ResNet_Deep_Residual_Learning_for_Image_Recognition__He_et_al_2016_.pdf"
@@ -186,7 +186,7 @@
   {
     "question_id": "q24",
     "question": "From Table 5 in the ResNet paper showing ensemble results on the ImageNet test set, what top-5 error did the ResNet ensemble achieve at ILSVRC 2015 and how did it compare to GoogLeNet?",
-    "relevant_chunk_ids": [],
+    "relevant_chunk_ids": ["bc12bfd6-d502-459c-b63e-e964b3c3ddb3","ffbda5dd-26c8-477b-be98-fc32f0bc8ec5"],
     "ground_truth": "The ResNet ensemble achieved 3.57% top-5 error on the ImageNet test set at ILSVRC 2015, winning 1st place. GoogLeNet (ILSVRC'14 winner) achieved 6.66% top-5 error. The ResNet ensemble thus improved upon GoogLeNet by approximately 3.09 percentage points absolute.",
     "modality": "table",
     "source_paper": "ResNet_Deep_Residual_Learning_for_Image_Recognition__He_et_al_2016_.pdf"
@@ -194,7 +194,7 @@
   {
     "question_id": "q25",
     "question": "From Figure 7 in the ResNet paper showing standard deviations of layer responses on CIFAR-10, what does the comparison between ResNet and plain networks reveal about residual function magnitudes?",
-    "relevant_chunk_ids": [],
+    "relevant_chunk_ids": ["fe487f8b-c7fc-4802-ad4a-f55e0e4ede35","01fd0ea2-46ed-4316-8ad0-dce261307989"],
     "ground_truth": "Figure 7 shows that ResNets generally have smaller response magnitudes (lower standard deviations) than their plain network counterparts. This supports the paper's hypothesis that residual functions are generally closer to zero than non-residual functions, meaning the residual mappings learned are small perturbations rather than full transformations. Additionally, deeper ResNets (ResNet-110) have even smaller magnitudes than shallower ones (ResNet-20), suggesting that individual layers modify the signal less as depth increases.",
     "modality": "image",
     "source_paper": "ResNet_Deep_Residual_Learning_for_Image_Recognition__He_et_al_2016_.pdf"
@@ -202,7 +202,7 @@
   {
     "question_id": "q26",
     "question": "What is the U-Net architecture's key innovation compared to the standard fully convolutional network, and how does it achieve precise localization while capturing context?",
-    "relevant_chunk_ids": [],
+    "relevant_chunk_ids": ["0a3ef056-d9ec-45d7-b8fa-aecb0c288080"],
     "ground_truth": "U-Net's key innovation is its symmetric expanding path (decoder) that mirrors the contracting path (encoder), creating a U-shaped architecture. In the upsampling part, it has a large number of feature channels that propagate context information to higher resolution layers. High-resolution features from the contracting path are combined (via skip connections with copy-and-crop) with the upsampled output in the expanding path. This allows a successive convolution layer to learn to assemble more precise outputs using both local detail (from skip connections) and global context (from the bottleneck).",
     "modality": "text",
     "source_paper": "U-Net_Convolutional_Networks_for_Biomedical_Image_Segmentation.pdf"
@@ -210,7 +210,7 @@
   {
     "question_id": "q27",
     "question": "From Figure 1 in the U-Net paper showing the network architecture, how many feature channels are at the bottleneck (lowest resolution), and what operations are applied at each step of the expanding path?",
-    "relevant_chunk_ids": [],
+    "relevant_chunk_ids": ["ae5edbe9-08fe-42f0-b83f-37d4ea987fff","0a3ef056-d9ec-45d7-b8fa-aecb0c288080"],
     "ground_truth": "The bottleneck has 1024 feature channels at the lowest resolution (32x32 pixels in the example). Each step in the expanding path consists of: (1) an up-convolution (2x2) that halves the number of feature channels, (2) a concatenation (copy and crop) with the corresponding feature map from the contracting path, and (3) two 3x3 convolutions each followed by a ReLU. The total network has 23 convolutional layers.",
     "modality": "image",
     "source_paper": "U-Net_Convolutional_Networks_for_Biomedical_Image_Segmentation.pdf"
@@ -218,7 +218,7 @@
   {
     "question_id": "q28",
     "question": "From Table 1 in the U-Net paper showing the EM segmentation challenge ranking, what warping error and Rand error did U-Net achieve, and how did it compare to the IDSIA method?",
-    "relevant_chunk_ids": [],
+    "relevant_chunk_ids": ["4f943734-04b9-49e6-87f1-59db0a73ebef"],
     "ground_truth": "U-Net achieved a warping error of 0.000353 and a Rand error of 0.0382, ranking 1st place on the EM segmentation challenge. The IDSIA method (Ciresan et al.) achieved a warping error of 0.000420 and a Rand error of 0.0504. U-Net outperformed IDSIA on both metrics, achieving lower warping error and lower Rand error.",
     "modality": "table",
     "source_paper": "U-Net_Convolutional_Networks_for_Biomedical_Image_Segmentation.pdf"
@@ -226,7 +226,7 @@
   {
     "question_id": "q29",
     "question": "From Table 2 in the U-Net paper showing ISBI cell tracking challenge 2015 results, what IOU scores did U-Net achieve on PhC-U373 and DIC-HeLa datasets compared to the second-best methods?",
-    "relevant_chunk_ids": [],
+    "relevant_chunk_ids": ["4f943734-04b9-49e6-87f1-59db0a73ebef"],
     "ground_truth": "U-Net achieved an IOU of 0.9203 (92.03%) on PhC-U373 and 0.7756 (77.56%) on DIC-HeLa. The second-best 2015 methods achieved 0.83 on PhC-U373 and 0.46 on DIC-HeLa. U-Net outperformed the second-best by approximately 9 percentage points on PhC-U373 and by a very large margin of ~31.5 percentage points on DIC-HeLa.",
     "modality": "table",
     "source_paper": "U-Net_Convolutional_Networks_for_Biomedical_Image_Segmentation.pdf"
@@ -234,7 +234,7 @@
   {
     "question_id": "q30",
     "question": "From Figure 3 in the U-Net paper showing HeLa cell segmentation, what does panel (d) specifically represent and why is it needed in the training process?",
-    "relevant_chunk_ids": [],
+    "relevant_chunk_ids": ["595757ef-e081-4d7b-9e0c-f1a54a0e174d"],
     "ground_truth": "Panel (d) shows the pixel-wise loss weight map, which assigns large weights to the separating background pixels between touching cells (shown as bright/highlighted borders between cells). This weight map is needed because touching cells of the same class are difficult to separate — by penalizing errors at these border pixels more heavily in the cross-entropy loss function, the network is forced to learn to detect and preserve the thin separation borders between adjacent cells, enabling correct instance-level segmentation.",
     "modality": "image",
     "source_paper": "U-Net_Convolutional_Networks_for_Biomedical_Image_Segmentation.pdf"
@@ -242,7 +242,7 @@
   {
     "question_id": "q31",
     "question": "From Figure 2 in the U-Net paper illustrating the overlap-tile strategy, what problem does this strategy solve and how is missing border context handled?",
-    "relevant_chunk_ids": [],
+    "relevant_chunk_ids": ["0a3ef056-d9ec-45d7-b8fa-aecb0c288080"],
     "ground_truth": "The overlap-tile strategy solves the problem of applying the network to images larger than the GPU memory allows. Since the network requires context around each pixel for segmentation, tiles must overlap. For the yellow area being segmented, the blue area (which is larger) is needed as input. Missing input data at image borders — where the required context extends beyond the image boundary — is extrapolated by mirroring the input image, avoiding the need for zero-padding which could introduce artifacts.",
     "modality": "image",
     "source_paper": "U-Net_Convolutional_Networks_for_Biomedical_Image_Segmentation.pdf"
@@ -250,7 +250,7 @@
   {
     "question_id": "q32",
     "question": "From Figure 4 in the U-Net paper showing cell tracking challenge results, what type of microscopy is used for the PhC-U373 dataset and the DIC-HeLa dataset respectively?",
-    "relevant_chunk_ids": [],
+    "relevant_chunk_ids": ["4f943734-04b9-49e6-87f1-59db0a73ebef"],
     "ground_truth": "The PhC-U373 dataset uses phase contrast microscopy (panels a and b show Glioblastoma-astrocytoma U373 cells on a polyacrylimide substrate recorded by phase contrast microscopy). The DIC-HeLa dataset uses differential interference contrast (DIC) microscopy (panels c and d show HeLa cells on flat glass recorded by DIC microscopy).",
     "modality": "image",
     "source_paper": "U-Net_Convolutional_Networks_for_Biomedical_Image_Segmentation.pdf"
