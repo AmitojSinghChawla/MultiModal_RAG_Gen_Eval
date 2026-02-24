@@ -2,7 +2,7 @@
   {
     "question_id": "q1",
     "question": "According to the RAG survey, what are the three main paradigms of RAG discussed in the paper?",
-    "relevant_chunk_ids": ["cdebd0dc-8958-43b8-a275-4f215563772c","095839ce-b2d5-4839-a0c6-eccd4695d0b2","0aed6c8b-000a-4a33-83c9-5a6369216236"],
+    "relevant_chunk_ids": ["273020ca-5bb2-471b-94e2-32fbceb89458","ba151ab6-6637-4e7e-9cdc-29a47530963b"],
     "ground_truth": "The three main paradigms of RAG discussed in the paper are: Naive RAG, Advanced RAG, and Modular RAG.",
     "modality": "text",
     "source_paper": "A_Survey_on_Retrieval-Augmented_Generation.pdf"
@@ -10,7 +10,7 @@
   {
     "question_id": "q2",
     "question": "From the RAG vs Fine-tuning comparison table in the RAG survey, which technique has lower latency requirements and why?",
-    "relevant_chunk_ids": [],
+    "relevant_chunk_ids": ["dd142f75-235c-432c-8b16-78d60b526a8d"],
     "ground_truth": "Fine-tuning has lower latency requirements because the LLM after fine-tuning can respond without retrieval, resulting in lower latency. RAG involves data retrieval which potentially leads to higher latency.",
     "modality": "table",
     "source_paper": "A_Survey_on_Retrieval-Augmented_Generation.pdf"
@@ -18,7 +18,7 @@
   {
     "question_id": "q3",
     "question": "In the RAG survey's timeline figure (Figure 1), what was the significant turning point year and event that caused a rapid increase in RAG-related research?",
-    "relevant_chunk_ids": ["59d2a6a5-0246-47ad-8156-3757e181b7a8"],
+    "relevant_chunk_ids": ["8855011e-f40f-486b-bb90-cd9cb032d689","4ba499ed-a999-4ae6-978a-9856344e09cf"],
     "ground_truth": "The significant turning point was December 2022 when ChatGPT was released. Since then, research in the field of NLP entered the era of large models and Naive RAG techniques quickly gained prominence, leading to a rapid increase in the number of related studies.",
     "modality": "image",
     "source_paper": "A_Survey_on_Retrieval-Augmented_Generation.pdf"
@@ -26,7 +26,7 @@
   {
     "question_id": "q4",
     "question": "In Figure 2 of the RAG survey comparing RAG with other model optimization methods, which optimization approach requires both high external knowledge and high model adaptation?",
-    "relevant_chunk_ids": ["ea5abe13-f040-44f9-9b28-b6f5ca9f0cf3"],
+    "relevant_chunk_ids": ["185f343f-1bcd-4630-859d-23f70a1e8851"],
     "ground_truth": "Fine-tuning (specifically Collaborative fine-tuning and Retriever fine-tuning) requires both high external knowledge and high model adaptation. The figure shows Fine-tuning at the high end of the Model Adaptation Required axis.",
     "modality": "image",
     "source_paper": "A_Survey_on_Retrieval-Augmented_Generation.pdf"
@@ -34,7 +34,7 @@
   {
     "question_id": "q5",
     "question": "What are the three core evaluation metrics emphasized in both the RAGAS and ARES frameworks for evaluating RAG systems?",
-    "relevant_chunk_ids": ["41ac1bf0-5221-47f1-8d18-fbc2a63d9141"],
+    "relevant_chunk_ids": ["c494b517-7153-4f12-85f4-a8428b4371b4"],
     "ground_truth": "The three core evaluation metrics are: (1) Faithfulness of the answer — the generated answers must remain true to the given context; (2) Answer Relevance — the generated answers need to be directly related to the posed question; (3) Context Relevance — the retrieved contextual information must be accurate and targeted.",
     "modality": "text",
     "source_paper": "A_Survey_on_Retrieval-Augmented_Generation.pdf"
@@ -42,7 +42,7 @@
   {
     "question_id": "q6",
     "question": "From Figure 3 in the RAG survey comparing the three RAG paradigms, what post-retrieval processing steps does Advanced RAG add that Naive RAG lacks?",
-    "relevant_chunk_ids": [],
+    "relevant_chunk_ids": ["c7c08140-72bc-466a-8e5e-212c4ead9144","185f343f-1bcd-4630-859d-23f70a1e8851","c7c08140-72bc-466a-8e5e-212c4ead9144"],
     "ground_truth": "Advanced RAG adds Rerank, Filter, and Prompt Compression as post-retrieval steps. It also includes pre-retrieval optimizations such as Fine-grained Data Cleaning, Sliding Window/Small2Big chunking, Add File Structure, Query Rewrite/Clarification, and Retriever Router — none of which are present in Naive RAG.",
     "modality": "image",
     "source_paper": "A_Survey_on_Retrieval-Augmented_Generation.pdf"
@@ -50,7 +50,7 @@
   {
     "question_id": "q7",
     "question": "According to the RAG survey's taxonomy figure (Figure 4), what are the three augmentation process types listed under 'Augmentation Process'?",
-    "relevant_chunk_ids": [],
+    "relevant_chunk_ids": ["f5c84d91-382e-4b8f-be3e-b719c6780d16"],
     "ground_truth": "The three augmentation process types listed under 'Augmentation Process' in Figure 4 are: Once Retrieval, Iterative Retrieval, and Adaptive Retrieval.",
     "modality": "image",
     "source_paper": "A_Survey_on_Retrieval-Augmented_Generation.pdf"
@@ -58,7 +58,7 @@
   {
     "question_id": "q8",
     "question": "In the TCN paper, what is the word-level perplexity achieved by TCN on the Penn Treebank (PTB) dataset, and how does it compare to LSTM and GRU?",
-    "relevant_chunk_ids": [],
+    "relevant_chunk_ids": ["14dbd58d-3143-4553-b1c7-2dd3ba000fe4"],
     "ground_truth": "TCN achieves a word-level perplexity of 88.68 on PTB, which is better than GRU (92.48) and vanilla RNN (114.50), but worse than LSTM (78.93) on the same dataset with approximately 13M parameters.",
     "modality": "table",
     "source_paper": "An_Empirical_Evaluation_of_Generic_Convolutional_and_Recurrent_Networks_for_Sequence_Modeling.pdf"
@@ -66,7 +66,7 @@
   {
     "question_id": "q9",
     "question": "From Figure 1(a) in the TCN paper showing dilated causal convolutions, what dilation factors are used and what is the filter size?",
-    "relevant_chunk_ids": [],
+    "relevant_chunk_ids": ["4e643ddf-4cc7-424b-a1aa-b31f9ef43387","6304e42b-e63b-43c8-85d8-165e078b59dc"],
     "ground_truth": "Figure 1(a) shows dilated causal convolutions with dilation factors d = 1, 2, and 4, with a filter size k = 3. The receptive field with these settings is able to cover all values from the input sequence.",
     "modality": "image",
     "source_paper": "An_Empirical_Evaluation_of_Generic_Convolutional_and_Recurrent_Networks_for_Sequence_Modeling.pdf"
@@ -74,7 +74,7 @@
   {
     "question_id": "q10",
     "question": "From Figure 5 in the TCN paper showing accuracy on the copy memory task, at what sequence length T does the LSTM's accuracy fall below 20%?",
-    "relevant_chunk_ids": [],
+    "relevant_chunk_ids": ["739bf4a2-f2c5-4578-851e-1dd140d7891b","8f80c7ec-bb80-46fa-8ac9-05d2c7ec66f6"],
     "ground_truth": "According to Figure 5, the LSTM's accuracy falls below 20% for T less than 50 (T < 50). The GRU falls below 20% for T < 200. In contrast, TCN consistently converges to 100% accuracy for all sequence lengths tested.",
     "modality": "image",
     "source_paper": "An_Empirical_Evaluation_of_Generic_Convolutional_and_Recurrent_Networks_for_Sequence_Modeling.pdf"
@@ -82,7 +82,7 @@
   {
     "question_id": "q11",
     "question": "From Figure 2 in the TCN paper, what does the convergence curve for the adding problem at T=600 show about the relative performance of GRU compared to TCN and LSTM?",
-    "relevant_chunk_ids": [],
+    "relevant_chunk_ids": ["6f51263d-a164-4d28-b31d-568f2731b833"],
     "ground_truth": "Figure 2(b) shows that for T=600, TCN converges fastest to near-zero loss (virtually perfect solution). GRU also performs quite well but is slower to converge than TCN. LSTM performs significantly worse and does not converge to a good solution within the shown iterations.",
     "modality": "image",
     "source_paper": "An_Empirical_Evaluation_of_Generic_Convolutional_and_Recurrent_Networks_for_Sequence_Modeling.pdf"
@@ -90,7 +90,7 @@
   {
     "question_id": "q12",
     "question": "What are the two main distinguishing characteristics of a Temporal Convolutional Network (TCN) as defined in the paper?",
-    "relevant_chunk_ids": [],
+    "relevant_chunk_ids": ["f977a60a-6ea7-400f-9d33-12dc57485f7d"],
     "ground_truth": "The two main distinguishing characteristics of TCNs are: (1) The convolutions in the architecture are causal, meaning there is no information leakage from future to past; and (2) The architecture can take a sequence of any length and map it to an output sequence of the same length, just as with an RNN.",
     "modality": "text",
     "source_paper": "An_Empirical_Evaluation_of_Generic_Convolutional_and_Recurrent_Networks_for_Sequence_Modeling.pdf"
@@ -98,7 +98,7 @@
   {
     "question_id": "q13",
     "question": "From Table 5 in the TCN paper comparing TCN vs TCN with gating, on which task does adding gating (GLU) most significantly hurt TCN performance?",
-    "relevant_chunk_ids": [],
+    "relevant_chunk_ids": ["96274ed0-c5cc-4cad-a4f7-99866bf839d7"],
     "ground_truth": "Adding gating (GLU) most significantly hurts TCN performance on the Copy Memory task with T=1000, where plain TCN achieves a loss of 3.5e-5 but TCN with gating degrades to 0.00508 — an increase of roughly 145x in loss.",
     "modality": "table",
     "source_paper": "An_Empirical_Evaluation_of_Generic_Convolutional_and_Recurrent_Networks_for_Sequence_Modeling.pdf"
@@ -106,7 +106,7 @@
   {
     "question_id": "q14",
     "question": "In the MobileNetV2 paper, what is the key architectural difference between a standard residual block and an inverted residual block as shown in Figure 3?",
-    "relevant_chunk_ids": [],
+    "relevant_chunk_ids": ["2bb9e6c6-fce0-4fa5-bf69-e91d67ae6527","dff7262d-84af-40ac-bd4e-abe6479f03a7"],
     "ground_truth": "In a standard residual block, the shortcut connections are between layers with a high number of channels (wide layers), and the intermediate bottleneck is narrow. In an inverted residual block, the shortcut connections are between the thin bottleneck layers (narrow layers), while the intermediate expansion layer is wide. The diagonally hatched layers (without non-linearities) are in different positions — in the bottleneck for standard residuals, and in the expansion layer for inverted residuals.",
     "modality": "image",
     "source_paper": "MobileNetV2_Inverted_Residuals_and_Linear_Bottlenecks.pdf"
@@ -114,7 +114,7 @@
   {
     "question_id": "q15",
     "question": "From Table 4 in the MobileNetV2 paper, what is MobileNetV2's top-1 accuracy, parameter count, number of MAdds, and CPU latency on ImageNet compared to MobileNetV1?",
-    "relevant_chunk_ids": [],
+    "relevant_chunk_ids": ["359683e8-6f2c-4805-9d70-0cf8f3f019ae"],
     "ground_truth": "MobileNetV2 achieves 72.0% top-1 accuracy with 3.4M parameters, 300M MAdds, and 75ms CPU latency (on Google Pixel 1). MobileNetV1 achieves 70.6% top-1 accuracy with 4.2M parameters, 575M MAdds, and 113ms CPU latency. MobileNetV2 is more accurate, smaller, faster, and more computationally efficient than MobileNetV1.",
     "modality": "table",
     "source_paper": "MobileNetV2_Inverted_Residuals_and_Linear_Bottlenecks.pdf"

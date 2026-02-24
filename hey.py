@@ -1,21 +1,31 @@
-#!/bin/python3
-
-
-n = 24
-
 if __name__ == '__main__':
-    n = int(input().strip())
-    if n > 0 & n < 100:
-        if n // 2 == 0:
-            if n in range(2, 6):
-                print("Not Weird")
-            elif n in range(6, 21):
-                print("Weird")
-            elif n > 20:
-                print("Weird")
+    lis = []
+    for _ in range(int(input())):
+        name = input()
+        score = float(input())
+        record = [name, score]
+        lis.append(record)
 
-        else:
-            print('Weird')
-    else:
-        print("Invalid Number")
+    scores = []
+    for i in range(len(lis)):
+        scores.append(lis[i][1])
 
+    scores.sort()
+    minimum= scores.index(min(scores))
+
+    print(scores)
+
+    for i in scores:
+        if i > scores[minimum]:
+            print(i)
+            slg= i
+            break
+
+    name = []
+    for i in range(len(lis)):
+        if lis[i][1] == slg:
+            name.append(lis[i][0])
+
+    name.sort()
+    for n in name:
+        print(n)

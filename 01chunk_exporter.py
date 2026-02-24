@@ -26,6 +26,7 @@ from dotenv import load_dotenv
 from langchain_core.messages import HumanMessage
 load_dotenv(verbose=True)
 
+
 OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
 if not OPENAI_API_KEY:
     raise ValueError("OPENAI_API_KEY environment variable not set. Please set it before running the script.")
@@ -165,7 +166,7 @@ def html_table_to_text(html: str) -> str:
 
 _vision_llm = ChatOpenAI(
     model="gpt-4o",
-    api_key=os.getenv("OPENAI_API_KEY"),
+    api_key=OPENAI_API_KEY,
     temperature=0,          # deterministic — we want consistent descriptions
     max_tokens=1024,        # enough for a thorough description of complex figures
 )
@@ -246,6 +247,8 @@ def describe_image(image_b64: str) -> str:
     except Exception as e:
         print(f"   WARNING: GPT-4o vision failed — {e}")
         return "Image description unavailable due to API error."
+
+
 # ===============================
 # 5. Export helper
 # ===============================
@@ -334,7 +337,7 @@ def process_pdfs_in_directory(directory_path: str, output_file: str = "chunks.js
             export_chunk(record, output_file)
 
         # -------- IMAGE CHUNKS --------
-        print(f"   Describing {len(images)} image(s) with LLaVA...")
+        print(f"   Describing {len(images)} image(s) with GPT-4o...")
         for i, image in enumerate(images):
             print(f"   Image {i+1}/{len(images)}...", end=" ", flush=True)
             description = describe_image(image)
