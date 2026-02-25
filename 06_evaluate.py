@@ -1,27 +1,27 @@
 """
-06_evaluate.py
---------------
-Unified evaluation — retrieval metrics + RAGAS generation metrics.
+06_evaluate_gpt4o.py
+--------------------
+Unified evaluation using GPT-4O Mini for answer generation.
 
-For every question in gold_questions.json:
+For every question in ground_truth.json:
   1. Run all 4 retrieval methods
-  2. Compute Recall@k, Precision@k, MRR, nDCG@k from ranked chunk_ids
-  3. Generate answer multimodally:
-       - image chunks  → send real image to llava (vision LLM) for a
-                         question-focused description, then use that text
-       - text / table  → use raw_text directly
-  4. Score the answer with RAGAS (Faithfulness, Answer Relevancy, etc.)
+  2. Compute retrieval metrics (Recall@k, Precision@k, MRR, nDCG@k)
+  3. Generate answer with GPT-4O Mini (DIRECT multimodal):
+       - Send text, tables, and images DIRECTLY to GPT-4O Mini in one call
+       - No separate vision model needed
+  4. Score answers with RAGAS
 
-Results saved to evaluation_results.json and printed as a summary table.
+This matches the actual chatbot behavior (single multimodal LLM call).
 
 Usage:
-    python 06_evaluate.py
+    export OPENAI_API_KEY=your_key_here
+    python 06_evaluate_gpt4o.py
 """
 
 import json
 import math
 import os
-from langchain_ollama import ChatOllama
+from langchain_openai import ChatOpenAI
 from langchain_core.output_parsers import StrOutputParser
 from datasets import Dataset
 from ragas import evaluate
@@ -33,18 +33,16 @@ from ragas.metrics import (
 )
 
 from retrieve import load_indexes, retrieve
+from dotenv import load_dotenv
+load_dotenv(verbose=True)
 
+QUESTIONS_FILE = "ground_truth.json"
+RESULTS_FILE   = "evaluation_results_gpt4o.json"
 
-QUESTIONS_FILE = "gold_questions.json"
-RESULTS_FILE   = "evaluation_results.json"
-
-METHODS      = ["bm25", "dense", "hybrid", "hybrid_reranker"]
-TOP_K        = 5
-TEXT_MODEL   = "gemma:2b"
-VISION_MODEL = "llava"
-
-OPENAI_API_KEY = os.environ.get("OPENAI_API_KEY", "")
-
+METHODS = ["bm25", "dense", "hybrid", "hybrid_reranker"]
+TOP_K   = 5
+MODEL   = "gpt-4o-mini"  # Used for answer generation
+OPENAI_API_KEY = os.environ.get("OPENAI_API_KEY")
 
 # ─────────────────────────────────────────
 # Utility
@@ -60,6 +58,7 @@ def safe(val) -> float | None:
 
 
 def load_questions() -> list:
+    """Load evaluation questions from ground_truth.json"""
     with open(QUESTIONS_FILE, "r", encoding="utf-8") as f:
         return json.load(f)
 
@@ -71,7 +70,7 @@ def load_questions() -> list:
 def recall_at_k(retrieved: list, relevant_ids: list, k: int) -> float:
     top_k_ids = {r["chunk_id"] for r in retrieved[:k]}
     hits = len(top_k_ids & set(relevant_ids))
-    return hits / len(relevant_ids)
+    return hits / len(relevant_ids) if relevant_ids else 0.0
 
 
 def precision_at_k(retrieved: list, relevant_ids: list, k: int) -> float:
@@ -89,8 +88,15 @@ def mrr(retrieved: list, relevant_ids: list) -> float:
 
 def ndcg_at_k(retrieved: list, relevant_ids: list, k: int) -> float:
     top_k_ids = [r["chunk_id"] for r in retrieved[:k]]
-    dcg  = sum(1.0 / math.log2(i + 2) for i, cid in enumerate(top_k_ids) if cid in relevant_ids)
-    idcg = sum(1.0 / math.log2(i + 2) for i in range(min(len(relevant_ids), k)))
+    dcg  = sum(
+        1.0 / math.log2(i + 2)
+        for i, cid in enumerate(top_k_ids)
+        if cid in relevant_ids
+    )
+    idcg = sum(
+        1.0 / math.log2(i + 2)
+        for i in range(min(len(relevant_ids), k))
+    )
     return dcg / idcg if idcg > 0 else 0.0
 
 
@@ -104,113 +110,85 @@ def compute_retrieval_metrics(results: list, relevant_ids: list, k: int = TOP_K)
 
 
 # ─────────────────────────────────────────
-# Multimodal answer generation
+# Answer generation with GPT-4O Mini
 # ─────────────────────────────────────────
-
-def describe_image_for_question(question: str, image_b64: str, source_pdf: str) -> str:
-    """
-    Send the actual retrieved image to the vision LLM and ask it to describe
-    what it sees in the context of the user's question.
-
-    This is called during evaluation answer generation — the same approach
-    used in the chatbot. Keeping both in sync ensures evaluation measures
-    the actual system behaviour.
-
-    Parameters
-    ----------
-    question   : gold question string (provides context for the description)
-    image_b64  : base64 image string from the retrieved chunk
-    source_pdf : PDF filename for traceability in the returned description
-    """
-    vision_llm = ChatOllama(model=VISION_MODEL, temperature=0.0)
-    data_url   = f"data:image/jpeg;base64,{image_b64}"
-
-    messages = [
-        {
-            "role": "user",
-            "content": [
-                {
-                    "type": "image_url",
-                    "image_url": {"url": data_url},
-                },
-                {
-                    "type": "text",
-                    "text": (
-                        f"The user asked: '{question}'\n\n"
-                        f"This image is from the document: {source_pdf}\n\n"
-                        "Describe the image in detail, focusing on information relevant "
-                        "to the question. If it is a chart or graph, state the exact "
-                        "values and trends. If it is a diagram, explain the structure."
-                    ),
-                },
-            ],
-        }
-    ]
-
-    response = vision_llm.invoke(messages)
-    return StrOutputParser().invoke(response)
-
 
 def generate_answer(question: str, retrieved_chunks: list) -> tuple[str, list[str]]:
     """
-    Generate a multimodal answer and return both the answer string and the
-    list of context strings used (for RAGAS).
+    Generate answer by sending everything directly to GPT-4O Mini.
 
-    For image chunks:  call vision LLM on the actual image → get description
-    For text/table:    use raw_text directly
+    Images are sent as base64, text/tables as text - all in ONE call.
 
     Returns
     -------
-    answer         : generated answer string
-    context_texts  : list of context strings fed to the LLM (for RAGAS context metrics)
+    answer : str
+        Generated answer
+    context_texts : list[str]
+        Text-only version of context for RAGAS
+        (RAGAS requires text, so images are represented by their
+        retrieval_text descriptions)
     """
-    context_parts  = []
-    context_texts  = []     # collected for RAGAS — must be strings
+
+    llm = ChatOpenAI(model=MODEL, temperature=0.0,api_key=OPENAI_API_KEY)
+
+    # Build multimodal content for GPT-4O Mini
+    content = []
+    context_texts = []  # For RAGAS - text only
 
     for chunk in retrieved_chunks:
-        source   = chunk["source_pdf"]
+        source = chunk["source_pdf"]
         modality = chunk["modality"]
 
         if modality == "image" and chunk.get("image_b64"):
-            # True multimodal: ask vision LLM about the real image
-            vision_desc = describe_image_for_question(
-                question, chunk["image_b64"], source
-            )
-            block = f"[IMAGE from {source}]\nVisual analysis: {vision_desc}"
-            context_parts.append(block)
-            context_texts.append(vision_desc)       # RAGAS gets the vision text
-
-        elif modality == "image":
-            # Fallback if image_b64 is missing
-            fallback = chunk["retrieval_text"]
-            context_parts.append(f"[IMAGE description from {source}]\n{fallback}")
-            context_texts.append(fallback)
+            # ── IMAGE: Send to GPT-4O Mini directly ──
+            content.append({
+                "type": "image_url",
+                "image_url": {
+                    "url": f"data:image/jpeg;base64,{chunk['image_b64']}",
+                    "detail": "high"
+                }
+            })
+            content.append({
+                "type": "text",
+                "text": f"[Image from {source}]"
+            })
+            # For RAGAS: use the pre-generated text description
+            context_texts.append(chunk["retrieval_text"])
 
         elif modality == "table":
             text = chunk.get("raw_text") or chunk["retrieval_text"]
-            context_parts.append(f"[TABLE from {source}]\n{text}")
+            content.append({
+                "type": "text",
+                "text": f"[TABLE from {source}]\n{text}\n"
+            })
             context_texts.append(text)
 
         else:
+            # text chunk
             text = chunk.get("raw_text") or chunk["retrieval_text"]
-            context_parts.append(f"[TEXT from {source}]\n{text}")
+            content.append({
+                "type": "text",
+                "text": f"[TEXT from {source}]\n{text}\n"
+            })
             context_texts.append(text)
 
-    context = "\n\n".join(context_parts)
+    # Add instruction and question
+    content.append({
+        "type": "text",
+        "text": (
+            "\n─────────────────────────────────────\n\n"
+            "Answer the question based only on the context above. "
+            "Be concise and accurate. "
+            "If the context does not contain the answer, say 'Not found in context.'\n\n"
+            f"Question: {question}\n\n"
+            "Answer:"
+        )
+    })
 
-    text_llm = ChatOllama(model=TEXT_MODEL, temperature=0.0)
+    messages = [{"role": "user", "content": content}]
 
-    prompt = (
-        "Answer the question based only on the context below. "
-        "Be concise. If the context does not contain the answer, "
-        "say 'Not found in context.'\n\n"
-        f"Context:\n{context}\n\n"
-        f"Question: {question}\n\n"
-        "Answer:"
-    )
-
-    response = text_llm.invoke(prompt)
-    answer   = StrOutputParser().invoke(response)
+    response = llm.invoke(messages)
+    answer = StrOutputParser().invoke(response)
 
     return answer, context_texts
 
@@ -220,6 +198,7 @@ def generate_answer(question: str, retrieved_chunks: list) -> tuple[str, list[st
 # ─────────────────────────────────────────
 
 def run_ragas(questions, answers, contexts, ground_truths):
+    """Run RAGAS evaluation on the generated answers"""
     data = {
         "question"    : questions,
         "answer"      : answers,
@@ -239,23 +218,26 @@ def run_ragas(questions, answers, contexts, ground_truths):
 
 def main():
 
-    if not OPENAI_API_KEY:
+    # Check API key
+    if not os.environ.get("OPENAI_API_KEY"):
         print("=" * 60)
-        print("WARNING: OPENAI_API_KEY not set — RAGAS will fail.")
-        print("Retrieval metrics will still be computed and saved.")
+        print("ERROR: OPENAI_API_KEY not set")
         print("=" * 60)
-        print()
+        print("\nSet it with:")
+        print("  export OPENAI_API_KEY=your_key_here")
+        print("\nBoth answer generation and RAGAS require OpenAI API access.")
+        return
 
     questions = load_questions()
     print(f"Loaded {len(questions)} gold questions\n")
 
-    indexes     = load_indexes()
+    indexes = load_indexes()
     all_results = {}
 
     for method in METHODS:
-        print(f"\n{'='*55}")
+        print(f"\n{'='*60}")
         print(f"Evaluating: {method.upper()}")
-        print(f"{'='*55}")
+        print(f"{'='*60}")
 
         method_results      = []
         ragas_questions     = []
@@ -263,31 +245,42 @@ def main():
         ragas_contexts      = []
         ragas_ground_truths = []
 
-        for q in questions:
+        for i, q in enumerate(questions, 1):
             question     = q["question"]
             relevant_ids = q["relevant_chunk_ids"]
             ground_truth = q["ground_truth"]
 
+            print(f"\n[{i}/{len(questions)}] {q['question_id']}: {question[:60]}...")
+
             # ── Retrieve ─────────────────────────────────────────────────
-            retrieved = retrieve(question, method=method, indexes=indexes, top_k=TOP_K)
+            retrieved = retrieve(
+                question,
+                method=method,
+                indexes=indexes,
+                top_k=TOP_K
+            )
 
             # ── Retrieval metrics ─────────────────────────────────────────
             retrieval_metrics = compute_retrieval_metrics(retrieved, relevant_ids, k=TOP_K)
-            print(f"\n  Q [{q['question_id']}]: {question}")
-            print(f"  Retrieval : {retrieval_metrics}")
+            print(f"  Retrieval: {retrieval_metrics}")
 
+            # ── Count modalities ──────────────────────────────────────────
             n_images = sum(1 for c in retrieved if c.get("image_b64"))
-            if n_images:
-                print(f"  Images    : {n_images} image chunk(s) — sending to {VISION_MODEL}")
+            n_text   = sum(1 for c in retrieved if c["modality"] in ("text", "table"))
 
-            # ── Generate answer (multimodal) ──────────────────────────────
+            if n_images > 0:
+                print(f"  Context  : {n_images} image(s) + {n_text} text chunk(s)")
+
+            # ── Generate answer ───────────────────────────────────────────
+            print(f"  Generating answer with {MODEL}...", end=" ", flush=True)
             answer, context_texts = generate_answer(question, retrieved)
-            print(f"  Answer    : {answer[:120]}...")
+            print("done")
+            print(f"  Answer   : {answer[:100]}...")
 
             # ── Collect for RAGAS ─────────────────────────────────────────
             ragas_questions.append(question)
             ragas_answers.append(answer)
-            ragas_contexts.append(context_texts)    # list of strings per question
+            ragas_contexts.append(context_texts)
             ragas_ground_truths.append(ground_truth)
 
             method_results.append({
@@ -299,13 +292,17 @@ def main():
                 "generated_answer" : answer,
                 "ground_truth"     : ground_truth,
                 "n_image_chunks"   : n_images,
+                "n_text_chunks"    : n_text,
             })
 
         # ── RAGAS ─────────────────────────────────────────────────────────
-        print(f"\n  Running RAGAS for {method}...")
+        print(f"\n  Running RAGAS evaluation...")
         try:
             ragas_scores = run_ragas(
-                ragas_questions, ragas_answers, ragas_contexts, ragas_ground_truths
+                ragas_questions,
+                ragas_answers,
+                ragas_contexts,
+                ragas_ground_truths
             )
             ragas_df = ragas_scores.to_pandas()
 
@@ -317,6 +314,8 @@ def main():
                     "context_recall"   : safe(row.get("context_recall")),
                 }
 
+            print("  RAGAS evaluation complete ✓")
+
         except Exception as e:
             print(f"  WARNING: RAGAS failed — {e}")
             print("  Retrieval metrics are still saved.")
@@ -326,7 +325,9 @@ def main():
     # ── Save ──────────────────────────────────────────────────────────────
     with open(RESULTS_FILE, "w", encoding="utf-8") as f:
         json.dump(all_results, f, indent=2, ensure_ascii=False)
-    print(f"\nFull results saved → {RESULTS_FILE}")
+    print(f"\n{'='*60}")
+    print(f"Results saved → {RESULTS_FILE}")
+    print(f"{'='*60}")
 
     print_summary(all_results)
 
@@ -353,26 +354,33 @@ def print_summary(all_results: dict) -> None:
         ragas_results = [r for r in results if "ragas_metrics" in r]
 
         def avg_metric(key: str) -> float:
-            vals = [r["ragas_metrics"][key] for r in ragas_results if r["ragas_metrics"].get(key) is not None]
+            vals = [
+                r["ragas_metrics"][key]
+                for r in ragas_results
+                if r["ragas_metrics"].get(key) is not None
+            ]
             return sum(vals) / len(vals) if vals else 0.0
 
         print(f"\nMethod: {method.upper()}")
-        print(f"  Retrieval")
+        print(f"  Retrieval Metrics")
         print(f"    Recall@{TOP_K}         : {avg_recall:.4f}")
         print(f"    Precision@{TOP_K}      : {avg_precision:.4f}")
         print(f"    MRR               : {avg_mrr:.4f}")
         print(f"    nDCG@{TOP_K}          : {avg_ndcg:.4f}")
 
         if ragas_results:
-            print(f"  Generation (RAGAS)")
+            print(f"  Generation Metrics (RAGAS)")
             print(f"    Faithfulness      : {avg_metric('faithfulness'):.4f}")
             print(f"    Answer Relevancy  : {avg_metric('answer_relevancy'):.4f}")
             print(f"    Context Precision : {avg_metric('context_precision'):.4f}")
             print(f"    Context Recall    : {avg_metric('context_recall'):.4f}")
         else:
-            print(f"  Generation (RAGAS) : not available (set OPENAI_API_KEY)")
+            print(f"  Generation Metrics: Not available")
 
     print(f"\n{'='*70}")
+    print(f"Model used: {MODEL}")
+    print(f"Architecture: Direct multimodal (one LLM call per question)")
+    print(f"{'='*70}\n")
 
 
 if __name__ == "__main__":

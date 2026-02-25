@@ -20,21 +20,6 @@ Result format:
         "image_b64"     : "...",       # base64 string for image chunks, None otherwise
     }
 
-MULTIMODAL NOTE
----------------
-image_b64 is now populated for image chunks by looking up the chunk_id
-in a fast in-memory dict built from chunks.json at startup.
-The LLM (chatbot / evaluator) can then send the raw image directly to
-a vision model (e.g. llava, gemma3) so it *sees* the image rather than
-relying only on LLaVA's pre-generated text description.
-
-Retrieval itself is unchanged — BM25 and FAISS still operate on
-retrieval_text — but generation becomes truly multimodal.
-
-Usage:
-    from retrieve import load_indexes, retrieve
-    indexes = load_indexes()
-    results = retrieve("What is the revenue?", method="hybrid", indexes=indexes, top_k=5)
 """
 
 import json
@@ -60,38 +45,20 @@ RERANK_MODEL = "cross-encoder/ms-marco-MiniLM-L-6-v2"
 # ─────────────────────────────────────────
 
 def load_indexes() -> dict:
-    """
-    Load every artifact needed for retrieval and keep it in memory.
 
-    Call this ONCE at startup; pass the returned dict to every retrieve()
-    call. Loading models and indexes on every query would be far too slow.
-
-    What gets loaded
-    ----------------
-    bm25             : BM25Okapi object — the sparse keyword index
-    faiss            : FAISS IndexFlatIP — the dense vector index
-    meta             : list of dicts, positionally aligned to both indexes
-    chunk_id_to_meta : fast O(1) lookup from chunk_id → meta entry
-    image_b64_lookup : fast O(1) lookup from chunk_id → base64 image string
-                       (only populated for modality="image" chunks)
-    embedder         : SentenceTransformer — encodes queries for FAISS
-    reranker         : CrossEncoder — re-scores (query, text) pairs
-    """
     print("Loading indexes and models...")
-
-    # ── Sparse index ──────────────────────────────────────────────────────
     with open(BM25_FILE, "rb") as f:
         bm25 = pickle.load(f)
 
-    # ── Dense index ───────────────────────────────────────────────────────
+
     faiss_index = faiss.read_index(FAISS_FILE)
 
-    # ── Metadata (positionally aligned to both indexes) ───────────────────
+
     with open(META_FILE, "r", encoding="utf-8") as f:
         meta = json.load(f)
 
-    # Pre-build O(1) chunk_id → meta lookup so hybrid doesn't do a linear
-    # scan on every query
+    # This is done to simplyfy and speed up the lookup of metadata by chunk_id during retrieval.
+    # what happens is that we read the entire index_meta.json into a list of dicts (meta), and then we create a new dict (chunk_id_to_meta) where each key is a chunk_id and the corresponding value is the metadata dict for that chunk. This allows us to quickly access the metadata for any chunk_id with a single dictionary lookup, which is much faster than iterating through the list every time we need to find metadata for a specific chunk_id.
     chunk_id_to_meta = {m["chunk_id"]: m for m in meta}
 
     # ── image_b64 lookup ──────────────────────────────────────────────────
@@ -166,20 +133,16 @@ def _make_result(rank: int, score: float, meta_entry: dict, image_b64_lookup: di
     }
 
 
-# ─────────────────────────────────────────
-# 1. Sparse — BM25
-# ─────────────────────────────────────────
 
 def retrieve_bm25(query: str, bm25, meta: list, image_b64_lookup: dict, top_k: int = 5) -> list:
     """
     BM25 keyword retrieval.
 
     Tokenize the query with the same pipeline used at index-build time
-    (lowercase → strip punctuation → remove stopwords → Porter stem),
     then score every document and return the top_k highest-scored chunks.
 
     Image chunks participate in BM25 just like text chunks — their
-    retrieval_text (the LLaVA description) was indexed the same way.
+    retrieval_text (the Open AI description) was indexed the same way.
     """
     tokenized_query = tokenize(query)
     scores          = bm25.get_scores(tokenized_query)
@@ -192,9 +155,6 @@ def retrieve_bm25(query: str, bm25, meta: list, image_b64_lookup: dict, top_k: i
     return results
 
 
-# ─────────────────────────────────────────
-# 2. Dense — FAISS
-# ─────────────────────────────────────────
 
 def retrieve_dense(query: str, faiss_index, meta: list, embedder, image_b64_lookup: dict, top_k: int = 5) -> list:
     """
@@ -204,11 +164,15 @@ def retrieve_dense(query: str, faiss_index, meta: list, embedder, image_b64_look
     chunks at index-build time. Both query and document vectors are
     L2-normalised so inner product == cosine similarity.
 
-    Image chunks participate via the embedding of their LLaVA description.
+    Image chunks participate via the embedding of their OPENAI description.
     Dense retrieval has a semantic advantage: if the user asks a conceptual
-    question whose words differ from LLaVA's description, FAISS can still
+    question whose words differ from OPENAI's description, FAISS can still
     surface the image because the meaning is aligned in vector space.
     """
+
+    # L2 normalisation means that we are scaling the query vector to have a length of 1. This is done so that when we compute the inner product between the query vector and the indexed vectors, it will be equivalent to computing the cosine similarity between them. whereas L1 normalisation would scale the vector so that the sum of its absolute values is 1, L2 normalisation scales the vector so that the square root of the sum of its squared values is 1. In the context of dense retrieval, L2 normalisation is commonly used because it allows us to use inner product as a measure of similarity, which is computationally efficient and effective for high-dimensional vector spaces.
+
+
     query_vec = embedder.encode([query], convert_to_numpy=True)
     faiss.normalize_L2(query_vec)
 
@@ -223,9 +187,6 @@ def retrieve_dense(query: str, faiss_index, meta: list, embedder, image_b64_look
     return results
 
 
-# ─────────────────────────────────────────
-# 3. Hybrid — BM25 + Dense (RRF)
-# ─────────────────────────────────────────
 
 def retrieve_hybrid(
     query: str,

@@ -1,239 +1,204 @@
 """
-07_chatbot.py
--------------
-Terminal chatbot over your ingested PDFs.
+07_chatbot_gpt4o.py
+-------------------
+Multimodal RAG chatbot using GPT-4O Mini.
 
-Uses hybrid + reranker (best retrieval method) to find relevant chunks,
-then passes them to Ollama to generate an answer.
+DIRECT MULTIMODAL: Retrieved chunks (text, tables, images) are sent
+directly to GPT-4O Mini in ONE call. Images are sent as base64, text
+as text. No separate vision model needed.
 
-MULTIMODAL: When retrieved chunks include image chunks, the actual
-base64 image is sent directly to the vision LLM (llava) so it can *see*
-the image. Text and table chunks are sent as plain text to gemma:2b.
-If a query returns a mix of image and text chunks, we make two calls:
-  1. Ask llava to describe what it sees in each image in the context of
-     the question, producing a rich text description.
-  2. Feed that description + all text context to gemma:2b for the final answer.
+This is the optimal architecture:
+  retrieve → send everything to GPT-4O Mini → answer
 
 Usage:
-    python 07_chatbot.py
-    python 07_chatbot.py --method hybrid
-    python 07_chatbot.py --top_k 3
+    export OPENAI_API_KEY=your_key_here
+    python 07_chatbot_gpt4o.py
+    python 07_chatbot_gpt4o.py --method hybrid
+    python 07_chatbot_gpt4o.py --top_k 3
 """
 
 import argparse
-from langchain_ollama import ChatOllama
+import os
+from langchain_openai import ChatOpenAI
 from langchain_core.output_parsers import StrOutputParser
 
 from retrieve import load_indexes, retrieve
+from dotenv import load_dotenv
+load_dotenv()
 
-
-DEFAULT_METHOD   = "hybrid_reranker"
-DEFAULT_TOP_K    = 5
-TEXT_MODEL       = "gemma:2b"       # handles text + table chunks
-VISION_MODEL     = "llava"          # handles image chunks (vision LLM)
-
-
-# ─────────────────────────────────────────
-# Step 1: Ask vision LLM about each image
-# ─────────────────────────────────────────
-
-def describe_image_for_question(question: str, image_b64: str, source_pdf: str) -> str:
-    """
-    Send the actual image to llava along with the user's question.
-
-    Instead of relying on the pre-generated LLaVA description stored in
-    retrieval_text (which is generic), we now ask the vision model to look
-    at the image *in the context of this specific question*. This produces
-    a much more targeted and useful description.
-
-    Parameters
-    ----------
-    question   : the user's question (used as context for the description)
-    image_b64  : raw base64 image string from the retrieved chunk
-    source_pdf : PDF filename — included in the description for traceability
-
-    Returns
-    -------
-    A focused text description of what the image contains, relevant to the question.
-    """
-    vision_llm = ChatOllama(model=VISION_MODEL, temperature=0.0)
-
-    # Build a multimodal message: image + instruction text
-    # LangChain's ChatOllama accepts image_url with a base64 data URI
-    data_url = f"data:image/jpeg;base64,{image_b64}"
-
-    messages = [
-        {
-            "role": "user",
-            "content": [
-                {
-                    "type": "image_url",
-                    "image_url": {"url": data_url},
-                },
-                {
-                    "type": "text",
-                    "text": (
-                        f"The user asked: '{question}'\n\n"
-                        f"This image is from the document: {source_pdf}\n\n"
-                        "Please describe what you see in this image in detail, "
-                        "focusing on information that is relevant to the user's question. "
-                        "If it is a chart or graph, state the values and trends precisely. "
-                        "If it is a diagram, explain the structure and what it represents."
-                    ),
-                },
-            ],
-        }
-    ]
-
-    response = vision_llm.invoke(messages)
-    return StrOutputParser().invoke(response)
-
-
-# ─────────────────────────────────────────
-# Step 2: Build full context & generate answer
-# ─────────────────────────────────────────
+DEFAULT_METHOD = "hybrid_reranker"
+DEFAULT_TOP_K  = 5
+MODEL          = "gpt-4o-mini"  # Fast, cheap, multimodal
+OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
 
 def generate_answer(question: str, retrieved_chunks: list) -> str:
     """
-    Build a multimodal context and generate a final answer.
+    Generate answer by sending question + all chunks directly to GPT-4O Mini.
 
-    For each retrieved chunk:
-      - text / table chunks → use raw_text directly as context
-      - image chunks        → call the vision LLM to get a question-focused
-                              description of the actual image, then use that
-                              as context for the text LLM
+    For image chunks: send the actual base64 image
+    For text/table chunks: send the raw text
 
-    All context (text + vision-generated image descriptions) is then passed
-    to the text LLM (gemma:2b) for the final answer.
+    ONE LLM call handles everything - no separate vision model needed.
 
-    This is true multimodal RAG:
-      retrieve (text proxy) → see (vision LLM on real image) → answer (text LLM)
+    Parameters
+    ----------
+    question : str
+        User's question
+    retrieved_chunks : list
+        Retrieved chunks from any retrieval method
+
+    Returns
+    -------
+    str
+        Generated answer
     """
-    context_parts = []
 
+    # Check API key
+    if not os.environ.get("OPENAI_API_KEY"):
+        return "ERROR: OPENAI_API_KEY environment variable not set"
+
+    llm = ChatOpenAI(model=MODEL, temperature=0.1,api_key=OPENAI_API_KEY)
+
+    # Build multimodal message content
+    content = []
+
+    # Add retrieved chunks
     for chunk in retrieved_chunks:
         source = chunk["source_pdf"]
+        page = chunk.get("page_number", "?")
         modality = chunk["modality"]
 
         if modality == "image" and chunk.get("image_b64"):
-            # ── MULTIMODAL PATH ──────────────────────────────────────────
-            # We have the real image — ask llava to describe it in context
-            print(f"   👁  Sending image from {source} to {VISION_MODEL}...", end=" ", flush=True)
-            vision_description = describe_image_for_question(
-                question, chunk["image_b64"], source
-            )
-            print("done")
-
-            context_parts.append(
-                f"[IMAGE from {source}]\n"
-                f"Visual analysis: {vision_description}"
-            )
-
-        elif modality == "image" and not chunk.get("image_b64"):
-            # Fallback: image_b64 missing (shouldn't happen, but be safe)
-            context_parts.append(
-                f"[IMAGE from {source} — pre-generated description]\n"
-                f"{chunk['retrieval_text']}"
-            )
+            # ── IMAGE: Send directly to GPT-4O Mini ──
+            content.append({
+                "type": "image_url",
+                "image_url": {
+                    "url": f"data:image/jpeg;base64,{chunk['image_b64']}",
+                    "detail": "high"  # Use high detail for better understanding
+                }
+            })
+            content.append({
+                "type": "text",
+                "text": f"[Image from {source}, page {page}]"
+            })
 
         elif modality == "table":
-            context_parts.append(
-                f"[TABLE from {source}]\n"
-                f"{chunk.get('raw_text') or chunk['retrieval_text']}"
-            )
+            # ── TABLE: Send as text ──
+            text = chunk.get("raw_text") or chunk["retrieval_text"]
+            content.append({
+                "type": "text",
+                "text": f"[TABLE from {source}, page {page}]\n{text}\n"
+            })
 
         else:
-            # text chunk
-            context_parts.append(
-                f"[TEXT from {source}]\n"
-                f"{chunk.get('raw_text') or chunk['retrieval_text']}"
-            )
+            # ── TEXT: Send as text ──
+            text = chunk.get("raw_text") or chunk["retrieval_text"]
+            content.append({
+                "type": "text",
+                "text": f"[TEXT from {source}, page {page}]\n{text}\n"
+            })
 
-    context = "\n\n".join(context_parts)
+    # Add instruction and question
+    content.append({
+        "type": "text",
+        "text": (
+            "\n─────────────────────────────────────\n\n"
+            "Based on the context above (text, tables, and images), "
+            "answer the following question.\n\n"
+            "Instructions:\n"
+            "- Use only information from the provided context\n"
+            "- Be concise and accurate\n"
+            "- For images: describe what you see and how it relates to the question\n"
+            "- If the context doesn't contain the answer, say so clearly\n\n"
+            f"Question: {question}\n\n"
+            "Answer:"
+        )
+    })
 
-    # Final answer generation via text LLM
-    text_llm = ChatOllama(model=TEXT_MODEL, temperature=0.1)
+    # Create message
+    messages = [{"role": "user", "content": content}]
 
-    prompt_text = (
-        "You are a helpful assistant answering questions based on document excerpts.\n"
-        "The context below may include text passages, table data, and descriptions of images.\n"
-        "Answer using only the information provided. "
-        "If the context does not contain the answer, say so clearly.\n\n"
-        f"Context:\n{context}\n\n"
-        f"Question: {question}\n\n"
-        "Answer:"
-    )
-
-    response = text_llm.invoke(prompt_text)
+    # Generate answer
+    response = llm.invoke(messages)
     return StrOutputParser().invoke(response)
 
 
-# ─────────────────────────────────────────
-# Show sources
-# ─────────────────────────────────────────
-
 def show_sources(retrieved_chunks: list) -> None:
+    """Display retrieved sources with icons and metadata"""
     print("\n  Sources retrieved:")
     for chunk in retrieved_chunks:
-        has_image = "🖼 " if chunk.get("image_b64") else "   "
+        icon = "🖼" if chunk.get("image_b64") else "  "
         print(
-            f"  {has_image}[{chunk['rank']}] {chunk['modality']:6s} | "
-            f"{chunk['source_pdf']} | "
+            f"  {icon} [{chunk['rank']}] {chunk['modality']:6s} | "
+            f"{chunk['source_pdf']:30s} | "
             f"score={chunk['score']:.4f} | "
-            f"id={chunk['chunk_id'][:8]}..."
+            f"id={chunk['chunk_id'][:10]}..."
         )
 
 
-# ─────────────────────────────────────────
-# Main chat loop
-# ─────────────────────────────────────────
-
 def main(method: str, top_k: int) -> None:
+    """Main chat loop"""
+
+    # Check API key before loading indexes
+    if not os.environ.get("OPENAI_API_KEY"):
+        print("ERROR: OPENAI_API_KEY environment variable not set")
+        print("\nSet it with:")
+        print("  export OPENAI_API_KEY=your_key_here")
+        return
 
     print("Loading indexes...")
     indexes = load_indexes()
 
-    print(f"\nChatbot ready")
+    print(f"\n{'='*60}")
+    print("Multimodal RAG Chatbot - GPT-4O Mini")
+    print(f"{'='*60}")
+    print(f"  Model     : {MODEL}")
     print(f"  Retrieval : {method.upper()}, top_k={top_k}")
-    print(f"  Text LLM  : {TEXT_MODEL}")
-    print(f"  Vision LLM: {VISION_MODEL} (used for image chunks)")
-    print("Type your question and press Enter.  Type 'quit' to exit.\n")
+    print(f"  Modality  : Text + Tables + Images (all in one call)")
+    print(f"\nType your question and press Enter.")
+    print(f"Type 'quit' or 'exit' to quit.\n")
 
     while True:
-        print("─" * 55)
+        print("─" * 60)
         question = input("You: ").strip()
 
         if not question:
             continue
 
         if question.lower() in ("quit", "exit", "q"):
-            print("Goodbye.")
+            print("Goodbye!")
             break
 
+        # Retrieve chunks
         retrieved = retrieve(question, method=method, indexes=indexes, top_k=top_k)
 
         if not retrieved:
-            print("Bot: No relevant chunks found.")
+            print("Bot: No relevant chunks found.\n")
             continue
 
+        # Show what was retrieved
         show_sources(retrieved)
 
+        # Count images
         n_images = sum(1 for c in retrieved if c.get("image_b64"))
-        if n_images:
-            print(f"\n  Sending {n_images} image(s) to {VISION_MODEL} for visual analysis...")
+        n_text = sum(1 for c in retrieved if c["modality"] in ("text", "table"))
 
-        print(f"\nBot:", end=" ", flush=True)
+        if n_images > 0:
+            print(f"\n  📸 Sending {n_images} image(s) + {n_text} text chunk(s) to {MODEL}...")
+        else:
+            print(f"\n  📄 Sending {n_text} text chunk(s) to {MODEL}...")
+
+        # Generate answer
+        print(f"\nBot: ", end="", flush=True)
         answer = generate_answer(question, retrieved)
         print(answer)
         print()
 
 
-# ─────────────────────────────────────────
-# Entry point
-# ─────────────────────────────────────────
-
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser(description="Multimodal RAG chatbot")
+    parser = argparse.ArgumentParser(
+        description="Multimodal RAG chatbot with GPT-4O Mini"
+    )
     parser.add_argument(
         "--method",
         type=str,

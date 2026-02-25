@@ -1,0 +1,2186 @@
+{
+  "bm25": [
+    {
+      "question_id": "q1",
+      "question": "According to the RAG survey, what are the three main paradigms of RAG discussed in the paper?",
+      "generated_answer": "The three main paradigms of Retrieval-Augmented Generation (RAG) discussed in the paper are Naive RAG, Advanced RAG, and Modular RAG.",
+      "retrieval_metrics": {
+        "recall@5": 1.0,
+        "precision@5": 0.4,
+        "mrr": 1.0,
+        "ndcg@5": 0.8772
+      },
+      "ragas_metrics": {
+        "faithfulness": 1.0,
+        "answer_relevancy": 0.9317065271301753,
+        "context_precision": NaN,
+        "context_recall": 1.0
+      }
+    },
+    {
+      "question_id": "q2",
+      "question": "From the RAG vs Fine-tuning comparison table in the RAG survey, which technique has lower latency requirements and why?",
+      "generated_answer": "Fine-tuning has lower latency requirements because, after fine-tuning, the model can respond without the need for retrieval, resulting in quicker response times. In contrast, RAG involves data retrieval, which can lead to higher latency.",
+      "retrieval_metrics": {
+        "recall@5": 1.0,
+        "precision@5": 0.2,
+        "mrr": 1.0,
+        "ndcg@5": 1.0
+      },
+      "ragas_metrics": {
+        "faithfulness": 0.6,
+        "answer_relevancy": 0.9339452633829749,
+        "context_precision": NaN,
+        "context_recall": 1.0
+      }
+    },
+    {
+      "question_id": "q3",
+      "question": "In the RAG survey's timeline figure (Figure 1), what was the significant turning point year and event that caused a rapid increase in RAG-related research?",
+      "generated_answer": "The significant turning point year in the RAG survey's timeline (Figure 1) was December 2022, marked by the release of ChatGPT. This event led to a rapid increase in RAG-related research.",
+      "retrieval_metrics": {
+        "recall@5": 1.0,
+        "precision@5": 0.4,
+        "mrr": 1.0,
+        "ndcg@5": 0.9197
+      },
+      "ragas_metrics": {
+        "faithfulness": 1.0,
+        "answer_relevancy": 0.9542760820082353,
+        "context_precision": NaN,
+        "context_recall": 1.0
+      }
+    },
+    {
+      "question_id": "q4",
+      "question": "In Figure 2 of the RAG survey comparing RAG with other model optimization methods, which optimization approach requires both high external knowledge and high model adaptation?",
+      "generated_answer": "In Figure 2 of the RAG survey, the optimization approach that requires both high external knowledge and high model adaptation is \"Modular RAG.\"",
+      "retrieval_metrics": {
+        "recall@5": 1.0,
+        "precision@5": 0.2,
+        "mrr": 1.0,
+        "ndcg@5": 1.0
+      },
+      "ragas_metrics": {
+        "faithfulness": 0.0,
+        "answer_relevancy": 0.9800464495343026,
+        "context_precision": NaN,
+        "context_recall": 0.5
+      }
+    },
+    {
+      "question_id": "q5",
+      "question": "What are the three core evaluation metrics emphasized in both the RAGAS and ARES frameworks for evaluating RAG systems?",
+      "generated_answer": "The three core evaluation metrics emphasized in both the RAGAS and ARES frameworks for evaluating RAG systems are:\n\n1. Faithfulness of the answer\n2. Answer Relevance\n3. Context Relevance",
+      "retrieval_metrics": {
+        "recall@5": 1.0,
+        "precision@5": 0.2,
+        "mrr": 0.5,
+        "ndcg@5": 0.6309
+      },
+      "ragas_metrics": {
+        "faithfulness": 1.0,
+        "answer_relevancy": 0.9792648965073699,
+        "context_precision": 0.999999999975,
+        "context_recall": 1.0
+      }
+    },
+    {
+      "question_id": "q6",
+      "question": "From Figure 3 in the RAG survey comparing the three RAG paradigms, what post-retrieval processing steps does Advanced RAG add that Naive RAG lacks?",
+      "generated_answer": "Advanced RAG adds the following post-retrieval processing steps that Naive RAG lacks:\n\n1. **Rerank**: This step involves re-evaluating the retrieved document chunks to improve the relevance of the information presented.\n2. **Filter**: This step allows for the exclusion of irrelevant or low-quality document chunks from the final output.\n3. **Prompt Compression**: This step optimizes the prompts used for generating responses, enhancing the efficiency of the generation process. \n\nThese additional steps aim to refine the output quality and relevance of the generated responses.",
+      "retrieval_metrics": {
+        "recall@5": 0.3333,
+        "precision@5": 0.2,
+        "mrr": 1.0,
+        "ndcg@5": 0.4693
+      },
+      "ragas_metrics": {
+        "faithfulness": 0.9166666666666666,
+        "answer_relevancy": 0.959526502324607,
+        "context_precision": 0.8874999999778125,
+        "context_recall": 1.0
+      }
+    },
+    {
+      "question_id": "q7",
+      "question": "According to the RAG survey's taxonomy figure (Figure 4), what are the three augmentation process types listed under 'Augmentation Process'?",
+      "generated_answer": "The three augmentation process types listed under 'Augmentation Process' in the RAG survey's taxonomy figure (Figure 4) are: \n\n1. Query Rewrite/Clarification\n2. Embedding Transformation\n3. Plugin Adapter",
+      "retrieval_metrics": {
+        "recall@5": 0.0,
+        "precision@5": 0.0,
+        "mrr": 0.0,
+        "ndcg@5": 0.0
+      },
+      "ragas_metrics": {
+        "faithfulness": 0.0,
+        "answer_relevancy": 0.9800064037326253,
+        "context_precision": NaN,
+        "context_recall": 0.0
+      }
+    },
+    {
+      "question_id": "q8",
+      "question": "In the TCN paper, what is the word-level perplexity achieved by TCN on the Penn Treebank (PTB) dataset, and how does it compare to LSTM and GRU?",
+      "generated_answer": "In the TCN paper, the word-level perplexity achieved by TCN on the Penn Treebank (PTB) dataset is 88.68. In comparison, the LSTM has a perplexity of 78.93, and the GRU has a perplexity of 92.48. Thus, TCN outperforms GRU but is outperformed by LSTM on this dataset.",
+      "retrieval_metrics": {
+        "recall@5": 1.0,
+        "precision@5": 0.2,
+        "mrr": 0.25,
+        "ndcg@5": 0.4307
+      },
+      "ragas_metrics": {
+        "faithfulness": 1.0,
+        "answer_relevancy": 0.965795377376676,
+        "context_precision": 0.6388888888675925,
+        "context_recall": 1.0
+      }
+    },
+    {
+      "question_id": "q9",
+      "question": "From Figure 1(a) in the TCN paper showing dilated causal convolutions, what dilation factors are used and what is the filter size?",
+      "generated_answer": "In Figure 1(a) of the TCN paper, the dilation factors used are \\(d = 1, 2, 4\\) and the filter size is \\(k = 3\\).",
+      "retrieval_metrics": {
+        "recall@5": 1.0,
+        "precision@5": 0.4,
+        "mrr": 1.0,
+        "ndcg@5": 0.9197
+      },
+      "ragas_metrics": {
+        "faithfulness": 0.6666666666666666,
+        "answer_relevancy": 0.9548512266462622,
+        "context_precision": 0.999999999975,
+        "context_recall": 1.0
+      }
+    },
+    {
+      "question_id": "q10",
+      "question": "From Figure 5 in the TCN paper showing accuracy on the copy memory task, at what sequence length T does the LSTM's accuracy fall below 20%?",
+      "generated_answer": "The LSTM's accuracy falls below 20% for sequence lengths \\( T < 50 \\).",
+      "retrieval_metrics": {
+        "recall@5": 1.0,
+        "precision@5": 0.4,
+        "mrr": 1.0,
+        "ndcg@5": 0.8772
+      },
+      "ragas_metrics": {
+        "faithfulness": 1.0,
+        "answer_relevancy": 0.8911012930410527,
+        "context_precision": NaN,
+        "context_recall": 1.0
+      }
+    },
+    {
+      "question_id": "q11",
+      "question": "From Figure 2 in the TCN paper, what does the convergence curve for the adding problem at T=600 show about the relative performance of GRU compared to TCN and LSTM?",
+      "generated_answer": "From Figure 2 in the TCN paper, the convergence curve for the adding problem at T=600 shows that TCNs quickly converge to a virtually perfect solution, achieving a mean squared error (MSE) near 0. In contrast, GRUs also perform well but are slower to converge than TCNs. LSTMs, on the other hand, perform significantly worse than both TCNs and GRUs, indicating that TCNs outperform both GRUs and LSTMs in terms of convergence speed and final accuracy on this task.",
+      "retrieval_metrics": {
+        "recall@5": 1.0,
+        "precision@5": 0.2,
+        "mrr": 0.2,
+        "ndcg@5": 0.3869
+      },
+      "ragas_metrics": {
+        "faithfulness": 1.0,
+        "answer_relevancy": 0.9206592798188168,
+        "context_precision": NaN,
+        "context_recall": 1.0
+      }
+    },
+    {
+      "question_id": "q12",
+      "question": "What are the two main distinguishing characteristics of a Temporal Convolutional Network (TCN) as defined in the paper?",
+      "generated_answer": "The two main distinguishing characteristics of a Temporal Convolutional Network (TCN) are:\n\n1. The convolutions in the architecture are causal, meaning there is no information leakage from future to past.\n2. The architecture can take a sequence of any length and map it to an output sequence of the same length, similar to a recurrent neural network (RNN).",
+      "retrieval_metrics": {
+        "recall@5": 1.0,
+        "precision@5": 0.2,
+        "mrr": 1.0,
+        "ndcg@5": 1.0
+      },
+      "ragas_metrics": {
+        "faithfulness": 0.8333333333333334,
+        "answer_relevancy": 0.9690074865057855,
+        "context_precision": NaN,
+        "context_recall": 1.0
+      }
+    },
+    {
+      "question_id": "q13",
+      "question": "From Table 5 in the TCN paper comparing TCN vs TCN with gating, on which task does adding gating (GLU) most significantly hurt TCN performance?",
+      "generated_answer": "Adding gating (GLU) most significantly hurt TCN performance on the Copy Memory task with \\( T = 1000 \\), where the loss increased from \\( 3.5e-5 \\) for the plain TCN to \\( 0.00508 \\) for the TCN with gating.",
+      "retrieval_metrics": {
+        "recall@5": 1.0,
+        "precision@5": 0.2,
+        "mrr": 1.0,
+        "ndcg@5": 1.0
+      },
+      "ragas_metrics": {
+        "faithfulness": 0.5,
+        "answer_relevancy": 0.9172124529294383,
+        "context_precision": NaN,
+        "context_recall": 1.0
+      }
+    },
+    {
+      "question_id": "q14",
+      "question": "In the MobileNetV2 paper, what is the key architectural difference between a standard residual block and an inverted residual block as shown in Figure 3?",
+      "generated_answer": "The key architectural difference between a standard residual block and an inverted residual block, as shown in Figure 3 of the MobileNetV2 paper, is that the inverted residual block connects the bottleneck layers directly with shortcuts, while the standard residual block connects layers with a higher number of channels. The inverted residual block is designed to be more memory efficient and focuses on maintaining the necessary information within the bottlenecks, treating the expansion layer as an implementation detail that accompanies a non-linear transformation of the tensor. This design allows for improved gradient propagation and better performance in the context of mobile applications.",
+      "retrieval_metrics": {
+        "recall@5": 1.0,
+        "precision@5": 0.4,
+        "mrr": 1.0,
+        "ndcg@5": 0.9197
+      },
+      "ragas_metrics": {
+        "faithfulness": 1.0,
+        "answer_relevancy": 0.9587114012626726,
+        "context_precision": 0.94999999997625,
+        "context_recall": 1.0
+      }
+    },
+    {
+      "question_id": "q15",
+      "question": "From Table 4 in the MobileNetV2 paper, what is MobileNetV2's top-1 accuracy, parameter count, number of MAdds, and CPU latency on ImageNet compared to MobileNetV1?",
+      "generated_answer": "From Table 4 in the MobileNetV2 paper, MobileNetV2 has a top-1 accuracy of 72.0%, a parameter count of 3.4M, a number of MAdds of 300M, and a CPU latency of 75ms on ImageNet. In comparison, MobileNetV1 has a top-1 accuracy of 70.6%, a parameter count of 4.2M, a number of MAdds of 575M, and a CPU latency of 113ms.",
+      "retrieval_metrics": {
+        "recall@5": 1.0,
+        "precision@5": 0.2,
+        "mrr": 1.0,
+        "ndcg@5": 1.0
+      },
+      "ragas_metrics": {
+        "faithfulness": 1.0,
+        "answer_relevancy": 0.9154636045407102,
+        "context_precision": 0.7499999999625,
+        "context_recall": 0.6666666666666666
+      }
+    },
+    {
+      "question_id": "q16",
+      "question": "From Figure 5 (performance curve) in the MobileNetV2 paper, how does MobileNetV2 compare to ShuffleNet and NASNet across the range of multiply-adds shown?",
+      "generated_answer": "From Figure 5 in the MobileNetV2 paper, MobileNetV2 shows competitive performance compared to ShuffleNet and NASNet across the range of multiply-adds. Specifically, MobileNetV2 achieves a Top-1 accuracy of 72.0% with 300 million multiply-adds, while ShuffleNet and NASNet exhibit varying accuracies at different computational costs. ShuffleNet (1.5) achieves 71.5% accuracy with fewer multiply-adds (292 million), while NASNet shows a higher accuracy of 74.0% but with a significantly higher computational cost (564 million multiply-adds). Overall, MobileNetV2 balances accuracy and computational efficiency effectively within the given range.",
+      "retrieval_metrics": {
+        "recall@5": 1.0,
+        "precision@5": 0.4,
+        "mrr": 0.5,
+        "ndcg@5": 0.6934
+      },
+      "ragas_metrics": {
+        "faithfulness": 0.6666666666666666,
+        "answer_relevancy": 0.9139098925756906,
+        "context_precision": 0.999999999975,
+        "context_recall": 1.0
+      }
+    },
+    {
+      "question_id": "q17",
+      "question": "From Figure 1 in the MobileNetV2 paper showing ReLU transformations of low-dimensional manifolds, what happens to the manifold when the output dimensionality is n=2 or n=3 versus n=15 or n=30?",
+      "generated_answer": "In Figure 1 of the MobileNetV2 paper, when the output dimensionality is n=2 or n=3, the transformation of the manifold results in information loss, where certain points of the manifold collapse into each other. In contrast, for n=15 to n=30, the transformation is highly non-convex, indicating that the manifold retains more complex structures and relationships, thus preserving more information.",
+      "retrieval_metrics": {
+        "recall@5": 1.0,
+        "precision@5": 0.2,
+        "mrr": 1.0,
+        "ndcg@5": 1.0
+      },
+      "ragas_metrics": {
+        "faithfulness": 0.3333333333333333,
+        "answer_relevancy": 0.9574981893306131,
+        "context_precision": NaN,
+        "context_recall": 1.0
+      }
+    },
+    {
+      "question_id": "q18",
+      "question": "From Table 6 in the MobileNetV2 paper, how do MobileNetV2+SSDLite and MobileNetV1+SSDLite compare to SSD300 and YOLOv2 in terms of mAP, parameters, and MAdds on COCO?",
+      "generated_answer": "From Table 6 in the MobileNetV2 paper, the comparisons are as follows:\n\n- **MobileNetV1 + SSDLite**:\n  - mAP: 22.2\n  - Params: 5.1M\n  - MAdds: 1.3B\n\n- **MobileNetV2 + SSDLite**:\n  - mAP: 22.1\n  - Params: 4.3M\n  - MAdds: 0.8B\n\n- **SSD300**:\n  - mAP: 23.2\n  - Params: 36.1M\n  - MAdds: 35.2B\n\n- **YOLOv2**:\n  - mAP: 21.6\n  - Params: 50.7M\n  - MAdds: 17.5B\n\nIn summary, MobileNetV1 + SSDLite achieves a competitive mAP of 22.2 with significantly fewer parameters (5.1M) and MAdds (1.3B) compared to SSD300 and YOLOv2, while MobileNetV2 + SSDLite has a slightly lower mAP of 22.1 but even fewer parameters (4.3M) and MAdds (0.8B).",
+      "retrieval_metrics": {
+        "recall@5": 1.0,
+        "precision@5": 0.2,
+        "mrr": 1.0,
+        "ndcg@5": 1.0
+      },
+      "ragas_metrics": {
+        "faithfulness": 0.9444444444444444,
+        "answer_relevancy": 0.9277349580948439,
+        "context_precision": 0.8666666666377778,
+        "context_recall": 0.8
+      }
+    },
+    {
+      "question_id": "q19",
+      "question": "From Figure 6(a) in the MobileNetV2 paper, what does the impact of non-linearity in the bottleneck layer show about linear vs ReLU6 bottlenecks during training?",
+      "generated_answer": "Figure 6(a) in the MobileNetV2 paper shows that the use of linear bottlenecks results in better performance compared to using ReLU6 in the bottleneck layers during training. The graph indicates that linear bottlenecks maintain higher accuracy throughout the training process, suggesting that the absence of non-linearity in the bottleneck layers helps preserve more information, leading to improved model performance.",
+      "retrieval_metrics": {
+        "recall@5": 1.0,
+        "precision@5": 0.2,
+        "mrr": 0.3333,
+        "ndcg@5": 0.5
+      },
+      "ragas_metrics": {
+        "faithfulness": 1.0,
+        "answer_relevancy": 0.9540120237272476,
+        "context_precision": 0.99999999998,
+        "context_recall": 1.0
+      }
+    },
+    {
+      "question_id": "q20",
+      "question": "In the ResNet paper, what is the degradation problem and how do residual connections address it?",
+      "generated_answer": "The degradation problem refers to the phenomenon where deeper neural networks exhibit higher training error as the depth increases, contrary to the expectation that adding more layers should not worsen performance. Specifically, in the context of the ResNet paper, it was observed that as the depth of plain networks increased, their accuracy would saturate and then degrade rapidly, which is not due to overfitting.\n\nResidual connections address this degradation problem by reformulating the layers to learn residual functions instead of the original unreferenced functions. This means that instead of trying to fit a desired underlying mapping directly, the network learns the difference (or residual) between the desired mapping and the input. The residual learning framework allows the network to express the output as the sum of the input and the learned residual function, mathematically represented as \\( y = F(x) + x \\). This approach makes it easier for the optimization process because if the optimal function is close to an identity mapping, the network can simply drive the residual to zero, facilitating convergence. Thus, residual connections help in maintaining performance as the network depth increases, allowing for more accurate and deeper models without suffering from the degradation problem.",
+      "retrieval_metrics": {
+        "recall@5": 1.0,
+        "precision@5": 0.2,
+        "mrr": 0.3333,
+        "ndcg@5": 0.5
+      },
+      "ragas_metrics": {
+        "faithfulness": NaN,
+        "answer_relevancy": 0.9510748777725897,
+        "context_precision": 0.99999999998,
+        "context_recall": 1.0
+      }
+    },
+    {
+      "question_id": "q21",
+      "question": "From Figure 1 in the ResNet paper showing training and test error on CIFAR-10, what is the paradoxical behavior observed with the 56-layer plain network compared to the 20-layer plain network?",
+      "generated_answer": "The paradoxical behavior observed with the 56-layer plain network compared to the 20-layer plain network is that the deeper 56-layer network exhibits higher training error than the shallower 20-layer network. This indicates that, contrary to expectations, increasing the depth of the network does not lead to better performance; instead, it results in increased training error, suggesting difficulties in optimization for deeper networks.",
+      "retrieval_metrics": {
+        "recall@5": 0.5,
+        "precision@5": 0.2,
+        "mrr": 0.2,
+        "ndcg@5": 0.2372
+      },
+      "ragas_metrics": {
+        "faithfulness": 1.0,
+        "answer_relevancy": 0.9231728810996648,
+        "context_precision": 0.99999999998,
+        "context_recall": 1.0
+      }
+    },
+    {
+      "question_id": "q22",
+      "question": "From Table 1 in the ResNet paper, how many convolutional layers does ResNet-50 have in conv4_x and what is the bottleneck block configuration used?",
+      "generated_answer": "In Table 1 of the ResNet paper, ResNet-50 has 6 convolutional layers in the conv4_x block. The bottleneck block configuration used is 3x3 convolutions with 128 filters, followed by a 1x1 convolution with 512 filters.",
+      "retrieval_metrics": {
+        "recall@5": 1.0,
+        "precision@5": 0.4,
+        "mrr": 0.5,
+        "ndcg@5": 0.6934
+      },
+      "ragas_metrics": {
+        "faithfulness": 0.0,
+        "answer_relevancy": 0.9334584568582603,
+        "context_precision": NaN,
+        "context_recall": 0.3333333333333333
+      }
+    },
+    {
+      "question_id": "q23",
+      "question": "From Figure 4 in the ResNet paper comparing plain vs residual network training on ImageNet, what does the training curve for ResNet-34 vs ResNet-18 demonstrate about the effect of residual learning on deeper networks?",
+      "generated_answer": "The training curve for ResNet-34 compared to ResNet-18 demonstrates that residual learning effectively addresses the degradation problem associated with deeper networks. Specifically, the ResNet-34 exhibits considerably lower training error than ResNet-18, indicating that the deeper ResNet benefits from the residual connections, allowing it to generalize better to the validation data. This suggests that residual learning facilitates optimization in deeper networks, leading to improved accuracy as depth increases, contrary to the performance of plain networks where deeper architectures tend to suffer from higher training errors.",
+      "retrieval_metrics": {
+        "recall@5": 1.0,
+        "precision@5": 0.4,
+        "mrr": 1.0,
+        "ndcg@5": 0.8503
+      },
+      "ragas_metrics": {
+        "faithfulness": 1.0,
+        "answer_relevancy": 0.9315790420505173,
+        "context_precision": 0.99999999998,
+        "context_recall": 1.0
+      }
+    },
+    {
+      "question_id": "q24",
+      "question": "From Table 5 in the ResNet paper showing ensemble results on the ImageNet test set, what top-5 error did the ResNet ensemble achieve at ILSVRC 2015 and how did it compare to GoogLeNet?",
+      "generated_answer": "The ResNet ensemble achieved a top-5 error of 3.57% on the ImageNet test set at ILSVRC 2015. This result outperformed GoogLeNet, which had a top-5 error of 6.66%.",
+      "retrieval_metrics": {
+        "recall@5": 1.0,
+        "precision@5": 0.4,
+        "mrr": 0.5,
+        "ndcg@5": 0.6509
+      },
+      "ragas_metrics": {
+        "faithfulness": 1.0,
+        "answer_relevancy": 0.9409280323923973,
+        "context_precision": 0.99999999998,
+        "context_recall": NaN
+      }
+    },
+    {
+      "question_id": "q25",
+      "question": "From Figure 7 in the ResNet paper showing standard deviations of layer responses on CIFAR-10, what does the comparison between ResNet and plain networks reveal about residual function magnitudes?",
+      "generated_answer": "The comparison in Figure 7 reveals that ResNets generally have smaller response magnitudes than their plain counterparts. This suggests that the residual functions in ResNets might be closer to zero compared to the non-residual functions in plain networks. Additionally, it indicates that as the depth of the ResNet increases, the individual layers tend to modify the signal less, resulting in smaller magnitudes of responses.",
+      "retrieval_metrics": {
+        "recall@5": 1.0,
+        "precision@5": 0.4,
+        "mrr": 1.0,
+        "ndcg@5": 1.0
+      },
+      "ragas_metrics": {
+        "faithfulness": 1.0,
+        "answer_relevancy": 0.937472572882581,
+        "context_precision": NaN,
+        "context_recall": 1.0
+      }
+    },
+    {
+      "question_id": "q26",
+      "question": "What is the U-Net architecture's key innovation compared to the standard fully convolutional network, and how does it achieve precise localization while capturing context?",
+      "generated_answer": "The key innovation of the U-Net architecture compared to the standard fully convolutional network is its symmetric expanding path that allows for precise localization while capturing context. This is achieved by combining high-resolution features from the contracting path with the upsampled features in the expanding path. The architecture includes a large number of feature channels in the upsampling part, which facilitates the propagation of context information to higher resolution layers. This design results in a U-shaped architecture that effectively balances the need for localization accuracy and the utilization of contextual information, enabling the network to produce precise segmentation maps.",
+      "retrieval_metrics": {
+        "recall@5": 1.0,
+        "precision@5": 0.2,
+        "mrr": 1.0,
+        "ndcg@5": 1.0
+      },
+      "ragas_metrics": {
+        "faithfulness": 1.0,
+        "answer_relevancy": 0.9361646086134762,
+        "context_precision": NaN,
+        "context_recall": 1.0
+      }
+    },
+    {
+      "question_id": "q27",
+      "question": "From Figure 1 in the U-Net paper showing the network architecture, how many feature channels are at the bottleneck (lowest resolution), and what operations are applied at each step of the expanding path?",
+      "generated_answer": "In the U-Net architecture, the bottleneck (lowest resolution) has 64 feature channels. At each step of the expanding path, the operations applied include an upsampling of the feature map followed by a 2x2 convolution (referred to as \"up-convolution\") that halves the number of feature channels, a concatenation with the correspondingly cropped feature map from the contracting path, and then two 3x3 convolutions, each followed by a ReLU activation.",
+      "retrieval_metrics": {
+        "recall@5": 0.5,
+        "precision@5": 0.2,
+        "mrr": 1.0,
+        "ndcg@5": 0.6131
+      },
+      "ragas_metrics": {
+        "faithfulness": 0.75,
+        "answer_relevancy": 0.9002351558776523,
+        "context_precision": 0.9166666666361111,
+        "context_recall": 0.3333333333333333
+      }
+    },
+    {
+      "question_id": "q28",
+      "question": "From Table 1 in the U-Net paper showing the EM segmentation challenge ranking, what warping error and Rand error did U-Net achieve, and how did it compare to the IDSIA method?",
+      "generated_answer": "In Table 1 of the U-Net paper showing the EM segmentation challenge ranking, U-Net achieved a warping error of 0.000353 and a Rand error of 0.0382. In comparison, the IDSIA method had a warping error of 0.000420 and a Rand error of 0.0504. U-Net's performance was significantly better than the IDSIA method in both metrics.",
+      "retrieval_metrics": {
+        "recall@5": 1.0,
+        "precision@5": 0.2,
+        "mrr": 1.0,
+        "ndcg@5": 1.0
+      },
+      "ragas_metrics": {
+        "faithfulness": 1.0,
+        "answer_relevancy": 0.9252628548226249,
+        "context_precision": 0.9999999999,
+        "context_recall": 1.0
+      }
+    },
+    {
+      "question_id": "q29",
+      "question": "From Table 2 in the U-Net paper showing ISBI cell tracking challenge 2015 results, what IOU scores did U-Net achieve on PhC-U373 and DIC-HeLa datasets compared to the second-best methods?",
+      "generated_answer": "In the ISBI cell tracking challenge 2015 results, U-Net achieved an average IOU of 92.03% on the PhC-U373 dataset, which is significantly better than the second-best method that achieved 83%. On the DIC-HeLa dataset, U-Net achieved an average IOU of 77.56%, compared to the second-best method that achieved 46%.",
+      "retrieval_metrics": {
+        "recall@5": 1.0,
+        "precision@5": 0.2,
+        "mrr": 1.0,
+        "ndcg@5": 1.0
+      },
+      "ragas_metrics": {
+        "faithfulness": 1.0,
+        "answer_relevancy": 0.9320761334651074,
+        "context_precision": 0.99999999995,
+        "context_recall": 1.0
+      }
+    },
+    {
+      "question_id": "q30",
+      "question": "From Figure 3 in the U-Net paper showing HeLa cell segmentation, what does panel (d) specifically represent and why is it needed in the training process?",
+      "generated_answer": "Panel (d) in Figure 3 of the U-Net paper represents a map with a pixel-wise loss weight that is used to force the network to learn the border pixels. This is necessary in the training process to give more importance to the pixels that are near the borders of the cells, which helps the network to better separate touching cells of the same class. The weight map compensates for the different frequency of pixels from certain classes in the training data set and emphasizes the learning of small separation borders introduced between touching cells.",
+      "retrieval_metrics": {
+        "recall@5": 1.0,
+        "precision@5": 0.2,
+        "mrr": 0.3333,
+        "ndcg@5": 0.5
+      },
+      "ragas_metrics": {
+        "faithfulness": 0.7142857142857143,
+        "answer_relevancy": 0.9307917047383022,
+        "context_precision": 0.9999999999666667,
+        "context_recall": 1.0
+      }
+    },
+    {
+      "question_id": "q31",
+      "question": "From Figure 2 in the U-Net paper illustrating the overlap-tile strategy, what problem does this strategy solve and how is missing border context handled?",
+      "generated_answer": "The overlap-tile strategy illustrated in Figure 2 of the U-Net paper addresses the problem of seamless segmentation of arbitrarily large images. This strategy is necessary because the network needs to predict the pixels in the border region of the image, which requires context that may not be available within the input image itself. To handle the missing border context, the strategy extrapolates the necessary input data by mirroring the output. This allows the network to utilize the mirrored context to make more accurate predictions for the border pixels.",
+      "retrieval_metrics": {
+        "recall@5": 1.0,
+        "precision@5": 0.2,
+        "mrr": 1.0,
+        "ndcg@5": 1.0
+      },
+      "ragas_metrics": {
+        "faithfulness": 1.0,
+        "answer_relevancy": 0.9316775053877999,
+        "context_precision": 0.9166666666361111,
+        "context_recall": 1.0
+      }
+    },
+    {
+      "question_id": "q32",
+      "question": "From Figure 4 in the U-Net paper showing cell tracking challenge results, what type of microscopy is used for the PhC-U373 dataset and the DIC-HeLa dataset respectively?",
+      "generated_answer": "The PhC-U373 dataset uses phase contrast microscopy, while the DIC-HeLa dataset uses differential interference contrast (DIC) microscopy.",
+      "retrieval_metrics": {
+        "recall@5": 1.0,
+        "precision@5": 0.2,
+        "mrr": 1.0,
+        "ndcg@5": 1.0
+      },
+      "ragas_metrics": {
+        "faithfulness": 1.0,
+        "answer_relevancy": 0.9424178129535697,
+        "context_precision": 0.99999999995,
+        "context_recall": 1.0
+      }
+    }
+  ],
+  "dense": [
+    {
+      "question_id": "q1",
+      "question": "According to the RAG survey, what are the three main paradigms of RAG discussed in the paper?",
+      "generated_answer": "The three main paradigms of RAG discussed in the paper are:\n\n1. **Naive RAG**: This represents the earliest methodology involving traditional processes of indexing, retrieval, and generation.\n\n2. **Advanced RAG**: This paradigm incorporates targeted improvements over Naive RAG, including pre-retrieval and post-retrieval methods to enhance the quality of retrieval generation.\n\n3. **Modular RAG**: This approach introduces new modules and patterns to improve the flexibility and functionality of the RAG system.",
+      "retrieval_metrics": {
+        "recall@5": 0.0,
+        "precision@5": 0.0,
+        "mrr": 0.0,
+        "ndcg@5": 0.0
+      },
+      "ragas_metrics": {
+        "faithfulness": 0.8333333333333334,
+        "answer_relevancy": 0.9858261589076798,
+        "context_precision": 0.249999999975,
+        "context_recall": 1.0
+      }
+    },
+    {
+      "question_id": "q2",
+      "question": "From the RAG vs Fine-tuning comparison table in the RAG survey, which technique has lower latency requirements and why?",
+      "generated_answer": "From the RAG vs Fine-tuning comparison, Retrieval-Augmented Generation (RAG) has lower latency requirements compared to fine-tuning. This is because RAG allows developers to attach a knowledge base and retrieve relevant information without the need to retrain the entire large model for each specific task. In contrast, fine-tuning requires extensive learning and internalization of knowledge, which can introduce higher latency due to the time needed for model adjustments and training. RAG's ability to dynamically retrieve information as needed makes it more efficient in terms of response time.",
+      "retrieval_metrics": {
+        "recall@5": 0.0,
+        "precision@5": 0.0,
+        "mrr": 0.0,
+        "ndcg@5": 0.0
+      },
+      "ragas_metrics": {
+        "faithfulness": 0.6666666666666666,
+        "answer_relevancy": 0.8945376756779234,
+        "context_precision": NaN,
+        "context_recall": 1.0
+      }
+    },
+    {
+      "question_id": "q3",
+      "question": "In the RAG survey's timeline figure (Figure 1), what was the significant turning point year and event that caused a rapid increase in RAG-related research?",
+      "generated_answer": "The significant turning point year in the RAG survey's timeline (Figure 1) was 2020, which marked the widespread adoption of ChatGPT. This event led to a rapid increase in RAG-related research.",
+      "retrieval_metrics": {
+        "recall@5": 0.0,
+        "precision@5": 0.0,
+        "mrr": 0.0,
+        "ndcg@5": 0.0
+      },
+      "ragas_metrics": {
+        "faithfulness": 0.3333333333333333,
+        "answer_relevancy": 0.9537199859030122,
+        "context_precision": 0.9999999999,
+        "context_recall": 1.0
+      }
+    },
+    {
+      "question_id": "q4",
+      "question": "In Figure 2 of the RAG survey comparing RAG with other model optimization methods, which optimization approach requires both high external knowledge and high model adaptation?",
+      "generated_answer": "In Figure 2 of the RAG survey, the optimization approach that requires both high external knowledge and high model adaptation is \"Modular RAG.\"",
+      "retrieval_metrics": {
+        "recall@5": 1.0,
+        "precision@5": 0.2,
+        "mrr": 0.3333,
+        "ndcg@5": 0.5
+      },
+      "ragas_metrics": {
+        "faithfulness": 1.0,
+        "answer_relevancy": 0.9798238530585559,
+        "context_precision": 0.6388888888675925,
+        "context_recall": 1.0
+      }
+    },
+    {
+      "question_id": "q5",
+      "question": "What are the three core evaluation metrics emphasized in both the RAGAS and ARES frameworks for evaluating RAG systems?",
+      "generated_answer": "The three core evaluation metrics emphasized in both the RAGAS and ARES frameworks for evaluating RAG systems are:\n\n1. Faithfulness of the answer\n2. Answer Relevance\n3. Context Relevance",
+      "retrieval_metrics": {
+        "recall@5": 0.0,
+        "precision@5": 0.0,
+        "mrr": 0.0,
+        "ndcg@5": 0.0
+      },
+      "ragas_metrics": {
+        "faithfulness": 1.0,
+        "answer_relevancy": 0.9792648965073699,
+        "context_precision": 0.999999999975,
+        "context_recall": 1.0
+      }
+    },
+    {
+      "question_id": "q6",
+      "question": "From Figure 3 in the RAG survey comparing the three RAG paradigms, what post-retrieval processing steps does Advanced RAG add that Naive RAG lacks?",
+      "generated_answer": "Advanced RAG adds several post-retrieval processing steps that Naive RAG lacks, including:\n\n1. **Rerank**: This step involves re-evaluating the retrieved documents to improve the relevance of the information presented to the user.\n2. **Filter**: This step allows for the removal of irrelevant or low-quality documents from the retrieved set, enhancing the overall quality of the information.\n3. **Prompt Compression**: This technique optimizes the prompts used for generating responses, potentially making them more concise and effective.\n4. **Post-Retrieval Generation**: This step involves generating responses based on the refined set of retrieved documents, ensuring that the output is more contextually relevant and accurate.\n\nThese enhancements in Advanced RAG aim to improve the quality and relevance of the generated responses compared to the simpler process in Naive RAG.",
+      "retrieval_metrics": {
+        "recall@5": 0.0,
+        "precision@5": 0.0,
+        "mrr": 0.0,
+        "ndcg@5": 0.0
+      },
+      "ragas_metrics": {
+        "faithfulness": 0.2,
+        "answer_relevancy": 0.9091943690366661,
+        "context_precision": NaN,
+        "context_recall": 1.0
+      }
+    },
+    {
+      "question_id": "q7",
+      "question": "According to the RAG survey's taxonomy figure (Figure 4), what are the three augmentation process types listed under 'Augmentation Process'?",
+      "generated_answer": "According to the RAG survey's taxonomy figure (Figure 4), the three augmentation process types listed under 'Augmentation Process' are:\n\n1. Pre-Retrieval\n2. Post-Retrieval\n3. Retrieval",
+      "retrieval_metrics": {
+        "recall@5": 0.0,
+        "precision@5": 0.0,
+        "mrr": 0.0,
+        "ndcg@5": 0.0
+      },
+      "ragas_metrics": {
+        "faithfulness": 0.25,
+        "answer_relevancy": 0.9869572867864603,
+        "context_precision": 0.249999999975,
+        "context_recall": 0.5
+      }
+    },
+    {
+      "question_id": "q8",
+      "question": "In the TCN paper, what is the word-level perplexity achieved by TCN on the Penn Treebank (PTB) dataset, and how does it compare to LSTM and GRU?",
+      "generated_answer": "In the TCN paper, the word-level perplexity achieved by TCN on the Penn Treebank (PTB) dataset is 88.68. This performance is better than that of LSTMs, which have a perplexity of 47.7, and GRUs, which perform worse than LSTMs.",
+      "retrieval_metrics": {
+        "recall@5": 0.0,
+        "precision@5": 0.0,
+        "mrr": 0.0,
+        "ndcg@5": 0.0
+      },
+      "ragas_metrics": {
+        "faithfulness": 0.75,
+        "answer_relevancy": 0.969303937306564,
+        "context_precision": 0.6388888888675925,
+        "context_recall": 1.0
+      }
+    },
+    {
+      "question_id": "q9",
+      "question": "From Figure 1(a) in the TCN paper showing dilated causal convolutions, what dilation factors are used and what is the filter size?",
+      "generated_answer": "In Figure 1(a) of the TCN paper, the dilation factors used are \\(d = 1, 2, 4\\) and the filter size is \\(k = 3\\).",
+      "retrieval_metrics": {
+        "recall@5": 0.5,
+        "precision@5": 0.2,
+        "mrr": 1.0,
+        "ndcg@5": 0.6131
+      },
+      "ragas_metrics": {
+        "faithfulness": 0.6666666666666666,
+        "answer_relevancy": 0.9548512266462622,
+        "context_precision": NaN,
+        "context_recall": 1.0
+      }
+    },
+    {
+      "question_id": "q10",
+      "question": "From Figure 5 in the TCN paper showing accuracy on the copy memory task, at what sequence length T does the LSTM's accuracy fall below 20%?",
+      "generated_answer": "The LSTM's accuracy falls below 20% for sequence lengths \\( T < 50 \\).",
+      "retrieval_metrics": {
+        "recall@5": 1.0,
+        "precision@5": 0.4,
+        "mrr": 1.0,
+        "ndcg@5": 1.0
+      },
+      "ragas_metrics": {
+        "faithfulness": 1.0,
+        "answer_relevancy": 0.8911012930410527,
+        "context_precision": NaN,
+        "context_recall": 1.0
+      }
+    },
+    {
+      "question_id": "q11",
+      "question": "From Figure 2 in the TCN paper, what does the convergence curve for the adding problem at T=600 show about the relative performance of GRU compared to TCN and LSTM?",
+      "generated_answer": "From Figure 2 in the TCN paper, the convergence curve for the adding problem at \\( T = 600 \\) shows that the TCN outperforms both the GRU and LSTM models. The TCN achieves a lower testing loss more quickly and maintains better performance throughout the iterations compared to the GRU and LSTM, which exhibit higher testing loss values. This indicates that the TCN is more effective for this specific task than the GRU and LSTM models.",
+      "retrieval_metrics": {
+        "recall@5": 0.0,
+        "precision@5": 0.0,
+        "mrr": 0.0,
+        "ndcg@5": 0.0
+      },
+      "ragas_metrics": {
+        "faithfulness": 0.6,
+        "answer_relevancy": 0.925919407177565,
+        "context_precision": NaN,
+        "context_recall": 1.0
+      }
+    },
+    {
+      "question_id": "q12",
+      "question": "What are the two main distinguishing characteristics of a Temporal Convolutional Network (TCN) as defined in the paper?",
+      "generated_answer": "The two main distinguishing characteristics of a Temporal Convolutional Network (TCN) are:\n\n1. The convolutions in the architecture are causal, meaning there is no information leakage from future to past.\n2. The architecture can take a sequence of any length and map it to an output sequence of the same length, similar to a recurrent neural network (RNN).",
+      "retrieval_metrics": {
+        "recall@5": 1.0,
+        "precision@5": 0.2,
+        "mrr": 1.0,
+        "ndcg@5": 1.0
+      },
+      "ragas_metrics": {
+        "faithfulness": 0.8333333333333334,
+        "answer_relevancy": 0.969007486505784,
+        "context_precision": 0.94999999997625,
+        "context_recall": 1.0
+      }
+    },
+    {
+      "question_id": "q13",
+      "question": "From Table 5 in the TCN paper comparing TCN vs TCN with gating, on which task does adding gating (GLU) most significantly hurt TCN performance?",
+      "generated_answer": "Adding gating (GLU) most significantly hurt TCN performance on the Copy Memory task with T = 1000, where the TCN with gating resulted in a loss of 0.00508 compared to a loss of 3.5e-5 for the plain TCN.",
+      "retrieval_metrics": {
+        "recall@5": 1.0,
+        "precision@5": 0.2,
+        "mrr": 1.0,
+        "ndcg@5": 1.0
+      },
+      "ragas_metrics": {
+        "faithfulness": 0.6666666666666666,
+        "answer_relevancy": 0.8989108834168267,
+        "context_precision": 0.9999999999,
+        "context_recall": 1.0
+      }
+    },
+    {
+      "question_id": "q14",
+      "question": "In the MobileNetV2 paper, what is the key architectural difference between a standard residual block and an inverted residual block as shown in Figure 3?",
+      "generated_answer": "In the MobileNetV2 paper, the key architectural difference between a standard residual block and an inverted residual block is the use of shortcuts directly between the bottlenecks in the inverted residual block. This design allows for improved gradient propagation and reduces information loss, as the bottlenecks contain all necessary information. In contrast, standard residual blocks typically involve a more traditional structure where the residual connections are applied after the transformations, rather than directly between the bottlenecks. Additionally, the inverted design is more memory efficient and performs better in experiments.",
+      "retrieval_metrics": {
+        "recall@5": 0.5,
+        "precision@5": 0.2,
+        "mrr": 1.0,
+        "ndcg@5": 0.6131
+      },
+      "ragas_metrics": {
+        "faithfulness": 1.0,
+        "answer_relevancy": 0.9587114012626727,
+        "context_precision": NaN,
+        "context_recall": 0.0
+      }
+    },
+    {
+      "question_id": "q15",
+      "question": "From Table 4 in the MobileNetV2 paper, what is MobileNetV2's top-1 accuracy, parameter count, number of MAdds, and CPU latency on ImageNet compared to MobileNetV1?",
+      "generated_answer": "From Table 4 in the MobileNetV2 paper, MobileNetV2 has the following specifications on ImageNet:\n\n- **Top-1 Accuracy**: 72.0%\n- **Parameter Count**: 3.4M\n- **Number of MAdds**: 300M\n- **CPU Latency**: 75ms\n\nIn comparison, MobileNetV1 has:\n\n- **Top-1 Accuracy**: 70.6%\n- **Parameter Count**: 4.2M\n- **Number of MAdds**: 575M\n- **CPU Latency**: 113ms",
+      "retrieval_metrics": {
+        "recall@5": 1.0,
+        "precision@5": 0.2,
+        "mrr": 0.5,
+        "ndcg@5": 0.6309
+      },
+      "ragas_metrics": {
+        "faithfulness": 1.0,
+        "answer_relevancy": 0.9155372640663603,
+        "context_precision": NaN,
+        "context_recall": 0.6666666666666666
+      }
+    },
+    {
+      "question_id": "q16",
+      "question": "From Figure 5 (performance curve) in the MobileNetV2 paper, how does MobileNetV2 compare to ShuffleNet and NASNet across the range of multiply-adds shown?",
+      "generated_answer": "From Figure 5 in the MobileNetV2 paper, MobileNetV2 shows competitive performance compared to ShuffleNet and NASNet across the range of multiply-adds. Specifically, MobileNetV2 achieves a higher accuracy for a given number of multiply-adds compared to ShuffleNet, indicating better efficiency. While NASNet generally performs better in terms of accuracy, it also requires significantly more multiply-adds, making MobileNetV2 a more efficient choice for lower computational costs. Overall, MobileNetV2 balances accuracy and computational efficiency effectively within the tested range.",
+      "retrieval_metrics": {
+        "recall@5": 1.0,
+        "precision@5": 0.4,
+        "mrr": 1.0,
+        "ndcg@5": 0.9197
+      },
+      "ragas_metrics": {
+        "faithfulness": 1.0,
+        "answer_relevancy": 0.9192094651464775,
+        "context_precision": 0.999999999975,
+        "context_recall": 1.0
+      }
+    },
+    {
+      "question_id": "q17",
+      "question": "From Figure 1 in the MobileNetV2 paper showing ReLU transformations of low-dimensional manifolds, what happens to the manifold when the output dimensionality is n=2 or n=3 versus n=15 or n=30?",
+      "generated_answer": "In the context of the MobileNetV2 paper, when the output dimensionality is low (n=2 or n=3), the ReLU transformations can lead to significant information loss because the input manifold may collapse to a lower-dimensional space. This is due to the nature of the ReLU activation function, which maps negative values to zero, potentially collapsing parts of the input space and making it difficult for subsequent layers to distinguish between different input samples.\n\nIn contrast, when the output dimensionality is higher (n=15 or n=30), the ReLU transformations are less likely to cause information loss. This is because with a higher number of output dimensions, there is a greater chance that the transformed outputs will retain enough non-zero values, allowing for more complex and non-linear mappings while still being invertible with high probability. Thus, the network can better preserve information and represent more complex functions without collapsing the manifold.",
+      "retrieval_metrics": {
+        "recall@5": 0.0,
+        "precision@5": 0.0,
+        "mrr": 0.0,
+        "ndcg@5": 0.0
+      },
+      "ragas_metrics": {
+        "faithfulness": 0.8,
+        "answer_relevancy": 0.8841830496705757,
+        "context_precision": 0.8055555555287036,
+        "context_recall": 1.0
+      }
+    },
+    {
+      "question_id": "q18",
+      "question": "From Table 6 in the MobileNetV2 paper, how do MobileNetV2+SSDLite and MobileNetV1+SSDLite compare to SSD300 and YOLOv2 in terms of mAP, parameters, and MAdds on COCO?",
+      "generated_answer": "From Table 6 in the MobileNetV2 paper:\n\n- **MobileNetV1 + SSDLite**:\n  - mAP: 22.2\n  - Parameters: 5.1M\n  - MAdds: 1.3B\n\n- **MobileNetV2 + SSDLite**:\n  - mAP: 22.1\n  - Parameters: 4.3M\n  - MAdds: 0.8B\n\n- **SSD300**:\n  - mAP: 23.2\n  - Parameters: 36.1M\n  - MAdds: 35.2B\n\n- **YOLOv2**:\n  - mAP: 21.6\n  - Parameters: 50.7M\n  - MAdds: 17.5B\n\nIn summary, both MobileNetV1 + SSDLite and MobileNetV2 + SSDLite have significantly fewer parameters and MAdds compared to SSD300 and YOLOv2, while achieving competitive mAP scores.",
+      "retrieval_metrics": {
+        "recall@5": 1.0,
+        "precision@5": 0.2,
+        "mrr": 0.5,
+        "ndcg@5": 0.6309
+      },
+      "ragas_metrics": {
+        "faithfulness": 1.0,
+        "answer_relevancy": 0.9161387487284788,
+        "context_precision": NaN,
+        "context_recall": 1.0
+      }
+    },
+    {
+      "question_id": "q19",
+      "question": "From Figure 6(a) in the MobileNetV2 paper, what does the impact of non-linearity in the bottleneck layer show about linear vs ReLU6 bottlenecks during training?",
+      "generated_answer": "Figure 6(a) in the MobileNetV2 paper shows that linear bottlenecks outperform ReLU6 bottlenecks during training. This indicates that the use of linear bottlenecks improves performance, suggesting that non-linearity may destroy information in low-dimensional space.",
+      "retrieval_metrics": {
+        "recall@5": 1.0,
+        "precision@5": 0.2,
+        "mrr": 0.25,
+        "ndcg@5": 0.4307
+      },
+      "ragas_metrics": {
+        "faithfulness": 0.6666666666666666,
+        "answer_relevancy": 0.952878848287979,
+        "context_precision": NaN,
+        "context_recall": 1.0
+      }
+    },
+    {
+      "question_id": "q20",
+      "question": "In the ResNet paper, what is the degradation problem and how do residual connections address it?",
+      "generated_answer": "The degradation problem refers to the phenomenon where adding more layers to a neural network leads to higher training error, rather than improved performance. This suggests that deeper models may struggle to learn effectively, particularly when trying to approximate identity mappings.\n\nResidual connections address this issue by allowing layers to learn modifications to the identity mapping rather than the entire transformation. Specifically, instead of expecting the stacked layers to approximate the desired function directly, they are reformulated to approximate a residual function. This means that if the optimal function is closer to an identity mapping, the network can more easily adjust the weights of the layers to approach this identity mapping, thereby mitigating the degradation problem. The residual connections facilitate easier learning and help maintain performance as the network depth increases.",
+      "retrieval_metrics": {
+        "recall@5": 0.0,
+        "precision@5": 0.0,
+        "mrr": 0.0,
+        "ndcg@5": 0.0
+      },
+      "ragas_metrics": {
+        "faithfulness": 1.0,
+        "answer_relevancy": 0.9467760846307187,
+        "context_precision": NaN,
+        "context_recall": 1.0
+      }
+    },
+    {
+      "question_id": "q21",
+      "question": "From Figure 1 in the ResNet paper showing training and test error on CIFAR-10, what is the paradoxical behavior observed with the 56-layer plain network compared to the 20-layer plain network?",
+      "generated_answer": "The paradoxical behavior observed with the 56-layer plain network compared to the 20-layer plain network is that the deeper 56-layer plain network exhibits a higher training error than the shallower 20-layer plain network. This indicates that as the depth of the plain network increases, it struggles to optimize effectively, leading to worse performance on the training set, which is contrary to the expectation that deeper networks should perform better.",
+      "retrieval_metrics": {
+        "recall@5": 0.5,
+        "precision@5": 0.2,
+        "mrr": 0.5,
+        "ndcg@5": 0.3869
+      },
+      "ragas_metrics": {
+        "faithfulness": 1.0,
+        "answer_relevancy": 0.9231728810996648,
+        "context_precision": NaN,
+        "context_recall": 1.0
+      }
+    },
+    {
+      "question_id": "q22",
+      "question": "From Table 1 in the ResNet paper, how many convolutional layers does ResNet-50 have in conv4_x and what is the bottleneck block configuration used?",
+      "generated_answer": "In the ResNet paper, Table 1 indicates that ResNet-50 has 3 convolutional layers in the conv4_x stage. The bottleneck block configuration used in this stage consists of 6 bottleneck blocks.",
+      "retrieval_metrics": {
+        "recall@5": 0.0,
+        "precision@5": 0.0,
+        "mrr": 0.0,
+        "ndcg@5": 0.0
+      },
+      "ragas_metrics": {
+        "faithfulness": 0.0,
+        "answer_relevancy": 0.922905937746372,
+        "context_precision": NaN,
+        "context_recall": 0.0
+      }
+    },
+    {
+      "question_id": "q23",
+      "question": "From Figure 4 in the ResNet paper comparing plain vs residual network training on ImageNet, what does the training curve for ResNet-34 vs ResNet-18 demonstrate about the effect of residual learning on deeper networks?",
+      "generated_answer": "The training curve for ResNet-34 compared to ResNet-18 demonstrates that residual learning effectively addresses the degradation problem associated with deeper networks. Specifically, the ResNet-34 exhibits considerably lower training error than ResNet-18, indicating that the residual network can optimize better as depth increases. This suggests that residual learning allows for improved convergence and generalization in deeper architectures, leading to better performance compared to plain networks, which suffer from higher training errors as depth increases.",
+      "retrieval_metrics": {
+        "recall@5": 0.5,
+        "precision@5": 0.2,
+        "mrr": 0.5,
+        "ndcg@5": 0.3869
+      },
+      "ragas_metrics": {
+        "faithfulness": 1.0,
+        "answer_relevancy": 0.9257447250686288,
+        "context_precision": NaN,
+        "context_recall": 0.6666666666666666
+      }
+    },
+    {
+      "question_id": "q24",
+      "question": "From Table 5 in the ResNet paper showing ensemble results on the ImageNet test set, what top-5 error did the ResNet ensemble achieve at ILSVRC 2015 and how did it compare to GoogLeNet?",
+      "generated_answer": "The ResNet ensemble achieved a top-5 error of 3.57% on the ImageNet test set at ILSVRC 2015. This result surpassed GoogLeNet, which had a top-5 error of 43.9%.",
+      "retrieval_metrics": {
+        "recall@5": 0.0,
+        "precision@5": 0.0,
+        "mrr": 0.0,
+        "ndcg@5": 0.0
+      },
+      "ragas_metrics": {
+        "faithfulness": 1.0,
+        "answer_relevancy": 0.9447080996335381,
+        "context_precision": 0.9166666666361111,
+        "context_recall": 1.0
+      }
+    },
+    {
+      "question_id": "q25",
+      "question": "From Figure 7 in the ResNet paper showing standard deviations of layer responses on CIFAR-10, what does the comparison between ResNet and plain networks reveal about residual function magnitudes?",
+      "generated_answer": "The comparison between ResNet and plain networks in Figure 7 reveals that ResNets generally have smaller magnitudes of layer responses than their plain counterparts. This suggests that the residual functions in ResNets might be closer to zero compared to the non-residual functions in plain networks. Additionally, as the depth of the ResNet increases, the individual layers tend to modify the signal less, indicating that deeper ResNets produce smaller response magnitudes.",
+      "retrieval_metrics": {
+        "recall@5": 0.5,
+        "precision@5": 0.2,
+        "mrr": 0.5,
+        "ndcg@5": 0.3869
+      },
+      "ragas_metrics": {
+        "faithfulness": 1.0,
+        "answer_relevancy": 0.933636083722466,
+        "context_precision": NaN,
+        "context_recall": 1.0
+      }
+    },
+    {
+      "question_id": "q26",
+      "question": "What is the U-Net architecture's key innovation compared to the standard fully convolutional network, and how does it achieve precise localization while capturing context?",
+      "generated_answer": "The key innovation of the U-Net architecture compared to the standard fully convolutional network is its symmetric structure, which consists of a contracting path to capture context and a symmetric expanding path that enables precise localization. This architecture allows the network to combine high-resolution features from the contracting path with upsampled features in the expanding path, facilitating both good localization and the use of contextual information. By maintaining a large number of feature channels in the upsampling part, U-Net effectively propagates context information to higher resolution layers, resulting in more accurate segmentations. Additionally, the use of data augmentation helps the network learn invariance to deformations, further enhancing its performance in tasks with limited training data.",
+      "retrieval_metrics": {
+        "recall@5": 1.0,
+        "precision@5": 0.2,
+        "mrr": 0.25,
+        "ndcg@5": 0.4307
+      },
+      "ragas_metrics": {
+        "faithfulness": 0.5555555555555556,
+        "answer_relevancy": 0.9325119246483148,
+        "context_precision": NaN,
+        "context_recall": 1.0
+      }
+    },
+    {
+      "question_id": "q27",
+      "question": "From Figure 1 in the U-Net paper showing the network architecture, how many feature channels are at the bottleneck (lowest resolution), and what operations are applied at each step of the expanding path?",
+      "generated_answer": "In the U-Net architecture, the bottleneck (lowest resolution) has 64 feature channels. At each step of the expanding path, the following operations are applied:\n\n1. **Upsampling of the feature map**.\n2. **2x2 convolution (up-convolution)** that halves the number of feature channels.\n3. **Concatenation** with the correspondingly cropped feature map from the contracting path.\n4. **Two 3x3 convolutions**, each followed by a ReLU activation.",
+      "retrieval_metrics": {
+        "recall@5": 0.0,
+        "precision@5": 0.0,
+        "mrr": 0.0,
+        "ndcg@5": 0.0
+      },
+      "ragas_metrics": {
+        "faithfulness": 0.8,
+        "answer_relevancy": 0.9021188072783332,
+        "context_precision": NaN,
+        "context_recall": 0.3333333333333333
+      }
+    },
+    {
+      "question_id": "q28",
+      "question": "From Table 1 in the U-Net paper showing the EM segmentation challenge ranking, what warping error and Rand error did U-Net achieve, and how did it compare to the IDSIA method?",
+      "generated_answer": "In Table 1 of the U-Net paper showing the EM segmentation challenge ranking, U-Net achieved a warping error of 0.000353 and a Rand error of 0.0382. In comparison, the IDSIA method had a warping error of 0.000420 and a Rand error of 0.0504. Thus, U-Net performed better than the IDSIA method in both metrics.",
+      "retrieval_metrics": {
+        "recall@5": 1.0,
+        "precision@5": 0.2,
+        "mrr": 0.5,
+        "ndcg@5": 0.6309
+      },
+      "ragas_metrics": {
+        "faithfulness": 1.0,
+        "answer_relevancy": 0.9233321353847456,
+        "context_precision": NaN,
+        "context_recall": 1.0
+      }
+    },
+    {
+      "question_id": "q29",
+      "question": "From Table 2 in the U-Net paper showing ISBI cell tracking challenge 2015 results, what IOU scores did U-Net achieve on PhC-U373 and DIC-HeLa datasets compared to the second-best methods?",
+      "generated_answer": "The provided text does not include specific information about Table 2 from the U-Net paper or the IOU scores achieved by U-Net on the PhC-U373 and DIC-HeLa datasets compared to the second-best methods. Therefore, I cannot provide the requested IOU scores.",
+      "retrieval_metrics": {
+        "recall@5": 0.0,
+        "precision@5": 0.0,
+        "mrr": 0.0,
+        "ndcg@5": 0.0
+      },
+      "ragas_metrics": {
+        "faithfulness": 1.0,
+        "answer_relevancy": 0.0,
+        "context_precision": 0.0,
+        "context_recall": 0.0
+      }
+    },
+    {
+      "question_id": "q30",
+      "question": "From Figure 3 in the U-Net paper showing HeLa cell segmentation, what does panel (d) specifically represent and why is it needed in the training process?",
+      "generated_answer": "The provided context does not include specific details about Figure 3 in the U-Net paper or its panels, including panel (d). Therefore, I cannot provide an answer regarding what panel (d) represents or its necessity in the training process. If you have more specific information or context about that figure, I would be happy to help!",
+      "retrieval_metrics": {
+        "recall@5": 0.0,
+        "precision@5": 0.0,
+        "mrr": 0.0,
+        "ndcg@5": 0.0
+      },
+      "ragas_metrics": {
+        "faithfulness": 1.0,
+        "answer_relevancy": 0.0,
+        "context_precision": 0.0,
+        "context_recall": 0.0
+      }
+    },
+    {
+      "question_id": "q31",
+      "question": "From Figure 2 in the U-Net paper illustrating the overlap-tile strategy, what problem does this strategy solve and how is missing border context handled?",
+      "generated_answer": "The overlap-tile strategy in Figure 2 of the U-Net paper addresses the problem of ensuring that the output segmentation map can be seamlessly tiled without artifacts at the borders. This is particularly important for maintaining continuity in the segmentation results across adjacent tiles.\n\nTo handle the missing border context caused by unpadded convolutions, the strategy involves cropping the feature maps from the contracting path before concatenation with the upsampled feature maps in the expansive path. This cropping compensates for the loss of border pixels during the convolution operations, ensuring that the feature maps align correctly and that the segmentation output is coherent across the entire image.",
+      "retrieval_metrics": {
+        "recall@5": 0.0,
+        "precision@5": 0.0,
+        "mrr": 0.0,
+        "ndcg@5": 0.0
+      },
+      "ragas_metrics": {
+        "faithfulness": 0.6666666666666666,
+        "answer_relevancy": 0.9316775053877999,
+        "context_precision": 0.5833333333041666,
+        "context_recall": 0.5
+      }
+    },
+    {
+      "question_id": "q32",
+      "question": "From Figure 4 in the U-Net paper showing cell tracking challenge results, what type of microscopy is used for the PhC-U373 dataset and the DIC-HeLa dataset respectively?",
+      "generated_answer": "The PhC-U373 dataset uses phase contrast microscopy, while the DIC-HeLa dataset uses differential interference contrast (DIC) microscopy.",
+      "retrieval_metrics": {
+        "recall@5": 0.0,
+        "precision@5": 0.0,
+        "mrr": 0.0,
+        "ndcg@5": 0.0
+      },
+      "ragas_metrics": {
+        "faithfulness": 0.0,
+        "answer_relevancy": 0.9450040755133664,
+        "context_precision": 0.0,
+        "context_recall": 0.0
+      }
+    }
+  ],
+  "hybrid": [
+    {
+      "question_id": "q1",
+      "question": "According to the RAG survey, what are the three main paradigms of RAG discussed in the paper?",
+      "generated_answer": "The three main paradigms of RAG discussed in the paper are:\n\n1. Naive RAG\n2. Advanced RAG\n3. Modular RAG",
+      "retrieval_metrics": {
+        "recall@5": 0.0,
+        "precision@5": 0.0,
+        "mrr": 0.0,
+        "ndcg@5": 0.0
+      },
+      "ragas_metrics": {
+        "faithfulness": 0.0,
+        "answer_relevancy": 0.9858261589076798,
+        "context_precision": NaN,
+        "context_recall": 1.0
+      }
+    },
+    {
+      "question_id": "q2",
+      "question": "From the RAG vs Fine-tuning comparison table in the RAG survey, which technique has lower latency requirements and why?",
+      "generated_answer": "Fine-tuning has lower latency requirements because, after fine-tuning, the language model can respond without the need for retrieval, resulting in quicker responses. In contrast, RAG involves data retrieval, which can lead to higher latency.",
+      "retrieval_metrics": {
+        "recall@5": 1.0,
+        "precision@5": 0.2,
+        "mrr": 0.5,
+        "ndcg@5": 0.6309
+      },
+      "ragas_metrics": {
+        "faithfulness": 1.0,
+        "answer_relevancy": 0.9339452633829749,
+        "context_precision": NaN,
+        "context_recall": 1.0
+      }
+    },
+    {
+      "question_id": "q3",
+      "question": "In the RAG survey's timeline figure (Figure 1), what was the significant turning point year and event that caused a rapid increase in RAG-related research?",
+      "generated_answer": "The significant turning point year in the RAG survey's timeline (Figure 1) is 2022, marked by the release of ChatGPT in December 2022. This event caused a rapid increase in RAG-related research.",
+      "retrieval_metrics": {
+        "recall@5": 0.5,
+        "precision@5": 0.2,
+        "mrr": 0.3333,
+        "ndcg@5": 0.3066
+      },
+      "ragas_metrics": {
+        "faithfulness": 0.6666666666666666,
+        "answer_relevancy": 0.9520379258772185,
+        "context_precision": NaN,
+        "context_recall": 0.5
+      }
+    },
+    {
+      "question_id": "q4",
+      "question": "In Figure 2 of the RAG survey comparing RAG with other model optimization methods, which optimization approach requires both high external knowledge and high model adaptation?",
+      "generated_answer": "In Figure 2 of the RAG survey, the optimization approach that requires both high external knowledge and high model adaptation is \"Modular RAG.\"",
+      "retrieval_metrics": {
+        "recall@5": 1.0,
+        "precision@5": 0.2,
+        "mrr": 1.0,
+        "ndcg@5": 1.0
+      },
+      "ragas_metrics": {
+        "faithfulness": 0.5,
+        "answer_relevancy": 0.9793786601070635,
+        "context_precision": NaN,
+        "context_recall": 0.5
+      }
+    },
+    {
+      "question_id": "q5",
+      "question": "What are the three core evaluation metrics emphasized in both the RAGAS and ARES frameworks for evaluating RAG systems?",
+      "generated_answer": "The three core evaluation metrics emphasized in both the RAGAS and ARES frameworks for evaluating RAG systems are:\n\n1. Faithfulness of the answer\n2. Answer Relevance\n3. Context Relevance",
+      "retrieval_metrics": {
+        "recall@5": 0.0,
+        "precision@5": 0.0,
+        "mrr": 0.0,
+        "ndcg@5": 0.0
+      },
+      "ragas_metrics": {
+        "faithfulness": 1.0,
+        "answer_relevancy": 0.9792648965073687,
+        "context_precision": 0.99999999998,
+        "context_recall": 1.0
+      }
+    },
+    {
+      "question_id": "q6",
+      "question": "From Figure 3 in the RAG survey comparing the three RAG paradigms, what post-retrieval processing steps does Advanced RAG add that Naive RAG lacks?",
+      "generated_answer": "Advanced RAG adds several post-retrieval processing steps that Naive RAG lacks, including:\n\n1. **Rerank**: This step involves re-evaluating the retrieved documents to improve the relevance of the results.\n2. **Filter**: This step allows for the removal of irrelevant or low-quality documents from the retrieved set.\n3. **Prompt Compression**: This technique optimizes the prompts used for the language model, enhancing the efficiency of the generation process.\n\nThese enhancements aim to improve the quality and relevance of the generated responses compared to the Naive RAG approach.",
+      "retrieval_metrics": {
+        "recall@5": 0.3333,
+        "precision@5": 0.2,
+        "mrr": 0.25,
+        "ndcg@5": 0.2021
+      },
+      "ragas_metrics": {
+        "faithfulness": 1.0,
+        "answer_relevancy": 0.9094478023029312,
+        "context_precision": 0.999999999975,
+        "context_recall": 1.0
+      }
+    },
+    {
+      "question_id": "q7",
+      "question": "According to the RAG survey's taxonomy figure (Figure 4), what are the three augmentation process types listed under 'Augmentation Process'?",
+      "generated_answer": "The three augmentation process types listed under 'Augmentation Process' in the RAG survey's taxonomy figure (Figure 4) are:\n\n1. Once Retrieval\n2. Iterative Retrieval\n3. Adaptive Retrieval",
+      "retrieval_metrics": {
+        "recall@5": 1.0,
+        "precision@5": 0.2,
+        "mrr": 0.25,
+        "ndcg@5": 0.4307
+      },
+      "ragas_metrics": {
+        "faithfulness": 1.0,
+        "answer_relevancy": 0.9800064037326253,
+        "context_precision": 0.499999999975,
+        "context_recall": 1.0
+      }
+    },
+    {
+      "question_id": "q8",
+      "question": "In the TCN paper, what is the word-level perplexity achieved by TCN on the Penn Treebank (PTB) dataset, and how does it compare to LSTM and GRU?",
+      "generated_answer": "In the TCN paper, the word-level perplexity achieved by TCN on the Penn Treebank (PTB) dataset is 88.68. This performance is better than that of GRU and vanilla RNN, but an optimized LSTM architecture outperforms the TCN on this specific dataset.",
+      "retrieval_metrics": {
+        "recall@5": 0.0,
+        "precision@5": 0.0,
+        "mrr": 0.0,
+        "ndcg@5": 0.0
+      },
+      "ragas_metrics": {
+        "faithfulness": 1.0,
+        "answer_relevancy": 0.926397755985984,
+        "context_precision": NaN,
+        "context_recall": 1.0
+      }
+    },
+    {
+      "question_id": "q9",
+      "question": "From Figure 1(a) in the TCN paper showing dilated causal convolutions, what dilation factors are used and what is the filter size?",
+      "generated_answer": "In Figure 1(a) of the TCN paper, the dilation factors used are d = 1, 2, and 4, and the filter size is k = 3.",
+      "retrieval_metrics": {
+        "recall@5": 0.5,
+        "precision@5": 0.2,
+        "mrr": 1.0,
+        "ndcg@5": 0.6131
+      },
+      "ragas_metrics": {
+        "faithfulness": 1.0,
+        "answer_relevancy": 0.9548512266462623,
+        "context_precision": NaN,
+        "context_recall": 1.0
+      }
+    },
+    {
+      "question_id": "q10",
+      "question": "From Figure 5 in the TCN paper showing accuracy on the copy memory task, at what sequence length T does the LSTM's accuracy fall below 20%?",
+      "generated_answer": "The LSTM's accuracy falls below 20% for sequence lengths \\( T < 50 \\).",
+      "retrieval_metrics": {
+        "recall@5": 1.0,
+        "precision@5": 0.4,
+        "mrr": 1.0,
+        "ndcg@5": 1.0
+      },
+      "ragas_metrics": {
+        "faithfulness": 1.0,
+        "answer_relevancy": 0.8911012930410527,
+        "context_precision": 0.8666666666377778,
+        "context_recall": 1.0
+      }
+    },
+    {
+      "question_id": "q11",
+      "question": "From Figure 2 in the TCN paper, what does the convergence curve for the adding problem at T=600 show about the relative performance of GRU compared to TCN and LSTM?",
+      "generated_answer": "In Figure 2 of the TCN paper, the convergence curve for the adding problem at \\( T = 600 \\) shows that the TCN quickly converges to a virtually perfect solution, achieving a mean squared error (MSE) near 0. In contrast, the GRU performs well but is slower to converge than the TCN. The LSTM and vanilla RNNs perform significantly worse, indicating that TCNs outperform both GRU and LSTM in this task.",
+      "retrieval_metrics": {
+        "recall@5": 0.0,
+        "precision@5": 0.0,
+        "mrr": 0.0,
+        "ndcg@5": 0.0
+      },
+      "ragas_metrics": {
+        "faithfulness": 0.8333333333333334,
+        "answer_relevancy": 0.9350267910008968,
+        "context_precision": NaN,
+        "context_recall": 1.0
+      }
+    },
+    {
+      "question_id": "q12",
+      "question": "What are the two main distinguishing characteristics of a Temporal Convolutional Network (TCN) as defined in the paper?",
+      "generated_answer": "The two main distinguishing characteristics of a Temporal Convolutional Network (TCN) are: 1) the convolutions in the architecture are causal, meaning that there is no information “leakage” from future to past; and 2) the architecture can take a sequence of any length and map it to an output sequence of the same length, similar to a recurrent neural network (RNN).",
+      "retrieval_metrics": {
+        "recall@5": 1.0,
+        "precision@5": 0.2,
+        "mrr": 1.0,
+        "ndcg@5": 1.0
+      },
+      "ragas_metrics": {
+        "faithfulness": 0.8333333333333334,
+        "answer_relevancy": 0.969007486505784,
+        "context_precision": 0.999999999975,
+        "context_recall": 1.0
+      }
+    },
+    {
+      "question_id": "q13",
+      "question": "From Table 5 in the TCN paper comparing TCN vs TCN with gating, on which task does adding gating (GLU) most significantly hurt TCN performance?",
+      "generated_answer": "Adding gating (GLU) most significantly hurt TCN performance on the Copy Memory task with T = 1000, where the TCN with gating resulted in a loss of 0.00508 compared to a loss of 3.5e-5 for the plain TCN.",
+      "retrieval_metrics": {
+        "recall@5": 1.0,
+        "precision@5": 0.2,
+        "mrr": 1.0,
+        "ndcg@5": 1.0
+      },
+      "ragas_metrics": {
+        "faithfulness": 0.6666666666666666,
+        "answer_relevancy": 0.9111119297585679,
+        "context_precision": 0.699999999965,
+        "context_recall": 1.0
+      }
+    },
+    {
+      "question_id": "q14",
+      "question": "In the MobileNetV2 paper, what is the key architectural difference between a standard residual block and an inverted residual block as shown in Figure 3?",
+      "generated_answer": "The key architectural difference between a standard residual block and an inverted residual block in MobileNetV2 is the use of shortcuts directly between the bottlenecks, rather than connecting the expanded layers. In the inverted residual block, the bottlenecks contain all the necessary information, and the shortcuts help improve the gradient propagation across layers, leading to less information loss. This design is more memory efficient and allows for a better separation between the input/output domains of the building blocks and the layer transformation, enhancing the network's expressiveness and capacity.",
+      "retrieval_metrics": {
+        "recall@5": 0.5,
+        "precision@5": 0.2,
+        "mrr": 1.0,
+        "ndcg@5": 0.6131
+      },
+      "ragas_metrics": {
+        "faithfulness": 1.0,
+        "answer_relevancy": 0.9587114012626727,
+        "context_precision": NaN,
+        "context_recall": 1.0
+      }
+    },
+    {
+      "question_id": "q15",
+      "question": "From Table 4 in the MobileNetV2 paper, what is MobileNetV2's top-1 accuracy, parameter count, number of MAdds, and CPU latency on ImageNet compared to MobileNetV1?",
+      "generated_answer": "From Table 4 in the MobileNetV2 paper, MobileNetV2 has the following metrics on ImageNet:\n\n- **Top-1 Accuracy**: 72.0%\n- **Parameter Count**: 3.4M\n- **Number of MAdds**: 300M\n- **CPU Latency**: 75ms\n\nIn comparison, MobileNetV1 has:\n\n- **Top-1 Accuracy**: 70.6%\n- **Parameter Count**: 4.2M\n- **Number of MAdds**: 575M\n- **CPU Latency**: 113ms",
+      "retrieval_metrics": {
+        "recall@5": 1.0,
+        "precision@5": 0.2,
+        "mrr": 1.0,
+        "ndcg@5": 1.0
+      },
+      "ragas_metrics": {
+        "faithfulness": 1.0,
+        "answer_relevancy": 0.9172993220349933,
+        "context_precision": 0.8333333332916666,
+        "context_recall": 0.6666666666666666
+      }
+    },
+    {
+      "question_id": "q16",
+      "question": "From Figure 5 (performance curve) in the MobileNetV2 paper, how does MobileNetV2 compare to ShuffleNet and NASNet across the range of multiply-adds shown?",
+      "generated_answer": "From Figure 5 in the MobileNetV2 paper, MobileNetV2 shows competitive performance compared to ShuffleNet and NASNet across the range of multiply-adds. Specifically, MobileNetV2 achieves a Top-1 accuracy of 72.0% with 300 million multiply-adds, while ShuffleNet and NASNet have varying accuracies at different multiply-add levels. ShuffleNet achieves a higher accuracy of 73.7% with 524 million multiply-adds, while NASNet reaches 74.0% with 564 million multiply-adds. Overall, MobileNetV2 provides a good balance of accuracy and computational efficiency, performing well within the constraints of lower multiply-adds compared to the other architectures.",
+      "retrieval_metrics": {
+        "recall@5": 1.0,
+        "precision@5": 0.4,
+        "mrr": 1.0,
+        "ndcg@5": 0.9197
+      },
+      "ragas_metrics": {
+        "faithfulness": 1.0,
+        "answer_relevancy": 0.9201326727457847,
+        "context_precision": 0.99999999998,
+        "context_recall": 1.0
+      }
+    },
+    {
+      "question_id": "q17",
+      "question": "From Figure 1 in the MobileNetV2 paper showing ReLU transformations of low-dimensional manifolds, what happens to the manifold when the output dimensionality is n=2 or n=3 versus n=15 or n=30?",
+      "generated_answer": "In Figure 1 of the MobileNetV2 paper, when the output dimensionality is n=2 or n=3, the ReLU transformation results in information loss, where certain points of the manifold collapse into each other. In contrast, when the output dimensionality is n=15 or n=30, the transformation is highly non-convex, indicating that the manifold retains more of its structure and complexity without collapsing into lower dimensions.",
+      "retrieval_metrics": {
+        "recall@5": 1.0,
+        "precision@5": 0.2,
+        "mrr": 0.3333,
+        "ndcg@5": 0.5
+      },
+      "ragas_metrics": {
+        "faithfulness": 1.0,
+        "answer_relevancy": 0.9286700610232719,
+        "context_precision": NaN,
+        "context_recall": 1.0
+      }
+    },
+    {
+      "question_id": "q18",
+      "question": "From Table 6 in the MobileNetV2 paper, how do MobileNetV2+SSDLite and MobileNetV1+SSDLite compare to SSD300 and YOLOv2 in terms of mAP, parameters, and MAdds on COCO?",
+      "generated_answer": "From Table 6 in the MobileNetV2 paper, the comparisons are as follows:\n\n- **MobileNetV1 + SSDLite**:\n  - mAP: 22.2\n  - Params: 5.1M\n  - MAdds: 1.3B\n\n- **MobileNetV2 + SSDLite**:\n  - mAP: 22.1\n  - Params: 4.3M\n  - MAdds: 0.8B\n\n- **SSD300**:\n  - mAP: 23.2\n  - Params: 36.1M\n  - MAdds: 35.2B\n\n- **YOLOv2**:\n  - mAP: 21.6\n  - Params: 50.7M\n  - MAdds: 17.5B\n\nIn summary, MobileNetV1 + SSDLite achieves a competitive mAP of 22.2 with significantly fewer parameters (5.1M) and MAdds (1.3B) compared to SSD300 and YOLOv2. MobileNetV2 + SSDLite has a slightly lower mAP of 22.1 but also maintains fewer parameters (4.3M) and MAdds (0.8B) than both SSD300 and YOLOv2.",
+      "retrieval_metrics": {
+        "recall@5": 1.0,
+        "precision@5": 0.2,
+        "mrr": 1.0,
+        "ndcg@5": 1.0
+      },
+      "ragas_metrics": {
+        "faithfulness": 1.0,
+        "answer_relevancy": 0.928982339712696,
+        "context_precision": NaN,
+        "context_recall": 0.8
+      }
+    },
+    {
+      "question_id": "q19",
+      "question": "From Figure 6(a) in the MobileNetV2 paper, what does the impact of non-linearity in the bottleneck layer show about linear vs ReLU6 bottlenecks during training?",
+      "generated_answer": "Figure 6(a) in the MobileNetV2 paper shows that linear bottlenecks perform better than those with ReLU6 non-linearities during training. This indicates that the non-linearity can destroy information in low-dimensional space, suggesting that linear bottlenecks may preserve more information and lead to improved performance.",
+      "retrieval_metrics": {
+        "recall@5": 1.0,
+        "precision@5": 0.2,
+        "mrr": 0.5,
+        "ndcg@5": 0.6309
+      },
+      "ragas_metrics": {
+        "faithfulness": NaN,
+        "answer_relevancy": 0.9640142442012499,
+        "context_precision": NaN,
+        "context_recall": 1.0
+      }
+    },
+    {
+      "question_id": "q20",
+      "question": "In the ResNet paper, what is the degradation problem and how do residual connections address it?",
+      "generated_answer": "The degradation problem refers to the phenomenon where deeper neural networks exhibit higher training error as the depth increases, contrary to the expectation that adding more layers should improve performance. This issue arises not from overfitting but from the difficulty of optimizing deeper networks, which can lead to saturation and rapid degradation of accuracy.\n\nResidual connections address this problem by reformulating the learning process. Instead of having the stacked layers directly learn the desired underlying mapping, they are designed to learn a residual mapping. This means that the output of the layers is expressed as the sum of the residual function and the input, allowing the network to more easily approximate identity mappings. If the optimal function is close to an identity mapping, the residual connections enable the model to push the residual toward zero, simplifying the learning process and making it easier to optimize deeper networks. This approach has been shown to improve training and accuracy in very deep networks.",
+      "retrieval_metrics": {
+        "recall@5": 1.0,
+        "precision@5": 0.2,
+        "mrr": 0.3333,
+        "ndcg@5": 0.5
+      },
+      "ragas_metrics": {
+        "faithfulness": 1.0,
+        "answer_relevancy": 0.9510748777725894,
+        "context_precision": NaN,
+        "context_recall": NaN
+      }
+    },
+    {
+      "question_id": "q21",
+      "question": "From Figure 1 in the ResNet paper showing training and test error on CIFAR-10, what is the paradoxical behavior observed with the 56-layer plain network compared to the 20-layer plain network?",
+      "generated_answer": "The paradoxical behavior observed with the 56-layer plain network compared to the 20-layer plain network is that the deeper 56-layer plain network exhibits a higher training error throughout the training process, despite the fact that the solution space of the 20-layer plain network is a subspace of that of the 56-layer one. This indicates that increasing the depth of the plain network leads to optimization difficulties, resulting in worse performance rather than improved accuracy, which is contrary to the expectation that deeper networks should perform better.",
+      "retrieval_metrics": {
+        "recall@5": 0.5,
+        "precision@5": 0.2,
+        "mrr": 0.3333,
+        "ndcg@5": 0.3066
+      },
+      "ragas_metrics": {
+        "faithfulness": NaN,
+        "answer_relevancy": 0.919707907731152,
+        "context_precision": 0.99999999998,
+        "context_recall": 1.0
+      }
+    },
+    {
+      "question_id": "q22",
+      "question": "From Table 1 in the ResNet paper, how many convolutional layers does ResNet-50 have in conv4_x and what is the bottleneck block configuration used?",
+      "generated_answer": "In the ResNet-50 architecture, the conv4_x stage consists of 6 convolutional layers. The bottleneck block configuration used in this stage is a series of bottleneck layers, where each bottleneck block typically consists of three layers: a 1x1 convolution, a 3x3 convolution, and another 1x1 convolution.",
+      "retrieval_metrics": {
+        "recall@5": 0.5,
+        "precision@5": 0.2,
+        "mrr": 0.3333,
+        "ndcg@5": 0.3066
+      },
+      "ragas_metrics": {
+        "faithfulness": 0.4,
+        "answer_relevancy": 0.913390534501036,
+        "context_precision": 0.0,
+        "context_recall": 0.0
+      }
+    },
+    {
+      "question_id": "q23",
+      "question": "From Figure 4 in the ResNet paper comparing plain vs residual network training on ImageNet, what does the training curve for ResNet-34 vs ResNet-18 demonstrate about the effect of residual learning on deeper networks?",
+      "generated_answer": "The training curve for ResNet-34 compared to ResNet-18 demonstrates that residual learning effectively addresses the degradation problem associated with deeper networks. Specifically, the ResNet-34 exhibits considerably lower training error and generalizes better to the validation data compared to ResNet-18. This indicates that the residual learning framework allows deeper networks to optimize more effectively, leading to improved accuracy as depth increases, whereas the plain networks (like the 34-layer plain net) suffer from higher training errors as they become deeper. Thus, residual learning facilitates the training of deeper networks, enabling them to achieve better performance.",
+      "retrieval_metrics": {
+        "recall@5": 0.5,
+        "precision@5": 0.2,
+        "mrr": 1.0,
+        "ndcg@5": 0.6131
+      },
+      "ragas_metrics": {
+        "faithfulness": 1.0,
+        "answer_relevancy": 0.9387170966324869,
+        "context_precision": NaN,
+        "context_recall": 0.6666666666666666
+      }
+    },
+    {
+      "question_id": "q24",
+      "question": "From Table 5 in the ResNet paper showing ensemble results on the ImageNet test set, what top-5 error did the ResNet ensemble achieve at ILSVRC 2015 and how did it compare to GoogLeNet?",
+      "generated_answer": "The ResNet ensemble achieved a top-5 error of 3.57% on the ImageNet test set at ILSVRC 2015. This result was better than GoogLeNet, which had a top-5 error of 6.66%.",
+      "retrieval_metrics": {
+        "recall@5": 0.5,
+        "precision@5": 0.2,
+        "mrr": 0.2,
+        "ndcg@5": 0.2372
+      },
+      "ragas_metrics": {
+        "faithfulness": 1.0,
+        "answer_relevancy": 0.9409280323923973,
+        "context_precision": NaN,
+        "context_recall": 0.6666666666666666
+      }
+    },
+    {
+      "question_id": "q25",
+      "question": "From Figure 7 in the ResNet paper showing standard deviations of layer responses on CIFAR-10, what does the comparison between ResNet and plain networks reveal about residual function magnitudes?",
+      "generated_answer": "The comparison between ResNet and plain networks in Figure 7 reveals that ResNets generally have smaller magnitudes of layer responses compared to their plain counterparts. This suggests that the residual functions in ResNets might be closer to zero than the non-residual functions in plain networks. Additionally, it indicates that as the depth of the ResNet increases, the individual layers tend to modify the signal less, leading to smaller response magnitudes overall.",
+      "retrieval_metrics": {
+        "recall@5": 1.0,
+        "precision@5": 0.4,
+        "mrr": 1.0,
+        "ndcg@5": 0.9197
+      },
+      "ragas_metrics": {
+        "faithfulness": 1.0,
+        "answer_relevancy": 0.933636083722466,
+        "context_precision": NaN,
+        "context_recall": 1.0
+      }
+    },
+    {
+      "question_id": "q26",
+      "question": "What is the U-Net architecture's key innovation compared to the standard fully convolutional network, and how does it achieve precise localization while capturing context?",
+      "generated_answer": "The key innovation of the U-Net architecture compared to the standard fully convolutional network is its symmetric expanding path that allows for precise localization while effectively capturing context. U-Net achieves this by combining high-resolution features from the contracting path with upsampled features in the expanding path. This architecture is designed to maintain a large number of feature channels during the upsampling process, which facilitates the propagation of context information to higher resolution layers. As a result, the U-Net can produce detailed segmentation maps that leverage both local and contextual information, enabling accurate localization of features in the input images.",
+      "retrieval_metrics": {
+        "recall@5": 1.0,
+        "precision@5": 0.2,
+        "mrr": 1.0,
+        "ndcg@5": 1.0
+      },
+      "ragas_metrics": {
+        "faithfulness": 1.0,
+        "answer_relevancy": 0.9325119246483148,
+        "context_precision": 0.9999999999,
+        "context_recall": 1.0
+      }
+    },
+    {
+      "question_id": "q27",
+      "question": "From Figure 1 in the U-Net paper showing the network architecture, how many feature channels are at the bottleneck (lowest resolution), and what operations are applied at each step of the expanding path?",
+      "generated_answer": "In the U-Net architecture, the bottleneck (lowest resolution) has 64 feature channels. At each step of the expanding path, the operations applied include an upsampling of the feature map followed by a 2x2 convolution (referred to as \"up-convolution\") that halves the number of feature channels, a concatenation with the correspondingly cropped feature map from the contracting path, and two 3x3 convolutions, each followed by a ReLU activation.",
+      "retrieval_metrics": {
+        "recall@5": 0.0,
+        "precision@5": 0.0,
+        "mrr": 0.0,
+        "ndcg@5": 0.0
+      },
+      "ragas_metrics": {
+        "faithfulness": 0.8571428571428571,
+        "answer_relevancy": 0.9002351558776523,
+        "context_precision": NaN,
+        "context_recall": 0.3333333333333333
+      }
+    },
+    {
+      "question_id": "q28",
+      "question": "From Table 1 in the U-Net paper showing the EM segmentation challenge ranking, what warping error and Rand error did U-Net achieve, and how did it compare to the IDSIA method?",
+      "generated_answer": "In the EM segmentation challenge ranking from Table 1 in the U-Net paper, U-Net achieved a warping error of 0.000353 and a Rand error of 0.0382. In comparison, the IDSIA method had a warping error of 0.000420 and a Rand error of 0.0504. This indicates that U-Net performed significantly better than the IDSIA method in both metrics.",
+      "retrieval_metrics": {
+        "recall@5": 1.0,
+        "precision@5": 0.2,
+        "mrr": 1.0,
+        "ndcg@5": 1.0
+      },
+      "ragas_metrics": {
+        "faithfulness": 1.0,
+        "answer_relevancy": 0.9233321353847456,
+        "context_precision": 0.8333333332916666,
+        "context_recall": 1.0
+      }
+    },
+    {
+      "question_id": "q29",
+      "question": "From Table 2 in the U-Net paper showing ISBI cell tracking challenge 2015 results, what IOU scores did U-Net achieve on PhC-U373 and DIC-HeLa datasets compared to the second-best methods?",
+      "generated_answer": "The U-Net achieved an IOU score of 0.83 on the PhC-U373 dataset and 0.75 on the DIC-HeLa dataset in the ISBI cell tracking challenge 2015. The second-best methods achieved IOU scores of 0.66 on PhC-U373 and 0.54 on DIC-HeLa.",
+      "retrieval_metrics": {
+        "recall@5": 0.0,
+        "precision@5": 0.0,
+        "mrr": 0.0,
+        "ndcg@5": 0.0
+      },
+      "ragas_metrics": {
+        "faithfulness": 0.0,
+        "answer_relevancy": 0.9509026373274821,
+        "context_precision": NaN,
+        "context_recall": 0.0
+      }
+    },
+    {
+      "question_id": "q30",
+      "question": "From Figure 3 in the U-Net paper showing HeLa cell segmentation, what does panel (d) specifically represent and why is it needed in the training process?",
+      "generated_answer": "Panel (d) in Figure 3 represents a map with a pixel-wise loss weight that is used to emphasize the importance of certain pixels during the training process. This weight map is crucial because it helps the network learn the small separation borders between touching cells, which is a common challenge in cell segmentation tasks. By assigning higher weights to these border pixels, the network is encouraged to focus on accurately segmenting the boundaries, improving the overall segmentation performance.",
+      "retrieval_metrics": {
+        "recall@5": 1.0,
+        "precision@5": 0.2,
+        "mrr": 0.25,
+        "ndcg@5": 0.4307
+      },
+      "ragas_metrics": {
+        "faithfulness": 0.75,
+        "answer_relevancy": 0.9000522284253462,
+        "context_precision": 0.47777777776185176,
+        "context_recall": 1.0
+      }
+    },
+    {
+      "question_id": "q31",
+      "question": "From Figure 2 in the U-Net paper illustrating the overlap-tile strategy, what problem does this strategy solve and how is missing border context handled?",
+      "generated_answer": "The overlap-tile strategy illustrated in Figure 2 of the U-Net paper addresses the problem of seamless segmentation of arbitrarily large images. It allows the network to predict segmentation in a specified area (the yellow area) by utilizing image data from a larger surrounding area (the blue area) as input. To handle missing border context, the strategy employs mirroring of the input image, which provides the necessary context for the network to make accurate predictions in the border regions. This approach ensures that the segmentation map contains pixels for which the full context is available, thereby improving localization accuracy.",
+      "retrieval_metrics": {
+        "recall@5": 1.0,
+        "precision@5": 0.2,
+        "mrr": 0.3333,
+        "ndcg@5": 0.5
+      },
+      "ragas_metrics": {
+        "faithfulness": 1.0,
+        "answer_relevancy": 0.9210656374984219,
+        "context_precision": 0.9999999999666667,
+        "context_recall": 0.75
+      }
+    },
+    {
+      "question_id": "q32",
+      "question": "From Figure 4 in the U-Net paper showing cell tracking challenge results, what type of microscopy is used for the PhC-U373 dataset and the DIC-HeLa dataset respectively?",
+      "generated_answer": "The PhC-U373 dataset uses phase contrast microscopy, while the DIC-HeLa dataset uses differential interference contrast (DIC) microscopy.",
+      "retrieval_metrics": {
+        "recall@5": 1.0,
+        "precision@5": 0.2,
+        "mrr": 0.5,
+        "ndcg@5": 0.6309
+      },
+      "ragas_metrics": {
+        "faithfulness": 1.0,
+        "answer_relevancy": 0.9424178129535703,
+        "context_precision": 0.499999999975,
+        "context_recall": 1.0
+      }
+    }
+  ],
+  "hybrid_reranker": [
+    {
+      "question_id": "q1",
+      "question": "According to the RAG survey, what are the three main paradigms of RAG discussed in the paper?",
+      "generated_answer": "The three main paradigms of Retrieval-Augmented Generation (RAG) discussed in the paper are Naive RAG, Advanced RAG, and Modular RAG.",
+      "retrieval_metrics": {
+        "recall@5": 1.0,
+        "precision@5": 0.4,
+        "mrr": 1.0,
+        "ndcg@5": 1.0
+      },
+      "ragas_metrics": {
+        "faithfulness": 1.0,
+        "answer_relevancy": 0.9317065271301753,
+        "context_precision": NaN,
+        "context_recall": 1.0
+      }
+    },
+    {
+      "question_id": "q2",
+      "question": "From the RAG vs Fine-tuning comparison table in the RAG survey, which technique has lower latency requirements and why?",
+      "generated_answer": "From the RAG vs Fine-tuning comparison table in the RAG survey, Fine-tuning has lower latency requirements. This is because, after fine-tuning, the large language model (LLM) can respond without the need for retrieval, resulting in quicker response times compared to RAG, which involves data retrieval that can lead to higher latency.",
+      "retrieval_metrics": {
+        "recall@5": 1.0,
+        "precision@5": 0.2,
+        "mrr": 1.0,
+        "ndcg@5": 1.0
+      },
+      "ragas_metrics": {
+        "faithfulness": 1.0,
+        "answer_relevancy": 0.9381603590330339,
+        "context_precision": NaN,
+        "context_recall": 1.0
+      }
+    },
+    {
+      "question_id": "q3",
+      "question": "In the RAG survey's timeline figure (Figure 1), what was the significant turning point year and event that caused a rapid increase in RAG-related research?",
+      "generated_answer": "The significant turning point year in the RAG survey's timeline (Figure 1) is 2022, which marked a rapid increase in RAG-related research. This surge in research activity is attributed to advancements in Retrieval-Augmented Generation technology and its applications in various domains.",
+      "retrieval_metrics": {
+        "recall@5": 0.0,
+        "precision@5": 0.0,
+        "mrr": 0.0,
+        "ndcg@5": 0.0
+      },
+      "ragas_metrics": {
+        "faithfulness": 0.25,
+        "answer_relevancy": 0.9536075918835587,
+        "context_precision": NaN,
+        "context_recall": 0.0
+      }
+    },
+    {
+      "question_id": "q4",
+      "question": "In Figure 2 of the RAG survey comparing RAG with other model optimization methods, which optimization approach requires both high external knowledge and high model adaptation?",
+      "generated_answer": "In Figure 2 of the RAG survey, the optimization approach that requires both high external knowledge and high model adaptation is \"Advanced RAG.\"",
+      "retrieval_metrics": {
+        "recall@5": 1.0,
+        "precision@5": 0.2,
+        "mrr": 1.0,
+        "ndcg@5": 1.0
+      },
+      "ragas_metrics": {
+        "faithfulness": 0.5,
+        "answer_relevancy": 0.9800464495343026,
+        "context_precision": NaN,
+        "context_recall": 0.5
+      }
+    },
+    {
+      "question_id": "q5",
+      "question": "What are the three core evaluation metrics emphasized in both the RAGAS and ARES frameworks for evaluating RAG systems?",
+      "generated_answer": "The three core evaluation metrics emphasized in both the RAGAS and ARES frameworks for evaluating RAG systems are:\n\n1. Faithfulness of the answer\n2. Answer Relevance\n3. Context Relevance",
+      "retrieval_metrics": {
+        "recall@5": 1.0,
+        "precision@5": 0.2,
+        "mrr": 0.25,
+        "ndcg@5": 0.4307
+      },
+      "ragas_metrics": {
+        "faithfulness": 1.0,
+        "answer_relevancy": 0.9792648965073687,
+        "context_precision": NaN,
+        "context_recall": 1.0
+      }
+    },
+    {
+      "question_id": "q6",
+      "question": "From Figure 3 in the RAG survey comparing the three RAG paradigms, what post-retrieval processing steps does Advanced RAG add that Naive RAG lacks?",
+      "generated_answer": "Advanced RAG adds several post-retrieval processing steps that Naive RAG lacks, including:\n\n1. **Refined Data Processing**: Advanced RAG employs more sophisticated methods to process the retrieved data, ensuring that the information is better integrated into the generation phase.\n\n2. **Iterative Retrievals**: Advanced RAG introduces the concept of multiple or iterative retrievals, allowing for a more dynamic and contextually relevant integration of information.\n\nThese enhancements aim to improve the overall quality of response generation by addressing the limitations present in Naive RAG.",
+      "retrieval_metrics": {
+        "recall@5": 0.0,
+        "precision@5": 0.0,
+        "mrr": 0.0,
+        "ndcg@5": 0.0
+      },
+      "ragas_metrics": {
+        "faithfulness": 0.5714285714285714,
+        "answer_relevancy": 0.9110771428481036,
+        "context_precision": 0.999999999975,
+        "context_recall": 0.0
+      }
+    },
+    {
+      "question_id": "q7",
+      "question": "According to the RAG survey's taxonomy figure (Figure 4), what are the three augmentation process types listed under 'Augmentation Process'?",
+      "generated_answer": "The three augmentation process types listed under 'Augmentation Process' in the RAG survey's taxonomy figure (Figure 4) are: \n\n1. Retriever (4)\n2. Chunk Optimization\n3. Fine-tuning",
+      "retrieval_metrics": {
+        "recall@5": 0.0,
+        "precision@5": 0.0,
+        "mrr": 0.0,
+        "ndcg@5": 0.0
+      },
+      "ragas_metrics": {
+        "faithfulness": 0.0,
+        "answer_relevancy": 0.980006403732625,
+        "context_precision": 0.0,
+        "context_recall": 1.0
+      }
+    },
+    {
+      "question_id": "q8",
+      "question": "In the TCN paper, what is the word-level perplexity achieved by TCN on the Penn Treebank (PTB) dataset, and how does it compare to LSTM and GRU?",
+      "generated_answer": "In the TCN paper, the word-level perplexity achieved by TCN on the Penn Treebank (PTB) dataset is 88.68. This performance is better than that of GRU and vanilla RNN models, but an optimized LSTM architecture outperforms the TCN on this smaller dataset.",
+      "retrieval_metrics": {
+        "recall@5": 0.0,
+        "precision@5": 0.0,
+        "mrr": 0.0,
+        "ndcg@5": 0.0
+      },
+      "ragas_metrics": {
+        "faithfulness": 1.0,
+        "answer_relevancy": 0.9269176281116459,
+        "context_precision": 0.9166666666361111,
+        "context_recall": 1.0
+      }
+    },
+    {
+      "question_id": "q9",
+      "question": "From Figure 1(a) in the TCN paper showing dilated causal convolutions, what dilation factors are used and what is the filter size?",
+      "generated_answer": "In Figure 1(a) of the TCN paper, the dilation factors used are d = 1, 2, and 4, and the filter size is k = 3.",
+      "retrieval_metrics": {
+        "recall@5": 0.5,
+        "precision@5": 0.2,
+        "mrr": 1.0,
+        "ndcg@5": 0.6131
+      },
+      "ragas_metrics": {
+        "faithfulness": 1.0,
+        "answer_relevancy": 0.9548512266462622,
+        "context_precision": 0.8055555555287036,
+        "context_recall": 1.0
+      }
+    },
+    {
+      "question_id": "q10",
+      "question": "From Figure 5 in the TCN paper showing accuracy on the copy memory task, at what sequence length T does the LSTM's accuracy fall below 20%?",
+      "generated_answer": "The LSTM's accuracy falls below 20% for sequence lengths \\( T < 50 \\).",
+      "retrieval_metrics": {
+        "recall@5": 1.0,
+        "precision@5": 0.4,
+        "mrr": 1.0,
+        "ndcg@5": 1.0
+      },
+      "ragas_metrics": {
+        "faithfulness": NaN,
+        "answer_relevancy": 0.8899761930662614,
+        "context_precision": 0.99999999998,
+        "context_recall": 1.0
+      }
+    },
+    {
+      "question_id": "q11",
+      "question": "From Figure 2 in the TCN paper, what does the convergence curve for the adding problem at T=600 show about the relative performance of GRU compared to TCN and LSTM?",
+      "generated_answer": "The convergence curve for the adding problem at \\( T = 600 \\) in Figure 2 shows that the TCN quickly converges to a virtually perfect solution, indicated by a mean squared error (MSE) near 0. In contrast, the GRU performs well but is slower to converge than the TCN. The LSTM, on the other hand, performs significantly worse than both the TCN and GRU, indicating that TCN outperforms both recurrent architectures in this task.",
+      "retrieval_metrics": {
+        "recall@5": 1.0,
+        "precision@5": 0.2,
+        "mrr": 0.3333,
+        "ndcg@5": 0.5
+      },
+      "ragas_metrics": {
+        "faithfulness": 1.0,
+        "answer_relevancy": 0.9423563448852271,
+        "context_precision": 0.99999999998,
+        "context_recall": 1.0
+      }
+    },
+    {
+      "question_id": "q12",
+      "question": "What are the two main distinguishing characteristics of a Temporal Convolutional Network (TCN) as defined in the paper?",
+      "generated_answer": "The two main distinguishing characteristics of a Temporal Convolutional Network (TCN) are: 1) the convolutions in the architecture are causal, meaning that there is no information “leakage” from future to past; and 2) the architecture can take a sequence of any length and map it to an output sequence of the same length, similar to a recurrent neural network (RNN).",
+      "retrieval_metrics": {
+        "recall@5": 1.0,
+        "precision@5": 0.2,
+        "mrr": 1.0,
+        "ndcg@5": 1.0
+      },
+      "ragas_metrics": {
+        "faithfulness": 0.8333333333333334,
+        "answer_relevancy": 0.969007486505784,
+        "context_precision": 0.8041666666465626,
+        "context_recall": 1.0
+      }
+    },
+    {
+      "question_id": "q13",
+      "question": "From Table 5 in the TCN paper comparing TCN vs TCN with gating, on which task does adding gating (GLU) most significantly hurt TCN performance?",
+      "generated_answer": "Adding gating (GLU) most significantly hurt TCN performance on the Copy Memory task with T = 1000, where the TCN with gating resulted in a loss of 0.00508 compared to a loss of 3.5e-5 for the plain TCN.",
+      "retrieval_metrics": {
+        "recall@5": 1.0,
+        "precision@5": 0.2,
+        "mrr": 1.0,
+        "ndcg@5": 1.0
+      },
+      "ragas_metrics": {
+        "faithfulness": 0.6666666666666666,
+        "answer_relevancy": 0.9172124529294383,
+        "context_precision": 0.699999999965,
+        "context_recall": 1.0
+      }
+    },
+    {
+      "question_id": "q14",
+      "question": "In the MobileNetV2 paper, what is the key architectural difference between a standard residual block and an inverted residual block as shown in Figure 3?",
+      "generated_answer": "In the MobileNetV2 paper, the key architectural difference between a standard residual block and an inverted residual block is the presence of shortcut connections directly between the bottleneck layers, rather than between the input and output of the block. This design allows for improved information flow and gradient propagation while being more memory efficient. The inverted residual block also incorporates an expansion layer that uses lightweight depthwise convolutions, which enhances non-linearity while maintaining representational power.",
+      "retrieval_metrics": {
+        "recall@5": 0.5,
+        "precision@5": 0.2,
+        "mrr": 1.0,
+        "ndcg@5": 0.6131
+      },
+      "ragas_metrics": {
+        "faithfulness": 0.9,
+        "answer_relevancy": 0.9731935159086733,
+        "context_precision": 0.999999999975,
+        "context_recall": 0.6666666666666666
+      }
+    },
+    {
+      "question_id": "q15",
+      "question": "From Table 4 in the MobileNetV2 paper, what is MobileNetV2's top-1 accuracy, parameter count, number of MAdds, and CPU latency on ImageNet compared to MobileNetV1?",
+      "generated_answer": "From Table 4 in the MobileNetV2 paper, MobileNetV2 has a top-1 accuracy of 72.0%, a parameter count of 3.4M, a number of MAdds of 300M, and a CPU latency of 75ms on ImageNet. In comparison, MobileNetV1 has a top-1 accuracy of 70.6%, a parameter count of 4.2M, a number of MAdds of 575M, and a CPU latency of 113ms.",
+      "retrieval_metrics": {
+        "recall@5": 1.0,
+        "precision@5": 0.2,
+        "mrr": 0.5,
+        "ndcg@5": 0.6309
+      },
+      "ragas_metrics": {
+        "faithfulness": 1.0,
+        "answer_relevancy": 0.9154636045407102,
+        "context_precision": NaN,
+        "context_recall": 0.6666666666666666
+      }
+    },
+    {
+      "question_id": "q16",
+      "question": "From Figure 5 (performance curve) in the MobileNetV2 paper, how does MobileNetV2 compare to ShuffleNet and NASNet across the range of multiply-adds shown?",
+      "generated_answer": "From Figure 5 in the MobileNetV2 paper, MobileNetV2 demonstrates superior performance compared to ShuffleNet and NASNet across the range of multiply-adds shown. Specifically, MobileNetV2 achieves higher accuracy (Top 1 accuracy) while requiring fewer multiply-add operations than NASNet, and it also outperforms ShuffleNet in terms of accuracy at similar computational costs. The performance curve indicates that MobileNetV2 effectively balances accuracy and computational efficiency, making it a more favorable choice for mobile applications compared to the other architectures.",
+      "retrieval_metrics": {
+        "recall@5": 0.5,
+        "precision@5": 0.2,
+        "mrr": 0.5,
+        "ndcg@5": 0.3869
+      },
+      "ragas_metrics": {
+        "faithfulness": 0.6,
+        "answer_relevancy": 0.9299962090993051,
+        "context_precision": NaN,
+        "context_recall": 1.0
+      }
+    },
+    {
+      "question_id": "q17",
+      "question": "From Figure 1 in the MobileNetV2 paper showing ReLU transformations of low-dimensional manifolds, what happens to the manifold when the output dimensionality is n=2 or n=3 versus n=15 or n=30?",
+      "generated_answer": "In the context of the MobileNetV2 paper, when the output dimensionality is low (n=2 or n=3), the ReLU transformation can act as a bijection on the manifold, preserving its structure and allowing for effective representation of the data. However, when the output dimensionality is significantly higher (n=15 or n=30), the ReLU transformation tends to collapse parts of the manifold to a lower-dimensional space, leading to potential information loss. This is because the ReLU function maps negative values to zero, which can result in a loss of distinctiveness among input samples that are collapsed into the same output. Thus, higher output dimensions can lead to a more complex and less interpretable representation, while lower dimensions maintain more of the original manifold's characteristics.",
+      "retrieval_metrics": {
+        "recall@5": 0.0,
+        "precision@5": 0.0,
+        "mrr": 0.0,
+        "ndcg@5": 0.0
+      },
+      "ragas_metrics": {
+        "faithfulness": 0.4,
+        "answer_relevancy": 0.9316904811241961,
+        "context_precision": 0.699999999965,
+        "context_recall": 1.0
+      }
+    },
+    {
+      "question_id": "q18",
+      "question": "From Table 6 in the MobileNetV2 paper, how do MobileNetV2+SSDLite and MobileNetV1+SSDLite compare to SSD300 and YOLOv2 in terms of mAP, parameters, and MAdds on COCO?",
+      "generated_answer": "From Table 6 in the MobileNetV2 paper, the comparisons are as follows:\n\n- **MobileNetV1 + SSDLite**:\n  - mAP: 22.2\n  - Params: 5.1M\n  - MAdds: 1.3B\n\n- **MobileNetV2 + SSDLite**:\n  - mAP: 22.1\n  - Params: 4.3M\n  - MAdds: 0.8B\n\n- **SSD300**:\n  - mAP: 23.2\n  - Params: 36.1M\n  - MAdds: 35.2B\n\n- **YOLOv2**:\n  - mAP: 21.6\n  - Params: 50.7M\n  - MAdds: 17.5B\n\nIn summary, MobileNetV1 + SSDLite achieves a competitive mAP of 22.2 with significantly fewer parameters (5.1M) and MAdds (1.3B) compared to SSD300 and YOLOv2. MobileNetV2 + SSDLite has a slightly lower mAP of 22.1 but is even more efficient with only 4.3M parameters and 0.8B MAdds. Both MobileNet models outperform YOLOv2 in terms of efficiency while being close in mAP to SSD300.",
+      "retrieval_metrics": {
+        "recall@5": 1.0,
+        "precision@5": 0.2,
+        "mrr": 1.0,
+        "ndcg@5": 1.0
+      },
+      "ragas_metrics": {
+        "faithfulness": 1.0,
+        "answer_relevancy": 0.9620921281325654,
+        "context_precision": 0.9999999999,
+        "context_recall": 1.0
+      }
+    },
+    {
+      "question_id": "q19",
+      "question": "From Figure 6(a) in the MobileNetV2 paper, what does the impact of non-linearity in the bottleneck layer show about linear vs ReLU6 bottlenecks during training?",
+      "generated_answer": "Figure 6(a) in the MobileNetV2 paper shows that the impact of non-linearity in the bottleneck layer indicates that using ReLU6 non-linearities in the bottleneck layers can lead to a decrease in performance compared to using linear bottlenecks. The experiments suggest that the presence of non-linearities, such as ReLU6, may destroy information in low-dimensional space, thereby supporting the design choice of employing linear bottlenecks to improve performance during training.",
+      "retrieval_metrics": {
+        "recall@5": 0.0,
+        "precision@5": 0.0,
+        "mrr": 0.0,
+        "ndcg@5": 0.0
+      },
+      "ragas_metrics": {
+        "faithfulness": 1.0,
+        "answer_relevancy": 0.9583566345974011,
+        "context_precision": NaN,
+        "context_recall": 1.0
+      }
+    },
+    {
+      "question_id": "q20",
+      "question": "In the ResNet paper, what is the degradation problem and how do residual connections address it?",
+      "generated_answer": "The degradation problem refers to the phenomenon where adding more layers to a neural network leads to higher training error, rather than lower, which is counterintuitive since deeper networks are expected to perform better. This issue arises because as the network depth increases, it becomes more difficult for the optimization algorithms to learn the identity mappings that are often optimal for deeper architectures.\n\nResidual connections address the degradation problem by reformulating the learning task. Instead of requiring the stacked layers to learn the underlying mapping directly, residual connections allow these layers to learn a residual function. This means that the output of the layers is expressed as the sum of the input and the learned residual function. Formally, if \\( H(x) \\) is the desired underlying mapping, the residual learning framework reformulates it as:\n\n\\[ H(x) = F(x) + x \\]\n\nwhere \\( F(x) \\) is the residual function to be learned. This approach makes it easier for the network to approximate identity mappings, as the optimization can focus on learning the perturbations from the identity rather than the entire mapping. Consequently, if the optimal function is closer to an identity mapping, the residual connections facilitate the learning process, helping to mitigate the degradation problem and allowing deeper networks to achieve better performance.",
+      "retrieval_metrics": {
+        "recall@5": 0.0,
+        "precision@5": 0.0,
+        "mrr": 0.0,
+        "ndcg@5": 0.0
+      },
+      "ragas_metrics": {
+        "faithfulness": 1.0,
+        "answer_relevancy": 0.9542047596439879,
+        "context_precision": 0.99999999998,
+        "context_recall": 1.0
+      }
+    },
+    {
+      "question_id": "q21",
+      "question": "From Figure 1 in the ResNet paper showing training and test error on CIFAR-10, what is the paradoxical behavior observed with the 56-layer plain network compared to the 20-layer plain network?",
+      "generated_answer": "The paradoxical behavior observed with the 56-layer plain network compared to the 20-layer plain network is that the deeper 56-layer plain network exhibits higher training error throughout the training process, despite having a solution space that includes that of the 20-layer network. This indicates that increasing the depth of the plain network leads to optimization difficulties, resulting in worse performance, which is contrary to the expectation that a deeper network should perform better.",
+      "retrieval_metrics": {
+        "recall@5": 0.5,
+        "precision@5": 0.2,
+        "mrr": 0.5,
+        "ndcg@5": 0.3869
+      },
+      "ragas_metrics": {
+        "faithfulness": 1.0,
+        "answer_relevancy": 0.9231728810996648,
+        "context_precision": NaN,
+        "context_recall": 1.0
+      }
+    },
+    {
+      "question_id": "q22",
+      "question": "From Table 1 in the ResNet paper, how many convolutional layers does ResNet-50 have in conv4_x and what is the bottleneck block configuration used?",
+      "generated_answer": "In ResNet-50, the conv4_x layer has 6 convolutional layers. The bottleneck block configuration used in this layer is as follows: it consists of a stack of 3 layers, specifically a 1x1 convolution, a 3x3 convolution, and another 1x1 convolution.",
+      "retrieval_metrics": {
+        "recall@5": 1.0,
+        "precision@5": 0.4,
+        "mrr": 0.5,
+        "ndcg@5": 0.6509
+      },
+      "ragas_metrics": {
+        "faithfulness": 0.8,
+        "answer_relevancy": 0.9120918702723734,
+        "context_precision": 0.7499999999625,
+        "context_recall": 1.0
+      }
+    },
+    {
+      "question_id": "q23",
+      "question": "From Figure 4 in the ResNet paper comparing plain vs residual network training on ImageNet, what does the training curve for ResNet-34 vs ResNet-18 demonstrate about the effect of residual learning on deeper networks?",
+      "generated_answer": "The training curve for ResNet-34 compared to ResNet-18 demonstrates that residual learning effectively addresses the degradation problem in deeper networks. Specifically, the ResNet-34 exhibits considerably lower training error and generalizes better to validation data than the ResNet-18. This indicates that, unlike plain networks, deeper residual networks can achieve accuracy gains as depth increases, showing that residual learning facilitates optimization in deeper architectures.",
+      "retrieval_metrics": {
+        "recall@5": 0.5,
+        "precision@5": 0.2,
+        "mrr": 0.5,
+        "ndcg@5": 0.3869
+      },
+      "ragas_metrics": {
+        "faithfulness": 1.0,
+        "answer_relevancy": 0.9356079425905796,
+        "context_precision": NaN,
+        "context_recall": 1.0
+      }
+    },
+    {
+      "question_id": "q24",
+      "question": "From Table 5 in the ResNet paper showing ensemble results on the ImageNet test set, what top-5 error did the ResNet ensemble achieve at ILSVRC 2015 and how did it compare to GoogLeNet?",
+      "generated_answer": "The ResNet ensemble achieved a top-5 error of 3.57% on the ImageNet test set at ILSVRC 2015. This result was better than GoogLeNet, which had a top-5 error of 6.66%.",
+      "retrieval_metrics": {
+        "recall@5": 1.0,
+        "precision@5": 0.4,
+        "mrr": 0.5,
+        "ndcg@5": 0.6509
+      },
+      "ragas_metrics": {
+        "faithfulness": 1.0,
+        "answer_relevancy": 0.9409280323923962,
+        "context_precision": 0.8874999999778125,
+        "context_recall": 0.6666666666666666
+      }
+    },
+    {
+      "question_id": "q25",
+      "question": "From Figure 7 in the ResNet paper showing standard deviations of layer responses on CIFAR-10, what does the comparison between ResNet and plain networks reveal about residual function magnitudes?",
+      "generated_answer": "The comparison between ResNet and plain networks in Figure 7 reveals that ResNets generally have smaller magnitudes of layer responses than their plain counterparts. This suggests that the residual functions in ResNets might be closer to zero compared to the non-residual functions in plain networks. Additionally, it indicates that as the depth of the ResNet increases, the individual layers tend to modify the signal less, resulting in smaller response magnitudes.",
+      "retrieval_metrics": {
+        "recall@5": 1.0,
+        "precision@5": 0.4,
+        "mrr": 1.0,
+        "ndcg@5": 1.0
+      },
+      "ragas_metrics": {
+        "faithfulness": 1.0,
+        "answer_relevancy": 0.933636083722466,
+        "context_precision": 0.94999999997625,
+        "context_recall": 1.0
+      }
+    },
+    {
+      "question_id": "q26",
+      "question": "What is the U-Net architecture's key innovation compared to the standard fully convolutional network, and how does it achieve precise localization while capturing context?",
+      "generated_answer": "The U-Net architecture's key innovation compared to the standard fully convolutional network is its symmetric structure, which consists of a contracting path to capture context and an expanding path that enables precise localization. This architecture allows for the combination of high-resolution features from the contracting path with the upsampled features in the expanding path. By maintaining a large number of feature channels in the upsampling part, U-Net effectively propagates context information to higher resolution layers, facilitating accurate localization while still leveraging the contextual information captured during the contracting phase. This design enables the network to produce precise segmentations even when trained on very few annotated images.",
+      "retrieval_metrics": {
+        "recall@5": 1.0,
+        "precision@5": 0.2,
+        "mrr": 0.3333,
+        "ndcg@5": 0.5
+      },
+      "ragas_metrics": {
+        "faithfulness": NaN,
+        "answer_relevancy": 0.9325119246483148,
+        "context_precision": 0.3333333333,
+        "context_recall": 1.0
+      }
+    },
+    {
+      "question_id": "q27",
+      "question": "From Figure 1 in the U-Net paper showing the network architecture, how many feature channels are at the bottleneck (lowest resolution), and what operations are applied at each step of the expanding path?",
+      "generated_answer": "In the U-Net architecture, the bottleneck (lowest resolution) has 64 feature channels. At each step of the expanding path, the operations applied include an upsampling of the feature map followed by a 2x2 convolution (referred to as \"up-convolution\") that halves the number of feature channels, a concatenation with the correspondingly cropped feature map from the contracting path, and two 3x3 convolutions, each followed by a rectified linear unit (ReLU).",
+      "retrieval_metrics": {
+        "recall@5": 0.0,
+        "precision@5": 0.0,
+        "mrr": 0.0,
+        "ndcg@5": 0.0
+      },
+      "ragas_metrics": {
+        "faithfulness": 0.8571428571428571,
+        "answer_relevancy": 0.9021188072783332,
+        "context_precision": 0.99999999995,
+        "context_recall": 0.6666666666666666
+      }
+    },
+    {
+      "question_id": "q28",
+      "question": "From Table 1 in the U-Net paper showing the EM segmentation challenge ranking, what warping error and Rand error did U-Net achieve, and how did it compare to the IDSIA method?",
+      "generated_answer": "In the EM segmentation challenge ranking from Table 1 in the U-Net paper, U-Net achieved a warping error of 0.000353 and a Rand error of 0.0382. In comparison, the IDSIA method had a warping error of 0.000420 and a Rand error of 0.0504. U-Net performed significantly better than the IDSIA method in both metrics.",
+      "retrieval_metrics": {
+        "recall@5": 1.0,
+        "precision@5": 0.2,
+        "mrr": 1.0,
+        "ndcg@5": 1.0
+      },
+      "ragas_metrics": {
+        "faithfulness": 1.0,
+        "answer_relevancy": 0.9233321353847462,
+        "context_precision": 0.8333333332916666,
+        "context_recall": 1.0
+      }
+    },
+    {
+      "question_id": "q29",
+      "question": "From Table 2 in the U-Net paper showing ISBI cell tracking challenge 2015 results, what IOU scores did U-Net achieve on PhC-U373 and DIC-HeLa datasets compared to the second-best methods?",
+      "generated_answer": "In the ISBI cell tracking challenge 2015 results, U-Net achieved an average IOU of 92.03% on the PhC-U373 dataset, which is significantly better than the second-best method that achieved an IOU of 83%. For the DIC-HeLa dataset, U-Net achieved an average IOU of 77.56%, compared to the second-best method, which had an IOU of 46%.",
+      "retrieval_metrics": {
+        "recall@5": 1.0,
+        "precision@5": 0.2,
+        "mrr": 0.3333,
+        "ndcg@5": 0.5
+      },
+      "ragas_metrics": {
+        "faithfulness": 1.0,
+        "answer_relevancy": 0.9423043137654503,
+        "context_precision": 0.3333333333,
+        "context_recall": 1.0
+      }
+    },
+    {
+      "question_id": "q30",
+      "question": "From Figure 3 in the U-Net paper showing HeLa cell segmentation, what does panel (d) specifically represent and why is it needed in the training process?",
+      "generated_answer": "Panel (d) in Figure 3 of the U-Net paper represents the segmentation result of HeLa cells, displayed with random colored masks overlaid on the input image. This visualization is essential in the training process as it demonstrates the network's ability to accurately segment the cells from the background, highlighting the effectiveness of the U-Net architecture in distinguishing between different cell structures. The colored masks provide a clear visual representation of the segmentation output, allowing for an assessment of the model's performance and accuracy in identifying and delineating the cells.",
+      "retrieval_metrics": {
+        "recall@5": 0.0,
+        "precision@5": 0.0,
+        "mrr": 0.0,
+        "ndcg@5": 0.0
+      },
+      "ragas_metrics": {
+        "faithfulness": 0.2857142857142857,
+        "answer_relevancy": 0.9307917047383027,
+        "context_precision": 0.5888888888692593,
+        "context_recall": 1.0
+      }
+    },
+    {
+      "question_id": "q31",
+      "question": "From Figure 2 in the U-Net paper illustrating the overlap-tile strategy, what problem does this strategy solve and how is missing border context handled?",
+      "generated_answer": "The overlap-tile strategy illustrated in Figure 2 of the U-Net paper addresses the problem of seamless segmentation of arbitrarily large images. This strategy is important because it allows the network to predict segmentation in border regions of the image, where the full context may not be available. To handle the missing border context, the strategy involves extrapolating the missing input data by mirroring the output of the input image. This ensures that the network can still make accurate predictions even in areas where the complete context is not present.",
+      "retrieval_metrics": {
+        "recall@5": 1.0,
+        "precision@5": 0.2,
+        "mrr": 0.25,
+        "ndcg@5": 0.4307
+      },
+      "ragas_metrics": {
+        "faithfulness": 1.0,
+        "answer_relevancy": 0.9316775053877999,
+        "context_precision": 0.7499999999625,
+        "context_recall": 1.0
+      }
+    },
+    {
+      "question_id": "q32",
+      "question": "From Figure 4 in the U-Net paper showing cell tracking challenge results, what type of microscopy is used for the PhC-U373 dataset and the DIC-HeLa dataset respectively?",
+      "generated_answer": "The PhC-U373 dataset uses phase contrast microscopy, while the DIC-HeLa dataset uses differential interference contrast (DIC) microscopy.",
+      "retrieval_metrics": {
+        "recall@5": 1.0,
+        "precision@5": 0.2,
+        "mrr": 0.5,
+        "ndcg@5": 0.6309
+      },
+      "ragas_metrics": {
+        "faithfulness": 1.0,
+        "answer_relevancy": 0.9424178129535703,
+        "context_precision": 0.99999999995,
+        "context_recall": 1.0
+      }
+    }
+  ]
+}
