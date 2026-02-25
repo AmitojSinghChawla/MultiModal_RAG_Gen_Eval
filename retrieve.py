@@ -28,7 +28,7 @@ import numpy as np
 import faiss
 from sentence_transformers import SentenceTransformer, CrossEncoder
 
-from utils import tokenize          # shared tokenizer — must match 03_build_index.py
+from utils import tokenize          # shared tokenizer — must match 02_build_index.py
 
 
 BM25_FILE    = "bm25_index.pkl"

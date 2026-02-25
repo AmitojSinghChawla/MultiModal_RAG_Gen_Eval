@@ -28,7 +28,7 @@ def tokenize(text: str) -> list[str]:
       4. Remove stopwords and very short tokens (len <= 2)
       5. Stem with Porter Stemmer
 
-    IMPORTANT: Both the index builder (03_build_index.py) and the
+    IMPORTANT: Both the index builder (02_build_index.py) and the
     retriever (retrieve.py) import this function so that query tokens
     and document tokens are always processed identically.
     """

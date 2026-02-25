@@ -2,7 +2,7 @@
   {
     "question_id": "q1",
     "question": "According to the RAG survey, what are the three main paradigms of RAG discussed in the paper?",
-    "relevant_chunk_ids": ["273020ca-5bb2-471b-94e2-32fbceb89458","ba151ab6-6637-4e7e-9cdc-29a47530963b"],
+    "relevant_chunk_ids": ["273020ca-5bb2-471b-94e2-32fbceb89458","ba151ab6-6637-4e7e-9cdc-29a47530963b","dd142f75-235c-432c-8b16-78d60b526a8d"],
     "ground_truth": "The three main paradigms of RAG discussed in the paper are: Naive RAG, Advanced RAG, and Modular RAG.",
     "modality": "text",
     "source_paper": "A_Survey_on_Retrieval-Augmented_Generation.pdf"
@@ -18,7 +18,7 @@
   {
     "question_id": "q3",
     "question": "In the RAG survey's timeline figure (Figure 1), what was the significant turning point year and event that caused a rapid increase in RAG-related research?",
-    "relevant_chunk_ids": ["8855011e-f40f-486b-bb90-cd9cb032d689","4ba499ed-a999-4ae6-978a-9856344e09cf"],
+    "relevant_chunk_ids": ["8855011e-f40f-486b-bb90-cd9cb032d689","4ba499ed-a999-4ae6-978a-9856344e09cf","9b651c52-ced7-4428-9f2b-add33e96f20c"],
     "ground_truth": "The significant turning point was December 2022 when ChatGPT was released. Since then, research in the field of NLP entered the era of large models and Naive RAG techniques quickly gained prominence, leading to a rapid increase in the number of related studies.",
     "modality": "image",
     "source_paper": "A_Survey_on_Retrieval-Augmented_Generation.pdf"
@@ -26,7 +26,7 @@
   {
     "question_id": "q4",
     "question": "In Figure 2 of the RAG survey comparing RAG with other model optimization methods, which optimization approach requires both high external knowledge and high model adaptation?",
-    "relevant_chunk_ids": ["185f343f-1bcd-4630-859d-23f70a1e8851"],
+    "relevant_chunk_ids": ["185f343f-1bcd-4630-859d-23f70a1e8851","9b651c52-ced7-4428-9f2b-add33e96f20c"],
     "ground_truth": "Fine-tuning (specifically Collaborative fine-tuning and Retriever fine-tuning) requires both high external knowledge and high model adaptation. The figure shows Fine-tuning at the high end of the Model Adaptation Required axis.",
     "modality": "image",
     "source_paper": "A_Survey_on_Retrieval-Augmented_Generation.pdf"
@@ -34,7 +34,7 @@
   {
     "question_id": "q5",
     "question": "What are the three core evaluation metrics emphasized in both the RAGAS and ARES frameworks for evaluating RAG systems?",
-    "relevant_chunk_ids": ["c494b517-7153-4f12-85f4-a8428b4371b4"],
+    "relevant_chunk_ids": ["c494b517-7153-4f12-85f4-a8428b4371b4","56997048-958e-46b6-b84d-9de9b63dd275", "ddf0b7d1-7fa8-40b4-b435-f640eeac69cc"],
     "ground_truth": "The three core evaluation metrics are: (1) Faithfulness of the answer — the generated answers must remain true to the given context; (2) Answer Relevance — the generated answers need to be directly related to the posed question; (3) Context Relevance — the retrieved contextual information must be accurate and targeted.",
     "modality": "text",
     "source_paper": "A_Survey_on_Retrieval-Augmented_Generation.pdf"
@@ -42,7 +42,7 @@
   {
     "question_id": "q6",
     "question": "From Figure 3 in the RAG survey comparing the three RAG paradigms, what post-retrieval processing steps does Advanced RAG add that Naive RAG lacks?",
-    "relevant_chunk_ids": ["c7c08140-72bc-466a-8e5e-212c4ead9144","185f343f-1bcd-4630-859d-23f70a1e8851","c7c08140-72bc-466a-8e5e-212c4ead9144"],
+    "relevant_chunk_ids": ["c7c08140-72bc-466a-8e5e-212c4ead9144", "37c48fbf-0f17-4fef-b43b-fb2b24db5bd7", "fc2d5ad3-8e52-496d-800e-3083239a7017"],
     "ground_truth": "Advanced RAG adds Rerank, Filter, and Prompt Compression as post-retrieval steps. It also includes pre-retrieval optimizations such as Fine-grained Data Cleaning, Sliding Window/Small2Big chunking, Add File Structure, Query Rewrite/Clarification, and Retriever Router — none of which are present in Naive RAG.",
     "modality": "image",
     "source_paper": "A_Survey_on_Retrieval-Augmented_Generation.pdf"
@@ -50,7 +50,7 @@
   {
     "question_id": "q7",
     "question": "According to the RAG survey's taxonomy figure (Figure 4), what are the three augmentation process types listed under 'Augmentation Process'?",
-    "relevant_chunk_ids": ["f5c84d91-382e-4b8f-be3e-b719c6780d16"],
+    "relevant_chunk_ids": ["f5c84d91-382e-4b8f-be3e-b719c6780d16", "12ea4e86-a0b7-4789-bf0a-cb2c356a57b1", "02939dde-c0c3-4a34-a50f-f0802a9993be"],
     "ground_truth": "The three augmentation process types listed under 'Augmentation Process' in Figure 4 are: Once Retrieval, Iterative Retrieval, and Adaptive Retrieval.",
     "modality": "image",
     "source_paper": "A_Survey_on_Retrieval-Augmented_Generation.pdf"
@@ -58,7 +58,7 @@
   {
     "question_id": "q8",
     "question": "In the TCN paper, what is the word-level perplexity achieved by TCN on the Penn Treebank (PTB) dataset, and how does it compare to LSTM and GRU?",
-    "relevant_chunk_ids": ["14dbd58d-3143-4553-b1c7-2dd3ba000fe4"],
+    "relevant_chunk_ids": ["14dbd58d-3143-4553-b1c7-2dd3ba000fe4","b0b27f58-f048-468a-bf26-047556083add"],
     "ground_truth": "TCN achieves a word-level perplexity of 88.68 on PTB, which is better than GRU (92.48) and vanilla RNN (114.50), but worse than LSTM (78.93) on the same dataset with approximately 13M parameters.",
     "modality": "table",
     "source_paper": "An_Empirical_Evaluation_of_Generic_Convolutional_and_Recurrent_Networks_for_Sequence_Modeling.pdf"
