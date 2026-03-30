@@ -14,7 +14,7 @@ FAISS_FILE  = "faiss_index.bin"
 META_FILE   = "index_meta.json"
 
 # Small, fast, good enough for a bachelor's thesis
-EMBED_MODEL = "all-MiniLM-L6-v2"
+EMBED_MODEL = "BAAI/bge-base-en-v1.5"
 
 
 # ===============================
