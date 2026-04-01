@@ -1,7 +1,6 @@
 import json
 import pickle
 import faiss
-import numpy as np
 from rank_bm25 import BM25Okapi
 from sentence_transformers import SentenceTransformer
 
@@ -70,20 +69,17 @@ def build_faiss(chunks: list[dict], model: SentenceTransformer) -> faiss.IndexFl
 
 
 def build_meta(chunks: list[dict]) -> list[dict]:
-    meta = []
-    for chunk in chunks:
-        meta.append(
-            {
-                "chunk_id": chunk["chunk_id"],
-                "modality": chunk["modality"],
-                "source_pdf": chunk["source_pdf"],
-                "page_number": chunk["page_number"],
-                "retrieval_text": chunk["retrieval_text"],
-                "raw_text": chunk.get("raw_text"),
-            }
-        )
-    return meta
-
+    return [
+        {
+            "chunk_id": chunk["chunk_id"],
+            "modality": chunk["modality"],
+            "source_pdf": chunk["source_pdf"],
+            "page_number": chunk["page_number"],
+            "retrieval_text": chunk["retrieval_text"],
+            "raw_text": chunk.get("raw_text"),
+        }
+        for chunk in chunks
+    ]
 
 # ===============================
 # Main
