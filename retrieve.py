@@ -28,15 +28,14 @@ import numpy as np
 import faiss
 from sentence_transformers import SentenceTransformer, CrossEncoder
 
-from utils import tokenize          # shared tokenizer — must match 02_build_index.py
+from utils import tokenize  # shared tokenizer — must match 02_build_index.py
 
+BM25_FILE = "bm25_index.pkl"
+FAISS_FILE = "faiss_index.bin"
+META_FILE = "index_meta.json"
+CHUNKS_FILE = "chunks.json"  # source of truth for image_b64
 
-BM25_FILE    = "bm25_index.pkl"
-FAISS_FILE   = "faiss_index.bin"
-META_FILE    = "index_meta.json"
-CHUNKS_FILE  = "chunks.json"       # source of truth for image_b64
-
-EMBED_MODEL  = "all-MiniLM-L6-v2"
+EMBED_MODEL = "all-MiniLM-L6-v2"
 RERANK_MODEL = "cross-encoder/ms-marco-MiniLM-L-6-v2"
 
 
@@ -44,15 +43,14 @@ RERANK_MODEL = "cross-encoder/ms-marco-MiniLM-L-6-v2"
 # Load all indexes once
 # ─────────────────────────────────────────
 
+
 def load_indexes() -> dict:
 
     print("Loading indexes and models...")
     with open(BM25_FILE, "rb") as f:
         bm25 = pickle.load(f)
 
-
     faiss_index = faiss.read_index(FAISS_FILE)
-
 
     with open(META_FILE, "r", encoding="utf-8") as f:
         meta = json.load(f)
@@ -86,13 +84,13 @@ def load_indexes() -> dict:
     print("All indexes loaded.\n")
 
     return {
-        "bm25"            : bm25,
-        "faiss"           : faiss_index,
-        "meta"            : meta,
+        "bm25": bm25,
+        "faiss": faiss_index,
+        "meta": meta,
         "chunk_id_to_meta": chunk_id_to_meta,
-        "image_b64_lookup": image_b64_lookup,   # ← new
-        "embedder"        : embedder,
-        "reranker"        : reranker,
+        "image_b64_lookup": image_b64_lookup,  # ← new
+        "embedder": embedder,
+        "reranker": reranker,
     }
 
 
@@ -100,7 +98,10 @@ def load_indexes() -> dict:
 # Helper: build a single result dict
 # ─────────────────────────────────────────
 
-def _make_result(rank: int, score: float, meta_entry: dict, image_b64_lookup: dict) -> dict:
+
+def _make_result(
+    rank: int, score: float, meta_entry: dict, image_b64_lookup: dict
+) -> dict:
     """
     Construct one result dict from a metadata entry.
 
@@ -121,20 +122,21 @@ def _make_result(rank: int, score: float, meta_entry: dict, image_b64_lookup: di
     image_b64 = image_b64_lookup.get(chunk_id) if modality == "image" else None
 
     return {
-        "rank"          : rank,
-        "chunk_id"      : chunk_id,
-        "score"         : round(float(score), 4),
-        "modality"      : modality,
-        "source_pdf"    : meta_entry["source_pdf"],
-        "page_number"   : meta_entry.get("page_number"),
+        "rank": rank,
+        "chunk_id": chunk_id,
+        "score": round(float(score), 4),
+        "modality": modality,
+        "source_pdf": meta_entry["source_pdf"],
+        "page_number": meta_entry.get("page_number"),
         "retrieval_text": meta_entry["retrieval_text"],
-        "raw_text"      : meta_entry.get("raw_text"),
-        "image_b64"     : image_b64,        # populated for image chunks
+        "raw_text": meta_entry.get("raw_text"),
+        "image_b64": image_b64,  # populated for image chunks
     }
 
 
-
-def retrieve_bm25(query: str, bm25, meta: list, image_b64_lookup: dict, top_k: int = 5) -> list:
+def retrieve_bm25(
+    query: str, bm25, meta: list, image_b64_lookup: dict, top_k: int = 5
+) -> list:
     """
     BM25 keyword retrieval.
 
@@ -145,8 +147,8 @@ def retrieve_bm25(query: str, bm25, meta: list, image_b64_lookup: dict, top_k: i
     retrieval_text (the Open AI description) was indexed the same way.
     """
     tokenized_query = tokenize(query)
-    scores          = bm25.get_scores(tokenized_query)
-    top_indices     = np.argsort(scores)[::-1][:top_k]
+    scores = bm25.get_scores(tokenized_query)
+    top_indices = np.argsort(scores)[::-1][:top_k]
 
     results = []
     for rank, idx in enumerate(top_indices, start=1):
@@ -155,8 +157,14 @@ def retrieve_bm25(query: str, bm25, meta: list, image_b64_lookup: dict, top_k: i
     return results
 
 
-
-def retrieve_dense(query: str, faiss_index, meta: list, embedder, image_b64_lookup: dict, top_k: int = 5) -> list:
+def retrieve_dense(
+    query: str,
+    faiss_index,
+    meta: list,
+    embedder,
+    image_b64_lookup: dict,
+    top_k: int = 5,
+) -> list:
     """
     Dense semantic retrieval using cosine similarity.
 
@@ -172,7 +180,6 @@ def retrieve_dense(query: str, faiss_index, meta: list, embedder, image_b64_look
 
     # L2 normalisation means that we are scaling the query vector to have a length of 1. This is done so that when we compute the inner product between the query vector and the indexed vectors, it will be equivalent to computing the cosine similarity between them. whereas L1 normalisation would scale the vector so that the sum of its absolute values is 1, L2 normalisation scales the vector so that the square root of the sum of its squared values is 1. In the context of dense retrieval, L2 normalisation is commonly used because it allows us to use inner product as a measure of similarity, which is computationally efficient and effective for high-dimensional vector spaces.
 
-
     query_vec = embedder.encode([query], convert_to_numpy=True)
     faiss.normalize_L2(query_vec)
 
@@ -185,7 +192,6 @@ def retrieve_dense(query: str, faiss_index, meta: list, embedder, image_b64_look
         results.append(_make_result(rank, score, meta[idx], image_b64_lookup))
 
     return results
-
 
 
 def retrieve_hybrid(
@@ -210,8 +216,10 @@ def retrieve_hybrid(
     """
     fetch_k = top_k * 3
 
-    bm25_results  = retrieve_bm25(query, bm25, meta, image_b64_lookup, top_k=fetch_k)
-    dense_results = retrieve_dense(query, faiss_index, meta, embedder, image_b64_lookup, top_k=fetch_k)
+    bm25_results = retrieve_bm25(query, bm25, meta, image_b64_lookup, top_k=fetch_k)
+    dense_results = retrieve_dense(
+        query, faiss_index, meta, embedder, image_b64_lookup, top_k=fetch_k
+    )
 
     rrf_scores: dict = {}
 
@@ -236,6 +244,7 @@ def retrieve_hybrid(
 # ─────────────────────────────────────────
 # 4. Hybrid + Reranker
 # ─────────────────────────────────────────
+
 
 def retrieve_hybrid_reranked(
     query: str,
@@ -262,14 +271,20 @@ def retrieve_hybrid_reranked(
     image_b64 is carried through untouched and used downstream by the LLM.
     """
     candidates = retrieve_hybrid(
-        query, bm25, faiss_index, meta, embedder, chunk_id_to_meta,
-        image_b64_lookup, top_k=top_k * 3,
+        query,
+        bm25,
+        faiss_index,
+        meta,
+        embedder,
+        chunk_id_to_meta,
+        image_b64_lookup,
+        top_k=top_k * 3,
     )
 
     if not candidates:
         return []
 
-    pairs  = [(query, c["retrieval_text"]) for c in candidates]
+    pairs = [(query, c["retrieval_text"]) for c in candidates]
     scores = reranker.predict(pairs)
 
     for candidate, score in zip(candidates, scores):
@@ -289,6 +304,7 @@ def retrieve_hybrid_reranked(
 # Unified entry point
 # ─────────────────────────────────────────
 
+
 def retrieve(query: str, method: str, indexes: dict, top_k: int = 5) -> list:
     """
     Single entry point — call this from the chatbot and evaluator.
@@ -305,30 +321,45 @@ def retrieve(query: str, method: str, indexes: dict, top_k: int = 5) -> list:
     List of result dicts. image_b64 is populated for image chunks so the
     LLM can receive the actual image rather than just a text description.
     """
-    bm25             = indexes["bm25"]
-    faiss_index      = indexes["faiss"]
-    meta             = indexes["meta"]
+    bm25 = indexes["bm25"]
+    faiss_index = indexes["faiss"]
+    meta = indexes["meta"]
     chunk_id_to_meta = indexes["chunk_id_to_meta"]
     image_b64_lookup = indexes["image_b64_lookup"]
-    embedder         = indexes["embedder"]
-    reranker         = indexes["reranker"]
+    embedder = indexes["embedder"]
+    reranker = indexes["reranker"]
 
     if method == "bm25":
         return retrieve_bm25(query, bm25, meta, image_b64_lookup, top_k)
 
     elif method == "dense":
-        return retrieve_dense(query, faiss_index, meta, embedder, image_b64_lookup, top_k)
+        return retrieve_dense(
+            query, faiss_index, meta, embedder, image_b64_lookup, top_k
+        )
 
     elif method == "hybrid":
         return retrieve_hybrid(
-            query, bm25, faiss_index, meta, embedder,
-            chunk_id_to_meta, image_b64_lookup, top_k,
+            query,
+            bm25,
+            faiss_index,
+            meta,
+            embedder,
+            chunk_id_to_meta,
+            image_b64_lookup,
+            top_k,
         )
 
     elif method == "hybrid_reranker":
         return retrieve_hybrid_reranked(
-            query, bm25, faiss_index, meta, embedder, reranker,
-            chunk_id_to_meta, image_b64_lookup, top_k,
+            query,
+            bm25,
+            faiss_index,
+            meta,
+            embedder,
+            reranker,
+            chunk_id_to_meta,
+            image_b64_lookup,
+            top_k,
         )
 
     else:

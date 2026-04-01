@@ -28,10 +28,10 @@ from collections import Counter
 
 from rouge_score import rouge_scorer as _rouge_scorer
 
-
 # ─────────────────────────────────────────
 # Text normalisation
 # ─────────────────────────────────────────
+
 
 def normalize_text(text: str) -> str:
     """
@@ -55,6 +55,7 @@ def _tokenize(text: str) -> list[str]:
 # Individual metrics
 # ─────────────────────────────────────────
 
+
 def exact_match(prediction: str, ground_truth: str) -> float:
     """
     Exact Match (EM).
@@ -76,7 +77,7 @@ def token_f1(prediction: str, ground_truth: str) -> float:
     and handles paraphrasing better than EM.
     """
     pred_tokens = _tokenize(prediction)
-    gt_tokens   = _tokenize(ground_truth)
+    gt_tokens = _tokenize(ground_truth)
 
     if not pred_tokens or not gt_tokens:
         return 0.0
@@ -87,8 +88,8 @@ def token_f1(prediction: str, ground_truth: str) -> float:
         return 0.0
 
     precision = common / len(pred_tokens)
-    recall    = common / len(gt_tokens)
-    f1        = 2 * precision * recall / (precision + recall)
+    recall = common / len(gt_tokens)
+    f1 = 2 * precision * recall / (precision + recall)
     return round(f1, 4)
 
 
@@ -109,6 +110,7 @@ def rouge_l(prediction: str, ground_truth: str) -> float:
 # Batch helpers
 # ─────────────────────────────────────────
 
+
 def compute_all(prediction: str, ground_truth: str) -> dict:
     """
     Compute all string-based metrics for a single (prediction, ground_truth) pair.
@@ -119,8 +121,8 @@ def compute_all(prediction: str, ground_truth: str) -> dict:
     """
     return {
         "exact_match": exact_match(prediction, ground_truth),
-        "token_f1"   : token_f1(prediction, ground_truth),
-        "rouge_l"    : rouge_l(prediction, ground_truth),
+        "token_f1": token_f1(prediction, ground_truth),
+        "rouge_l": rouge_l(prediction, ground_truth),
     }
 
 
@@ -154,7 +156,7 @@ def aggregate(per_question_scores: list[dict]) -> dict:
     summary = {}
     for key in sorted(all_keys):
         values = [entry.get(key) for entry in per_question_scores]
-        m, s   = _mean_std(values)
+        m, s = _mean_std(values)
         summary[key] = {"mean": m, "std": s}
 
     return summary

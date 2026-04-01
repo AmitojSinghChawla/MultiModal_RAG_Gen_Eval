@@ -24,11 +24,12 @@ from langchain_core.output_parsers import StrOutputParser
 
 from retrieve import load_indexes, retrieve
 from dotenv import load_dotenv
+
 load_dotenv()
 
 DEFAULT_METHOD = "hybrid_reranker"
-DEFAULT_TOP_K  = 5
-MODEL          = "gpt-4o-mini"
+DEFAULT_TOP_K = 5
+MODEL = "gpt-4o-mini"
 OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
 
 
@@ -55,46 +56,59 @@ def generate_answer(question: str, retrieved_chunks: list) -> str:
     if not os.environ.get("OPENAI_API_KEY"):
         return "ERROR: OPENAI_API_KEY environment variable not set"
 
-    llm     = ChatOpenAI(model=MODEL, temperature=0.1, api_key=OPENAI_API_KEY)
+    llm = ChatOpenAI(model=MODEL, temperature=0.1, api_key=OPENAI_API_KEY)
     content = []
 
     for chunk in retrieved_chunks:
-        source   = chunk["source_pdf"]
-        page     = chunk.get("page_number", "?")
+        source = chunk["source_pdf"]
+        page = chunk.get("page_number", "?")
         modality = chunk["modality"]
 
         if modality == "image" and chunk.get("image_b64"):
-            content.append({
-                "type": "image_url",
-                "image_url": {
-                    "url"   : f"data:image/jpeg;base64,{chunk['image_b64']}",
-                    "detail": "high",
-                },
-            })
-            content.append({"type": "text", "text": f"[Image from {source}, page {page}]"})
+            content.append(
+                {
+                    "type": "image_url",
+                    "image_url": {
+                        "url": f"data:image/jpeg;base64,{chunk['image_b64']}",
+                        "detail": "high",
+                    },
+                }
+            )
+            content.append(
+                {"type": "text", "text": f"[Image from {source}, page {page}]"}
+            )
 
         elif modality == "table":
             text = chunk.get("raw_text") or chunk["retrieval_text"]
-            content.append({"type": "text", "text": f"[TABLE from {source}, page {page}]\n{text}\n"})
+            content.append(
+                {
+                    "type": "text",
+                    "text": f"[TABLE from {source}, page {page}]\n{text}\n",
+                }
+            )
 
         else:
             text = chunk.get("raw_text") or chunk["retrieval_text"]
-            content.append({"type": "text", "text": f"[TEXT from {source}, page {page}]\n{text}\n"})
+            content.append(
+                {"type": "text", "text": f"[TEXT from {source}, page {page}]\n{text}\n"}
+            )
 
-    content.append({
-        "type": "text",
-        "text": (
-            "\n─────────────────────────────────────\n\n"
-            "Based on the context above (text, tables, and images), "
-            "answer the following question.\n\n"
-            "Instructions:\n"
-            "- Use only information from the provided context\n"
-            "- Be concise and accurate\n"
-            "- For images: describe what you see and how it relates to the question\n"
-            "- If the context doesn't contain the answer, say so clearly\n\n"
-            f"Question: {question}\n\nAnswer:"
-        ),
-    })
+    content.append(
+        {
+            "type": "text",
+            "text": (
+                "\n─────────────────────────────────────\n\n"
+                "Based on the context above (text, tables, and images), "
+                "answer the following question.\n\n"
+                "Instructions:\n"
+                "- Use only information from the provided context\n"
+                "- Be concise and accurate\n"
+                "- For images: describe what you see and how it relates to the question\n"
+                "- If the context doesn't contain the answer, say so clearly\n\n"
+                f"Question: {question}\n\nAnswer:"
+            ),
+        }
+    )
 
     messages = [{"role": "user", "content": content}]
     response = llm.invoke(messages)
@@ -154,10 +168,12 @@ def main(method: str, top_k: int) -> None:
         show_sources(retrieved)
 
         n_images = sum(1 for c in retrieved if c.get("image_b64"))
-        n_text   = sum(1 for c in retrieved if c["modality"] in ("text", "table"))
+        n_text = sum(1 for c in retrieved if c["modality"] in ("text", "table"))
 
         if n_images > 0:
-            print(f"\n  📸 Sending {n_images} image(s) + {n_text} text chunk(s) to {MODEL}...")
+            print(
+                f"\n  📸 Sending {n_images} image(s) + {n_text} text chunk(s) to {MODEL}..."
+            )
         else:
             print(f"\n  📄 Sending {n_text} text chunk(s) to {MODEL}...")
 

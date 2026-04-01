@@ -41,7 +41,8 @@ def load_image_chunks():
 def create_html_gallery(image_chunks):
     """Create an HTML page displaying all images"""
 
-    html_parts = ["""
+    html_parts = [
+        """
 <!DOCTYPE html>
 <html>
 <head>
@@ -144,9 +145,12 @@ def create_html_gallery(image_chunks):
     <h1>📷 Image Gallery from chunks.json</h1>
 
     <div class="stats">
-        <strong>Total images found:</strong> """ + str(len(image_chunks)) + """
+        <strong>Total images found:</strong> """
+        + str(len(image_chunks))
+        + """
     </div>
-"""]
+"""
+    ]
 
     for i, chunk in enumerate(image_chunks, 1):
         chunk_id = chunk["chunk_id"]
@@ -213,7 +217,9 @@ def main():
 
     if not image_chunks:
         print("No images found in chunks.json")
-        print("Make sure your PDFs contain images and chunk_exporter.py processed them.")
+        print(
+            "Make sure your PDFs contain images and chunk_exporter.py processed them."
+        )
         return
 
     print(f"Found {len(image_chunks)} images")

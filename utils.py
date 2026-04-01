@@ -14,7 +14,7 @@ from nltk.stem import PorterStemmer
 nltk.download("stopwords", quiet=True)
 
 _stop_words = set(stopwords.words("english"))
-_stemmer    = PorterStemmer()
+_stemmer = PorterStemmer()
 
 
 def tokenize(text: str) -> list[str]:
@@ -32,8 +32,8 @@ def tokenize(text: str) -> list[str]:
     retriever (retrieve.py) import this function so that query tokens
     and document tokens are always processed identically.
     """
-    text   = text.lower()
-    text   = re.sub(r"[^a-z0-9\s]", " ", text)
+    text = text.lower()
+    text = re.sub(r"[^a-z0-9\s]", " ", text)
     tokens = text.split()
     tokens = [t for t in tokens if t not in _stop_words and len(t) > 2]
     tokens = [_stemmer.stem(t) for t in tokens]
