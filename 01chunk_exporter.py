@@ -169,15 +169,6 @@ def html_table_to_text(html: str) -> str:
 # gpt-4o-mini is a cheaper fallback but produces noticeably vaguer descriptions
 # for charts, diagrams, and tables-as-images — which hurts retrieval quality.
 
-_vision_llm = ChatOpenAI(
-    model="gpt-4o",
-    api_key=OPENAI_API_KEY,
-    temperature=0,  # deterministic — we want consistent descriptions
-    max_tokens=1024,  # enough for a thorough description of complex figures
-)
-
-_parser = StrOutputParser()
-
 
 def describe_image(image_b64: str) -> str:
     """
@@ -207,6 +198,15 @@ def describe_image(image_b64: str) -> str:
         A detailed plain-text description. Falls back to a placeholder
         string on API failure so ingestion continues without crashing.
     """
+    _vision_llm = ChatOpenAI(
+        model="gpt-4o",
+        api_key=OPENAI_API_KEY,
+        temperature=0,  # deterministic — we want consistent descriptions
+        max_tokens=1024,  # enough for a thorough description of complex figures
+    )
+
+    _parser = StrOutputParser()
+
     data_url = f"data:image/jpeg;base64,{image_b64}"
 
     message = HumanMessage(
@@ -269,7 +269,7 @@ def export_chunk(record: dict, output_file: str) -> None:
 
 
 def process_pdfs_in_directory(
-    directory_path: str, output_file: str = "chunks.json"
+    directory_path: str, output_file: str = "Chunks/chunks.json"
 ) -> None:
     """
     Iterate over every PDF in directory_path, partition each one, and write
@@ -298,8 +298,11 @@ def process_pdfs_in_directory(
         # --- Partition PDF (with error recovery) ---
         try:
             elements = create_chunks_from_pdf(file_path)
-        except Exception as e:
-            print(f"   ERROR partitioning {filename}: {e} — skipping.")
+        except FileNotFoundError:
+            print(f"   WARNING: PDF {filename} could not be found. SKIPPING")
+            continue
+        except (ValueError,RuntimeError) as e:
+            print(f" Error Partitioning PDF {filename}: {e}")
             continue
 
         print(f"   Elements found: {len(elements)}")
@@ -327,7 +330,7 @@ def process_pdfs_in_directory(
 
         # -------- TABLE CHUNKS --------
         for table in tables:
-            if hasattr(table, "metadata") and hasattr(table.metadata, "text_as_html"):
+            if hasattr(table, "metadata") and getattr(table.metadata, "text_as_html", None):
                 table_text = html_table_to_text(table.metadata.text_as_html)
             else:
                 table_text = clean_text(str(table))
@@ -381,5 +384,5 @@ def process_pdfs_in_directory(
 # ===============================
 
 if __name__ == "__main__":
-    pdf_directory = r"D:\Projects\Major_Project\documents"
+    pdf_directory = r"C:\Users\amito\PycharmProjects\MultiModal_RAG_Gen_Eval\documents"
     process_pdfs_in_directory(pdf_directory)
