@@ -7,9 +7,9 @@ from sentence_transformers import SentenceTransformer
 from utils import tokenize  # shared tokenizer — MUST match retrieve.py
 
 CHUNKS_FILE = "chunks.json"
-BM25_FILE = "bm25_index.pkl"
-FAISS_FILE = "faiss_index.bin"
-META_FILE = "index_meta.json"
+BM25_FILE = "Indexes/bm25_index.pkl"
+FAISS_FILE = "Indexes/faiss_index.bin"
+META_FILE = "Indexes/index_meta.json"
 
 # Small, fast, good enough for a bachelor's thesis
 EMBED_MODEL = "BAAI/bge-base-en-v1.5"

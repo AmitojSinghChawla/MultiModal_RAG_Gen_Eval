@@ -30,12 +30,12 @@ from sentence_transformers import SentenceTransformer, CrossEncoder
 
 from utils import tokenize  # shared tokenizer — must match 02_build_index.py
 
-BM25_FILE = "bm25_index.pkl"
-FAISS_FILE = "faiss_index.bin"
-META_FILE = "index_meta.json"
-CHUNKS_FILE = "chunks.json"  # source of truth for image_b64
+BM25_FILE = "Indexes/bm25_index.pkl"
+FAISS_FILE = "Indexes/faiss_index.bin"
+META_FILE = "../index_meta.json"
+CHUNKS_FILE = "Chunks/chunks.json"  # source of truth for image_b64
 
-EMBED_MODEL = "all-MiniLM-L6-v2"
+EMBED_MODEL = "BAAI/bge-base-en-v1.5"
 RERANK_MODEL = "cross-encoder/ms-marco-MiniLM-L-6-v2"
 
 

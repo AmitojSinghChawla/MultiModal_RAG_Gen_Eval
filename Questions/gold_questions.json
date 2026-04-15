@@ -1,0 +1,302 @@
+[
+  {
+    "question_id": "q1",
+    "question": "What term did Lewis et al. 2020 introduce that combines a pre-trained retriever with a pre-trained seq2seq model?",
+    "ground_truth": "PLACEHOLDER",
+    "source_pdf": "A_Survey_on_Retrieval-Augmented_Generation.pdf"
+  },
+  {
+    "question_id": "q2",
+    "question": "According to Table 1 in the RAG survey, what specific latency characteristic is listed for RAG compared to fine-tuning?",
+    "ground_truth": "PLACEHOLDER",
+    "source_pdf": "A_Survey_on_Retrieval-Augmented_Generation.pdf"
+  },
+  {
+    "question_id": "q3",
+    "question": "What are the three core metrics focused on by evaluation frameworks like RAGAS and ARES for RAG, as listed in Section 7.2 of the RAG survey?",
+    "ground_truth": "PLACEHOLDER",
+    "source_pdf": "A_Survey_on_Retrieval-Augmented_Generation.pdf"
+  },
+  {
+    "question_id": "q4",
+    "question": "In the RAG survey Section 7.2, what four basic abilities does the RGB benchmark evaluate for RAG?",
+    "ground_truth": "PLACEHOLDER",
+    "source_pdf": "A_Survey_on_Retrieval-Augmented_Generation.pdf"
+  },
+  {
+    "question_id": "q5",
+    "question": "According to Section 2.1 of the RAG survey, what are the two key stages of the RAG system?",
+    "ground_truth": "PLACEHOLDER",
+    "source_pdf": "A_Survey_on_Retrieval-Augmented_Generation.pdf"
+  },
+  {
+    "question_id": "q6",
+    "question": "In Figure 2 of the RAG survey, at what levels of external knowledge required and model adaptation required is Modular RAG positioned?",
+    "ground_truth": "PLACEHOLDER",
+    "source_pdf": "A_Survey_on_Retrieval-Augmented_Generation.pdf"
+  },
+  {
+    "question_id": "q7",
+    "question": "According to Table 1 in the TCN paper, what accuracy does TCN achieve on Sequential MNIST, and what are the corresponding accuracies for LSTM and GRU?",
+    "ground_truth": "PLACEHOLDER",
+    "source_pdf": "An_Empirical_Evaluation_of_Generic_Convolutional_and_Recurrent_Networks_for_Sequence_Modeling.pdf"
+  },
+  {
+    "question_id": "q8",
+    "question": "In Table 1 of the TCN paper, what is the word-level PTB perplexity of TCN compared to LSTM?",
+    "ground_truth": "PLACEHOLDER",
+    "source_pdf": "An_Empirical_Evaluation_of_Generic_Convolutional_and_Recurrent_Networks_for_Sequence_Modeling.pdf"
+  },
+  {
+    "question_id": "q9",
+    "question": "According to Section 5.4 of the TCN paper, below what sequence length T does the LSTM fall below 20% accuracy on the copy memory task?",
+    "ground_truth": "PLACEHOLDER",
+    "source_pdf": "An_Empirical_Evaluation_of_Generic_Convolutional_and_Recurrent_Networks_for_Sequence_Modeling.pdf"
+  },
+  {
+    "question_id": "q10",
+    "question": "What two disadvantages of TCNs does Section 3.5 of the TCN paper explicitly list?",
+    "ground_truth": "PLACEHOLDER",
+    "source_pdf": "An_Empirical_Evaluation_of_Generic_Convolutional_and_Recurrent_Networks_for_Sequence_Modeling.pdf"
+  },
+  {
+    "question_id": "q11",
+    "question": "In Table 4 of the TCN paper (SoTA results), what is the SoTA model for the Copy Memory T=1000 task, what loss does it achieve, and what loss does the TCN achieve on the same task?",
+    "ground_truth": "PLACEHOLDER",
+    "source_pdf": "An_Empirical_Evaluation_of_Generic_Convolutional_and_Recurrent_Networks_for_Sequence_Modeling.pdf"
+  },
+  {
+    "question_id": "q12",
+    "question": "In the TCN paper, what is the dilated convolution operation F on element s formally defined as in Equation 2?",
+    "ground_truth": "PLACEHOLDER",
+    "source_pdf": "An_Empirical_Evaluation_of_Generic_Convolutional_and_Recurrent_Networks_for_Sequence_Modeling.pdf"
+  },
+  {
+    "question_id": "q13",
+    "question": "According to the abstract of the BLIP-2 paper, by how much does BLIP-2 outperform Flamingo80B on zero-shot VQAv2, and how many times fewer trainable parameters does it use?",
+    "ground_truth": "PLACEHOLDER",
+    "source_pdf": "BLIP-2_Bootstrapping_Language-Image_Pre-training.pdf"
+  },
+  {
+    "question_id": "q14",
+    "question": "In Table 1 of the BLIP-2 paper, what is the number of trainable parameters for BLIP-2 and what zero-shot VQAv2 accuracy does it achieve?",
+    "ground_truth": "PLACEHOLDER",
+    "source_pdf": "BLIP-2_Bootstrapping_Language-Image_Pre-training.pdf"
+  },
+  {
+    "question_id": "q15",
+    "question": "What are the three pre-training objectives jointly optimized in BLIP-2's first stage representation learning, as described in Section 3.2?",
+    "ground_truth": "PLACEHOLDER",
+    "source_pdf": "BLIP-2_Bootstrapping_Language-Image_Pre-training.pdf"
+  },
+  {
+    "question_id": "q16",
+    "question": "According to Section 3.1 of the BLIP-2 paper, how many queries are used in Q-Former and what is the dimension of each query?",
+    "ground_truth": "PLACEHOLDER",
+    "source_pdf": "BLIP-2_Bootstrapping_Language-Image_Pre-training.pdf"
+  },
+  {
+    "question_id": "q17",
+    "question": "According to Table 6 of the BLIP-2 paper, what is the image-to-text retrieval R@1 score on COCO with ITC+ITM alone versus ITC+ITM+ITG, and what does the difference demonstrate?",
+    "ground_truth": "PLACEHOLDER",
+    "source_pdf": "BLIP-2_Bootstrapping_Language-Image_Pre-training.pdf"
+  },
+  {
+    "question_id": "q18",
+    "question": "According to Section 3.4 of the BLIP-2 paper, what pre-training dataset is used and how many images does it contain in total?",
+    "ground_truth": "PLACEHOLDER",
+    "source_pdf": "BLIP-2_Bootstrapping_Language-Image_Pre-training.pdf"
+  },
+  {
+    "question_id": "q19",
+    "question": "In Table 2 of the DPR paper, what is the Top-20 retrieval accuracy of DPR (Single) versus BM25 on Natural Questions?",
+    "ground_truth": "PLACEHOLDER",
+    "source_pdf": "Dense_Passage_Retrieval_for_Open-Domain_Question_Answering.pdf"
+  },
+  {
+    "question_id": "q20",
+    "question": "According to Table 3 of the DPR paper, what happens to Top-20 retrieval accuracy on Natural Questions as the number of gold in-batch negatives grows from 7 to 31 to 127?",
+    "ground_truth": "PLACEHOLDER",
+    "source_pdf": "Dense_Passage_Retrieval_for_Open-Domain_Question_Answering.pdf"
+  },
+  {
+    "question_id": "q21",
+    "question": "According to Section 5.4 of the DPR paper, how many questions per second can DPR process at inference time, and how does this compare to BM25/Lucene?",
+    "ground_truth": "PLACEHOLDER",
+    "source_pdf": "Dense_Passage_Retrieval_for_Open-Domain_Question_Answering.pdf"
+  },
+  {
+    "question_id": "q22",
+    "question": "In Table 4 of the DPR paper, what exact match score does DPR (Single) achieve on Natural Questions compared to ORQA?",
+    "ground_truth": "PLACEHOLDER",
+    "source_pdf": "Dense_Passage_Retrieval_for_Open-Domain_Question_Answering.pdf"
+  },
+  {
+    "question_id": "q23",
+    "question": "In Table 4 of the MobileNetV2 paper, what are the Top-1 accuracy, number of parameters, MAdds, and CPU latency for MobileNetV2 (width multiplier 1.0) compared to MobileNetV1?",
+    "ground_truth": "PLACEHOLDER",
+    "source_pdf": "MobileNetV2_Inverted_Residuals_and_Linear_Bottlenecks.pdf"
+  },
+  {
+    "question_id": "q24",
+    "question": "According to Table 5 in the MobileNetV2 paper, what are the parameter counts and MAdds for SSD and SSDLite when configured with MobileNetV2 for 80 classes?",
+    "ground_truth": "PLACEHOLDER",
+    "source_pdf": "MobileNetV2_Inverted_Residuals_and_Linear_Bottlenecks.pdf"
+  },
+  {
+    "question_id": "q25",
+    "question": "In Table 3 of the MobileNetV2 paper, what is the maximum memory in Kb that needs to be materialized at the 14x14 spatial resolution for MobileNetV1 versus MobileNetV2?",
+    "ground_truth": "PLACEHOLDER",
+    "source_pdf": "MobileNetV2_Inverted_Residuals_and_Linear_Bottlenecks.pdf"
+  },
+  {
+    "question_id": "q26",
+    "question": "According to Table 1 in the BERT re-ranking paper, what is the MRR@10 score of BERT Large on the MS MARCO dev set, and how does it compare to Conv-KNRM?",
+    "ground_truth": "PLACEHOLDER",
+    "source_pdf": "PASSAGE_RE-RANKING_WITH_BERT.pdf"
+  },
+  {
+    "question_id": "q27",
+    "question": "In Figure 1 of the BERT re-ranking paper, approximately how many training examples does BERT Large need to surpass the IR-NET previous SOTA, and what MRR@10 does it achieve at that point?",
+    "ground_truth": "PLACEHOLDER",
+    "source_pdf": "PASSAGE_RE-RANKING_WITH_BERT.pdf"
+  },
+  {
+    "question_id": "q28",
+    "question": "In the BERT re-ranking paper, what is the exact cross-entropy loss function used to fine-tune the re-ranker, and what do Jpos and Jneg represent?",
+    "ground_truth": "PLACEHOLDER",
+    "source_pdf": "PASSAGE_RE-RANKING_WITH_BERT.pdf"
+  },
+  {
+    "question_id": "q29",
+    "question": "According to the BERT re-ranking paper, what batch size, number of iterations, and approximate training duration were used to fine-tune on MS MARCO using a TPU v3-8?",
+    "ground_truth": "PLACEHOLDER",
+    "source_pdf": "PASSAGE_RE-RANKING_WITH_BERT.pdf"
+  },
+  {
+    "question_id": "q30",
+    "question": "In the BERT re-ranking paper, by what relative percentage does BERT Large outperform the previous state of the art in MRR@10 on MS MARCO, and what is the MAP score of BERT Large on the TREC-CAR test set?",
+    "ground_truth": "PLACEHOLDER",
+    "source_pdf": "PASSAGE_RE-RANKING_WITH_BERT.pdf"
+  },
+  {
+    "question_id": "q31",
+    "question": "According to Table 1 in the RAGAS paper, what is the faithfulness accuracy of Ragas versus GPT Score and GPT Ranking on the WikiEval dataset?",
+    "ground_truth": "PLACEHOLDER",
+    "source_pdf": "RAGAS.pdf"
+  },
+  {
+    "question_id": "q32",
+    "question": "In the RAGAS paper, how is the Answer Relevance score AR formally computed, and what embedding model is used to calculate similarity between questions?",
+    "ground_truth": "PLACEHOLDER",
+    "source_pdf": "RAGAS.pdf"
+  },
+  {
+    "question_id": "q33",
+    "question": "According to the RAGAS paper, what is the formula used to compute Context Relevance (CR), and what does the LLM return if no relevant sentences are found in the context?",
+    "ground_truth": "PLACEHOLDER",
+    "source_pdf": "RAGAS.pdf"
+  },
+  {
+    "question_id": "q34",
+    "question": "In the RAGAS paper's WikiEval dataset examples (Tables 2, 3, 4), what are the high-faithfulness and low-faithfulness answers given for the Oppenheimer question, and who directed the film according to the high-faithfulness answer?",
+    "ground_truth": "PLACEHOLDER",
+    "source_pdf": "RAGAS.pdf"
+  },
+  {
+    "question_id": "q35",
+    "question": "According to the RAGAS paper, how many Wikipedia pages were selected to construct WikiEval, what time period did they cover, and what inter-annotator agreement rates were reported for faithfulness and context relevance?",
+    "ground_truth": "PLACEHOLDER",
+    "source_pdf": "RAGAS.pdf"
+  },
+  {
+    "question_id": "q36",
+    "question": "What is the formal RRF scoring formula given in the RRF paper, and what value of k was fixed after pilot investigation?",
+    "ground_truth": "PLACEHOLDER",
+    "source_pdf": "Reciprocal_Rank_Fusion_outperforms_Condorcet_and_individual_Rank_Learning_Methods.pdf"
+  },
+  {
+    "question_id": "q37",
+    "question": "According to Table 2 in the RRF paper, what MAP score does RRF achieve on TREC Robust, and on which TREC collection does CombMNZ outperform RRF?",
+    "ground_truth": "PLACEHOLDER",
+    "source_pdf": "Reciprocal_Rank_Fusion_outperforms_Condorcet_and_individual_Rank_Learning_Methods.pdf"
+  },
+  {
+    "question_id": "q38",
+    "question": "According to Table 3 in the RRF paper, what MAP score does RRF achieve on the LETOR 3 corpus, what is the margin by which it beats the best individual ranking, and which method comes closest to RRF with a statistically non-significant difference?",
+    "ground_truth": "PLACEHOLDER",
+    "source_pdf": "Reciprocal_Rank_Fusion_outperforms_Condorcet_and_individual_Rank_Learning_Methods.pdf"
+  },
+  {
+    "question_id": "q39",
+    "question": "According to Table 1 in the RRF paper, what MAP value does RRF achieve at k=60, and what is the MAP of the best individual system shown for comparison on TREC topics 351-400?",
+    "ground_truth": "PLACEHOLDER",
+    "source_pdf": "Reciprocal_Rank_Fusion_outperforms_Condorcet_and_individual_Rank_Learning_Methods.pdf"
+  },
+  {
+    "question_id": "q40",
+    "question": "In the RRF paper, how many times did RRF outperform Condorcet across the pilot and TREC experiments (excluding the first pilot run), and what was the reported p-value?",
+    "ground_truth": "PLACEHOLDER",
+    "source_pdf": "Reciprocal_Rank_Fusion_outperforms_Condorcet_and_individual_Rank_Learning_Methods.pdf"
+  },
+  {
+    "question_id": "q41",
+    "question": "According to Table 1 in the ResNet paper, how many FLOPs does the 152-layer ResNet have, and how does this compare to VGG-16 and VGG-19 in terms of computational complexity?",
+    "ground_truth": "PLACEHOLDER",
+    "source_pdf": "ResNet_Deep_Residual_Learning_for_Image_Recognition__He_et_al_2016_.pdf"
+  },
+  {
+    "question_id": "q42",
+    "question": "In Figure 1 of the ResNet paper, what degradation phenomenon is demonstrated with the 20-layer and 56-layer plain networks on CIFAR-10, and how do both training error and test error compare between the two depths?",
+    "ground_truth": "PLACEHOLDER",
+    "source_pdf": "ResNet_Deep_Residual_Learning_for_Image_Recognition__He_et_al_2016_.pdf"
+  },
+  {
+    "question_id": "q43",
+    "question": "According to Table 2 in the ResNet paper, what are the top-1 errors (%, 10-crop testing) for the 18-layer and 34-layer plain networks versus their ResNet counterparts on ImageNet validation?",
+    "ground_truth": "PLACEHOLDER",
+    "source_pdf": "ResNet_Deep_Residual_Learning_for_Image_Recognition__He_et_al_2016_.pdf"
+  },
+  {
+    "question_id": "q44",
+    "question": "In Figure 2 of the ResNet paper, what is the formal definition of the residual building block output y, and what operation connects the shortcut path to the main path?",
+    "ground_truth": "PLACEHOLDER",
+    "source_pdf": "ResNet_Deep_Residual_Learning_for_Image_Recognition__He_et_al_2016_.pdf"
+  },
+  {
+    "question_id": "q45",
+    "question": "According to Table 5 in the ResNet paper, what top-5 test error does the ResNet ensemble achieve on ImageNet for ILSVRC 2015, and how does it compare to the previous best ensemble result from VGG?",
+    "ground_truth": "PLACEHOLDER",
+    "source_pdf": "ResNet_Deep_Residual_Learning_for_Image_Recognition__He_et_al_2016_.pdf"
+  },
+  {
+    "question_id": "q46",
+    "question": "According to the ROUGE paper, what is the full name that ROUGE stands for, and what four ROUGE measures are introduced in the paper?",
+    "ground_truth": "PLACEHOLDER",
+    "source_pdf": "ROUGE_A_Package_for_Automatic_Evaluation_of_Summaries.pdf"
+  },
+  {
+    "question_id": "q47",
+    "question": "In the ROUGE paper, using the example sentences S1 through S4 in Section 3.1, what are the ROUGE-L scores for S2 and S3 when S1 is used as the reference (with \u03b2=1), and why does this illustrate ROUGE-L's advantage over ROUGE-2?",
+    "ground_truth": "PLACEHOLDER",
+    "source_pdf": "ROUGE_A_Package_for_Automatic_Evaluation_of_Summaries.pdf"
+  },
+  {
+    "question_id": "q48",
+    "question": "According to Table 1 in the ROUGE paper, what Pearson's correlation does ROUGE-2 achieve on DUC 2001 100-word single document summarization with 1 reference under the CASE setting, and which measure achieves the highest correlation (0.85) with 3 references?",
+    "ground_truth": "PLACEHOLDER",
+    "source_pdf": "ROUGE_A_Package_for_Automatic_Evaluation_of_Summaries.pdf"
+  },
+  {
+    "question_id": "q49",
+    "question": "In the ROUGE paper, what is the ROUGE-S score formula (Equation 18), and using the example in Section 5 with S1 as reference, what are the ROUGE-S scores of S2, S3, and S4 with \u03b2=1?",
+    "ground_truth": "PLACEHOLDER",
+    "source_pdf": "ROUGE_A_Package_for_Automatic_Evaluation_of_Summaries.pdf"
+  },
+  {
+    "question_id": "q50",
+    "question": "According to Table 2 in the ROUGE paper, which ROUGE measures achieve the highest Pearson's correlation on the DUC 2003 10-word single document very short summary task under the STOP setting with 4 references?",
+    "ground_truth": "PLACEHOLDER",
+    "source_pdf": "ROUGE_A_Package_for_Automatic_Evaluation_of_Summaries.pdf"
+  }
+]

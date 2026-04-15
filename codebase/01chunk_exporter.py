@@ -269,7 +269,7 @@ def export_chunk(record: dict, output_file: str) -> None:
 
 
 def process_pdfs_in_directory(
-    directory_path: str, output_file: str = "Chunks/chunks.json"
+    directory_path: str, output_file: str = r"C:\Users\amito\PycharmProjects\MultiModal_RAG_Gen_Eval\Chunks\chunks.json"
 ) -> None:
     """
     Iterate over every PDF in directory_path, partition each one, and write
