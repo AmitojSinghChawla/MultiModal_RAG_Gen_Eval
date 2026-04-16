@@ -30,8 +30,8 @@ from retrieve import load_indexes, retrieve
 load_dotenv()
 
 # ── Config ────────────────────────────────────────────────────
-QUESTIONS_FILE = "Questions/gold_questions.json"
-RESULTS_FILE = r"Result/evaluation_results.json"
+QUESTIONS_FILE = r"C:\Users\amito\PycharmProjects\MultiModal_RAG_Gen_Eval\Questions\gold_questions.json"
+RESULTS_FILE = r"C:\Users\amito\PycharmProjects\MultiModal_RAG_Gen_Eval\Result\evaluation_results.json"
 METHODS = ["bm25", "dense", "hybrid", "hybrid_reranker"]
 TOP_K = 5
 MODEL = "gpt-4o-mini"
