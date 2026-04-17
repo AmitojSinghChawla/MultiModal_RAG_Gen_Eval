@@ -142,7 +142,7 @@ def load_indexes() -> dict:
     # CrossEncoder loads the reranker weights similarly.
     # use_fp16=True tells it to run in 16-bit floating point — uses half the
     # GPU/CPU memory and runs faster, with negligible accuracy difference.
-    reranker = CrossEncoder(RERANK_MODEL, use_fp16=True)
+    reranker = CrossEncoder(RERANK_MODEL)
 
     print("All indexes loaded.\n")
 

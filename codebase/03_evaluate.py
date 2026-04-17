@@ -165,6 +165,7 @@ def generate_answer(question, chunks):
 
 
 # ── RAGAS scoring ─────────────────────────────────────────────
+# ── RAGAS scoring ─────────────────────────────────────────────
 def safe_float(val):
     try:
         f = float(val)
@@ -206,7 +207,6 @@ def score_ragas(question, answer, contexts, ground_truth):
             "context_recall",
         ]
     }
-
 
 # ── Aggregation ───────────────────────────────────────────────
 def mean_std(vals):
