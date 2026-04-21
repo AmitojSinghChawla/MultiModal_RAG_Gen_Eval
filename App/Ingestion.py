@@ -5,7 +5,7 @@ Converts uploaded PDF files into a searchable in-memory index bundle.
 
 Pipeline position
 ─────────────────
-  Called by  : streamlit.py → ingest_pdfs()
+  Called by  : streamlit_app.py → ingest_pdfs()
                (triggered when the user clicks "Ingest PDFs" in the sidebar)
   Calls out to: partition_pdf()   — unstructured library, does the heavy PDF parsing
                 describe_image()  — GPT-4o vision API, converts images into text descriptions
@@ -15,10 +15,10 @@ Pipeline position
 Input
 ─────
   uploaded_files : list of Streamlit UploadedFile objects (in-memory PDF bytes)
-  embedder       : SentenceTransformer model loaded once in streamlit.py via @st.cache_resource
-  reranker       : CrossEncoder model loaded once in streamlit.py via @st.cache_resource
+  embedder       : SentenceTransformer model loaded once in streamlit_app.py via @st.cache_resource
+  reranker       : CrossEncoder model loaded once in streamlit_app.py via @st.cache_resource
 
-Output  (→ stored in st.session_state["indexes"] in streamlit.py)
+Output  (→ stored in st.session_state["indexes"] in streamlit_app.py)
 ──────
   A single dict containing:
     "bm25"             — BM25Okapi sparse index over all chunk texts
@@ -495,7 +495,7 @@ def build_faiss(chunks: list[dict], model: SentenceTransformer) -> faiss.IndexFl
 
     Input : chunks — the complete all_chunks list from ingest_pdfs()
             model  — the SentenceTransformer embedder (BAAI/bge-base-en-v1.5)
-                     ← loaded once in streamlit.py via @st.cache_resource
+                     ← loaded once in streamlit_app.py via @st.cache_resource
                      ← passed into ingest_pdfs() and forwarded here
 
     Output: a FAISS IndexFlatIP (exact inner-product search) loaded with one
@@ -553,17 +553,17 @@ def ingest_pdfs(uploaded_files: list, embedder, reranker):
     Input
     ─────
       uploaded_files : list of Streamlit UploadedFile objects
-                       ← passed from streamlit.py when user clicks "Ingest PDFs"
+                       ← passed from streamlit_app.py when user clicks "Ingest PDFs"
       embedder       : SentenceTransformer("BAAI/bge-base-en-v1.5")
-                       ← loaded once in streamlit.py via @st.cache_resource
+                       ← loaded once in streamlit_app.py via @st.cache_resource
       reranker       : CrossEncoder("BAAI/bge-reranker-v2-m3")
-                       ← loaded once in streamlit.py via @st.cache_resource
+                       ← loaded once in streamlit_app.py via @st.cache_resource
 
-    Output  (→ stored as st.session_state["indexes"] in streamlit.py)
+    Output  (→ stored as st.session_state["indexes"] in streamlit_app.py)
     ──────
       On success: dict with keys bm25, faiss, meta, chunk_id_to_meta,
                   image_b64_lookup, embedder, reranker
-      On failure: empty dict {} — streamlit.py checks for this and shows an error
+      On failure: empty dict {} — streamlit_app.py checks for this and shows an error
 
     Per-file pipeline:
       1. Write UploadedFile bytes to a temp file on disk
@@ -724,7 +724,7 @@ def ingest_pdfs(uploaded_files: list, embedder, reranker):
     if not all_chunks:
         # This happens if every uploaded file failed to partition, or all were empty.
         st.error(f"No Chunks Found, Check Your Pdfs")
-        # Return empty dict — streamlit.py checks `if indexes:` and shows an error banner
+        # Return empty dict — streamlit_app.py checks `if indexes:` and shows an error banner
         return {}
 
     # ─────────────────────────────────────────
@@ -765,7 +765,7 @@ def ingest_pdfs(uploaded_files: list, embedder, reranker):
     st.success(f"Ingestion Complete - {len(all_chunks)} chunks indexed")
 
     # ── Return the complete index bundle ──────────────────────────────────────
-    # This dict is stored in st.session_state["indexes"] by streamlit.py and
+    # This dict is stored in st.session_state["indexes"] by streamlit_app.py and
     # passed verbatim to retrieve() in retrieve.py on every user query.
     return {
         "bm25":             bm25,             # sparse keyword index → retrieve.py → retrieve_bm25

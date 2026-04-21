@@ -1,5 +1,5 @@
 """
-streamlit.py
+streamlit_app.py
 ────────────
 The Streamlit application entry point — renders the chat UI and orchestrates
 the full RAG pipeline from PDF upload through to answer display.
@@ -35,7 +35,7 @@ load_dotenv()
 
 # OPENAI_API_KEY is loaded from .env at startup.
 # It is passed to generate_answer() in generate.py on every query.
-# streamlit.py does NOT validate the key — it shows a warning if missing
+# streamlit_app.py does NOT validate the key — it shows a warning if missing
 # and disables the "Ingest PDFs" button, so the user cannot proceed without it.
 OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
 

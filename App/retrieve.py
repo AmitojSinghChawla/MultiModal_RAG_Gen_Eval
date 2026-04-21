@@ -6,7 +6,7 @@ most relevant chunks for a given user query.
 
 Pipeline position
 ─────────────────
-  Called by  : streamlit.py → retrieve()
+  Called by  : streamlit_app.py → retrieve()
                (called once per user message, before generate_answer())
   Calls out to: tokenize() in Ingestion.py (for BM25 query tokenisation)
                 embedder.encode()          (SentenceTransformer, for dense queries)
@@ -19,8 +19,8 @@ Input  (via the unified retrieve() entry point)
   query   : the user's plain-text question string
   method  : one of "bm25" | "dense" | "hybrid" | "hybrid_reranker"
   indexes : the dict produced by ingest_pdfs() in Ingestion.py,
-            stored in st.session_state["indexes"] by streamlit.py
-  top_k   : how many results to return (set by the sidebar slider in streamlit.py)
+            stored in st.session_state["indexes"] by streamlit_app.py
+  top_k   : how many results to return (set by the sidebar slider in streamlit_app.py)
 
 Output  (→ passed to generate_answer() in generate.py)
 ──────
@@ -47,7 +47,7 @@ from Ingestion import tokenize
 #    Every retrieval method produces its own raw scores and indices,
 #    but all of them use this single helper to package each hit into
 #    a uniform result dict. This ensures the output format is identical
-#    regardless of which method was used — generate.py and streamlit.py
+#    regardless of which method was used — generate.py and streamlit_app.py
 #    can read the same keys without knowing which retrieval path ran.
 # ─────────────────────────────────────────
 
@@ -64,7 +64,7 @@ def _make_result(rank: int, score: float, meta_entry: dict, image_b64_lookup: di
       image_b64_lookup : dict mapping chunk_id → base64 string
                          ← comes from indexes["image_b64_lookup"] built in Ingestion.py
 
-    Output: a dict with all keys that generate.py and streamlit.py expect.
+    Output: a dict with all keys that generate.py and streamlit_app.py expect.
             → appended to the results list by every retrieval method
             → ultimately passed to generate_answer() in generate.py
 
@@ -80,7 +80,7 @@ def _make_result(rank: int, score: float, meta_entry: dict, image_b64_lookup: di
     # Only fetch the raw image bytes for image chunks — text/table chunks have no base64
     image_b64 = image_b64_lookup.get(chunk_id) if modality == "image" else None
 
-    # → this dict is the fundamental unit consumed by generate.py and displayed in streamlit.py
+    # → this dict is the fundamental unit consumed by generate.py and displayed in streamlit_app.py
     return {
         "rank":           rank,
         "chunk_id":       chunk_id,
@@ -108,7 +108,7 @@ def retrieve_bm25(query: str, bm25, meta: list, image_b64_lookup: dict, top_k: i
     Input
     ─────
       query          : the user's plain-text question string
-                       ← comes from streamlit.py via retrieve()
+                       ← comes from streamlit_app.py via retrieve()
       bm25           : a fitted BM25Okapi object
                        ← indexes["bm25"] built by build_bm25() in Ingestion.py
       meta           : the ordered list of chunk metadata dicts
@@ -116,7 +116,7 @@ def retrieve_bm25(query: str, bm25, meta: list, image_b64_lookup: dict, top_k: i
       image_b64_lookup : chunk_id → base64 mapping
                          ← indexes["image_b64_lookup"] from Ingestion.py
       top_k          : number of results to return
-                       ← set by the sidebar slider in streamlit.py
+                       ← set by the sidebar slider in streamlit_app.py
 
     Output: list of top_k result dicts ordered by BM25 score descending.
             → used directly when method="bm25" in retrieve()
@@ -158,13 +158,13 @@ def retrieve_dense(query: str, faiss_index, meta: list, embedder, image_b64_look
     Input
     ─────
       query        : the user's plain-text question string
-                     ← comes from streamlit.py via retrieve()
+                     ← comes from streamlit_app.py via retrieve()
       faiss_index  : FAISS IndexFlatIP loaded with L2-normalised chunk embeddings
                      ← indexes["faiss"] built by build_faiss() in Ingestion.py
       meta         : ordered list of chunk metadata dicts
                      ← indexes["meta"] — position i in meta matches FAISS vector i
       embedder     : SentenceTransformer("BAAI/bge-base-en-v1.5")
-                     ← indexes["embedder"] passed through from streamlit.py
+                     ← indexes["embedder"] passed through from streamlit_app.py
       image_b64_lookup : chunk_id → base64 mapping
                          ← indexes["image_b64_lookup"] from Ingestion.py
       top_k        : number of results to return
@@ -308,7 +308,7 @@ def retrieve_hybrid_reranked(query: str, bm25, faiss_index, meta: list, embedder
     ─────
       All inputs from retrieve_hybrid() plus:
       reranker : CrossEncoder("BAAI/bge-reranker-v2-m3")
-                 ← indexes["reranker"] passed through from streamlit.py
+                 ← indexes["reranker"] passed through from streamlit_app.py
                  A CrossEncoder jointly encodes (query, document) pairs and
                  produces a relevance score that is much more accurate than
                  cosine similarity or BM25 — but requires one forward pass
@@ -316,7 +316,7 @@ def retrieve_hybrid_reranked(query: str, bm25, faiss_index, meta: list, embedder
 
     Output: list of top_k result dicts re-ordered by CrossEncoder relevance score.
             → passed to generate_answer() in generate.py as retrieved_chunks
-            → this is the only method used by streamlit.py (method="hybrid_reranker")
+            → this is the only method used by streamlit_app.py (method="hybrid_reranker")
 
     Two-stage approach:
       Stage 1 (hybrid): fetch top_k * 3 candidates efficiently (BM25 + FAISS + RRF).
@@ -375,26 +375,26 @@ def retrieve_hybrid_reranked(query: str, bm25, faiss_index, meta: list, embedder
 
 # ─────────────────────────────────────────
 # 6. Unified Entry Point
-#    streamlit.py always calls this single function.
+#    streamlit_app.py always calls this single function.
 #    It unpacks the indexes dict and dispatches to the correct method.
 #    All retrieval complexity is hidden behind this interface.
 # ─────────────────────────────────────────
 
 def retrieve(query: str, method: str, indexes: dict, top_k: int = 5) -> list:
     """
-    Single entry point called by streamlit.py for every user query.
+    Single entry point called by streamlit_app.py for every user query.
 
     Input
     ─────
       query   : the user's plain-text question string
-                ← comes from the chat input widget in streamlit.py
+                ← comes from the chat input widget in streamlit_app.py
       method  : which retrieval algorithm to run
-                ← hardcoded to "hybrid_reranker" in streamlit.py
+                ← hardcoded to "hybrid_reranker" in streamlit_app.py
                    but any of the four values below are valid
       indexes : the complete index bundle built by ingest_pdfs() in Ingestion.py
-                ← stored in st.session_state["indexes"] by streamlit.py
+                ← stored in st.session_state["indexes"] by streamlit_app.py
       top_k   : number of results to return
-                ← set by the sidebar slider in streamlit.py
+                ← set by the sidebar slider in streamlit_app.py
 
     Output: list of result dicts from whichever retrieval method was chosen.
             → passed directly to generate_answer() in generate.py
@@ -410,11 +410,11 @@ def retrieve(query: str, method: str, indexes: dict, top_k: int = 5) -> list:
     meta             = indexes["meta"]             # ← Ingestion.py → lightweight chunk metadata list
     chunk_id_to_meta = indexes["chunk_id_to_meta"] # ← Ingestion.py → O(1) chunk lookup dict
     image_b64_lookup = indexes["image_b64_lookup"] # ← Ingestion.py → chunk_id → base64 for images
-    embedder         = indexes["embedder"]         # ← streamlit.py → load_models() → passed through ingest
-    reranker         = indexes["reranker"]         # ← streamlit.py → load_models() → passed through ingest
+    embedder         = indexes["embedder"]         # ← streamlit_app.py → load_models() → passed through ingest
+    reranker         = indexes["reranker"]         # ← streamlit_app.py → load_models() → passed through ingest
 
     # Dispatch to the correct retrieval function based on the method string.
-    # "hybrid_reranker" is the default used by streamlit.py — it is the most accurate.
+    # "hybrid_reranker" is the default used by streamlit_app.py — it is the most accurate.
     if method == "bm25":
         return retrieve_bm25(query, bm25, meta, image_b64_lookup, top_k)
     elif method == "dense":

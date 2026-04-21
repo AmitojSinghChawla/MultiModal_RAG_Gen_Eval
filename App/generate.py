@@ -5,26 +5,26 @@ Converts retrieved chunks and a user question into a final answer using GPT-4o m
 
 Pipeline position
 ─────────────────
-  Called by  : streamlit.py → generate_answer()
+  Called by  : streamlit_app.py → generate_answer()
                (called once per user message, after retrieve() returns chunks)
   Calls out to: ChatOpenAI (OpenAI API via LangChain) — the answering LLM
 
 Input  (to generate_answer())
 ──────
   question         : the user's current plain-text question
-                     ← from the chat input widget in streamlit.py
+                     ← from the chat input widget in streamlit_app.py
   retrieved_chunks : list of chunk dicts produced by retrieve() in retrieve.py
                      each dict may contain text, table content, or a raw base64 image
   chat_history     : the full list of past {"role", "content"} message dicts
-                     ← from st.session_state["messages"] in streamlit.py
+                     ← from st.session_state["messages"] in streamlit_app.py
   api_key          : OpenAI API key string
-                     ← from st.session_state / .env loaded in streamlit.py
+                     ← from st.session_state / .env loaded in streamlit_app.py
 
-Output  (→ back to streamlit.py)
+Output  (→ back to streamlit_app.py)
 ──────
   answer    : str — the model's response, displayed in the chat UI
   ctx_texts : list[str] — the plain text of every context block used,
-              shown in the "View sources" expander in streamlit.py
+              shown in the "View sources" expander in streamlit_app.py
 """
 
 import os
@@ -64,7 +64,7 @@ def _build_context_content(retrieved_chunks: list) -> tuple[list, list]:
       1. content  — a list of OpenAI API content blocks (text and image_url dicts)
                     ready to be placed in the "user" message sent to the LLM
       2. ctx_texts — a list of plain-text strings, one per chunk, used in the
-                     "View sources" expander in streamlit.py
+                     "View sources" expander in streamlit_app.py
 
     Input
     ─────
@@ -79,7 +79,7 @@ def _build_context_content(retrieved_chunks: list) -> tuple[list, list]:
                   → passed to _build_messages() as context_content
                   → appended to the final user message sent to the LLM
       ctx_texts : list of plain-text strings (one per chunk)
-                  → returned by generate_answer() to streamlit.py for the source expander
+                  → returned by generate_answer() to streamlit_app.py for the source expander
 
     Three chunk types are handled differently:
 
@@ -109,7 +109,7 @@ def _build_context_content(retrieved_chunks: list) -> tuple[list, list]:
     # the multimodal API accepts mixed-modality input.
     content = []
 
-    # ctx_texts is the human-readable source list returned to streamlit.py.
+    # ctx_texts is the human-readable source list returned to streamlit_app.py.
     # It has one entry per chunk, parallel to the content blocks above.
     ctx_texts = []
 
@@ -175,7 +175,7 @@ def _build_context_content(retrieved_chunks: list) -> tuple[list, list]:
 
     # → (content, ctx_texts) returned to generate_answer()
     #   content   → _build_messages() → appended to the final user message
-    #   ctx_texts → returned by generate_answer() → streamlit.py source expander
+    #   ctx_texts → returned by generate_answer() → streamlit_app.py source expander
     return content, ctx_texts
 
 
@@ -194,7 +194,7 @@ def _build_messages(question: str, context_content: list, chat_history: list) ->
     Input
     ─────
       question        : the user's current question string
-                        ← from streamlit.py chat input, forwarded through generate_answer()
+                        ← from streamlit_app.py chat input, forwarded through generate_answer()
       context_content : list of OpenAI content blocks (text + image_url dicts)
                         ← produced by _build_context_content() just before this call
       chat_history    : the full chat history from st.session_state["messages"]
@@ -313,17 +313,17 @@ def generate_answer(
     Input
     ─────
       question         : the user's current question (plain string)
-                         ← from the chat input widget in streamlit.py
+                         ← from the chat input widget in streamlit_app.py
       retrieved_chunks : list of chunk dicts from retrieve() in retrieve.py
                          contains the top-k most relevant chunks, possibly
                          including text, table, and image modalities
       chat_history     : list of past {"role", "content"} dicts
-                         ← st.session_state["messages"] from streamlit.py
+                         ← st.session_state["messages"] from streamlit_app.py
                          The FULL history — windowing is done inside _build_messages()
       api_key          : OpenAI API key string
-                         ← loaded from .env in streamlit.py, passed here per-call
+                         ← loaded from .env in streamlit_app.py, passed here per-call
 
-    Output  (→ back to streamlit.py)
+    Output  (→ back to streamlit_app.py)
     ──────
       answer    : str — the model's text response, appended to session_state messages
                         and displayed in the chat UI
@@ -337,10 +337,10 @@ def generate_answer(
       4. _build_messages() → assemble the full system + history + current-turn message list
       5. llm.invoke(messages) → send to GPT-4o mini and get an AIMessage response
       6. parser.invoke(response) → extract the plain text string from the AIMessage
-      7. Return (answer, ctx_texts) to streamlit.py
+      7. Return (answer, ctx_texts) to streamlit_app.py
 
     Why api_key is passed per-call rather than read from the environment:
-      The key comes from st.session_state in streamlit.py (loaded from .env at startup).
+      The key comes from st.session_state in streamlit_app.py (loaded from .env at startup).
       Passing it explicitly here keeps generate.py decoupled from Streamlit — it could
       be called from a script or a test without needing a running Streamlit session.
 
@@ -361,7 +361,7 @@ def generate_answer(
 
     # Convert retrieved chunks into OpenAI API content blocks.
     # context_content: list of text/image_url dicts → sent to the LLM
-    # ctx_texts:       list of plain strings          → returned to streamlit.py for the UI
+    # ctx_texts:       list of plain strings          → returned to streamlit_app.py for the UI
     context_content, ctx_texts = _build_context_content(retrieved_chunks)
 
     # Guard: if retrieval found nothing (empty index, bad query, all chunks filtered out),
@@ -389,8 +389,8 @@ def generate_answer(
         # The error is surfaced as the answer text so the user can see what went wrong.
         answer = f"Generation failed: {e}"
 
-    # → (answer, ctx_texts) returned to streamlit.py
+    # → (answer, ctx_texts) returned to streamlit_app.py
     #   answer    → appended to st.session_state["messages"] and rendered in the chat UI
     #   ctx_texts → stored in the assistant message dict under "sources" key,
-    #               displayed in the "View sources" expander in streamlit.py
+    #               displayed in the "View sources" expander in streamlit_app.py
     return answer, ctx_texts
