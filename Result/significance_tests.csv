@@ -1,0 +1,43 @@
+Metric,Metric_key,Method_A,Method_B,Wilcoxon_stat,p_value,Significant,Direction
+Exact Match,exact_match,BM25,Dense,0.0000,0.3173,False,BM25>Dense
+Exact Match,exact_match,BM25,Hybrid,0.0000,1.0000,False,tie
+Exact Match,exact_match,BM25,Hybrid+Reranker,0.0000,1.0000,False,tie
+Exact Match,exact_match,Dense,Hybrid,0.0000,0.3173,False,Hybrid>Dense
+Exact Match,exact_match,Dense,Hybrid+Reranker,0.0000,0.3173,False,Hybrid+Reranker>Dense
+Exact Match,exact_match,Hybrid,Hybrid+Reranker,0.0000,1.0000,False,tie
+Token F1,token_f1,BM25,Dense,90.0000,0.0007,True,BM25>Dense
+Token F1,token_f1,BM25,Hybrid,191.0000,0.3933,False,BM25>Hybrid
+Token F1,token_f1,BM25,Hybrid+Reranker,162.0000,0.5165,False,Hybrid+Reranker>BM25
+Token F1,token_f1,Dense,Hybrid,78.0000,0.0044,True,Hybrid>Dense
+Token F1,token_f1,Dense,Hybrid+Reranker,126.0000,0.0004,True,Hybrid+Reranker>Dense
+Token F1,token_f1,Hybrid,Hybrid+Reranker,211.0000,0.2143,False,Hybrid+Reranker>Hybrid
+ROUGE-L,rouge_l,BM25,Dense,81.0000,0.0004,True,BM25>Dense
+ROUGE-L,rouge_l,BM25,Hybrid,172.0000,0.2134,False,BM25>Hybrid
+ROUGE-L,rouge_l,BM25,Hybrid+Reranker,170.0000,0.8889,False,Hybrid+Reranker>BM25
+ROUGE-L,rouge_l,Dense,Hybrid,73.0000,0.0053,True,Hybrid>Dense
+ROUGE-L,rouge_l,Dense,Hybrid+Reranker,133.0000,0.0006,True,Hybrid+Reranker>Dense
+ROUGE-L,rouge_l,Hybrid,Hybrid+Reranker,221.0000,0.2877,False,Hybrid+Reranker>Hybrid
+Answer Correctness,answer_correctness,BM25,Dense,119.0000,0.0023,True,BM25>Dense
+Answer Correctness,answer_correctness,BM25,Hybrid,189.0000,0.1021,False,BM25>Hybrid
+Answer Correctness,answer_correctness,BM25,Hybrid+Reranker,157.0000,0.1908,False,Hybrid+Reranker>BM25
+Answer Correctness,answer_correctness,Dense,Hybrid,139.0000,0.1450,False,Hybrid>Dense
+Answer Correctness,answer_correctness,Dense,Hybrid+Reranker,108.0000,0.0001,True,Hybrid+Reranker>Dense
+Answer Correctness,answer_correctness,Hybrid,Hybrid+Reranker,186.0000,0.0075,True,Hybrid+Reranker>Hybrid
+Faithfulness,faithfulness,BM25,Dense,51.0000,0.0079,True,BM25>Dense
+Faithfulness,faithfulness,BM25,Hybrid,94.5000,0.1831,False,BM25>Hybrid
+Faithfulness,faithfulness,BM25,Hybrid+Reranker,49.0000,0.8240,False,BM25>Hybrid+Reranker
+Faithfulness,faithfulness,Dense,Hybrid,87.0000,0.1970,False,Hybrid>Dense
+Faithfulness,faithfulness,Dense,Hybrid+Reranker,82.0000,0.0289,True,Hybrid+Reranker>Dense
+Faithfulness,faithfulness,Hybrid,Hybrid+Reranker,82.0000,0.1464,False,Hybrid+Reranker>Hybrid
+Context Precision,context_precision,BM25,Dense,226.0000,0.2213,False,BM25>Dense
+Context Precision,context_precision,BM25,Hybrid,199.5000,0.3417,False,BM25>Hybrid
+Context Precision,context_precision,BM25,Hybrid+Reranker,189.5000,0.1634,False,Hybrid+Reranker>BM25
+Context Precision,context_precision,Dense,Hybrid,255.0000,0.3255,False,Hybrid>Dense
+Context Precision,context_precision,Dense,Hybrid+Reranker,169.0000,0.0280,True,Hybrid+Reranker>Dense
+Context Precision,context_precision,Hybrid,Hybrid+Reranker,114.0000,0.0252,True,Hybrid+Reranker>Hybrid
+Context Recall,context_recall,BM25,Dense,11.5000,0.6604,False,Dense>BM25
+Context Recall,context_recall,BM25,Hybrid,2.5000,0.7855,False,BM25>Hybrid
+Context Recall,context_recall,BM25,Hybrid+Reranker,6.0000,0.0833,False,Hybrid+Reranker>BM25
+Context Recall,context_recall,Dense,Hybrid,3.0000,0.4497,False,Dense>Hybrid
+Context Recall,context_recall,Dense,Hybrid+Reranker,4.0000,0.1486,False,Hybrid+Reranker>Dense
+Context Recall,context_recall,Hybrid,Hybrid+Reranker,5.5000,0.0668,False,Hybrid+Reranker>Hybrid

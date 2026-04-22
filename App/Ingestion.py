@@ -51,7 +51,6 @@ from sentence_transformers import SentenceTransformer
 from unstructured.documents.elements import CompositeElement, Table
 from unstructured.partition.pdf import partition_pdf
 
-
 # ─────────────────────────────────────────
 # 1. Environment Setup
 #    Load the OpenAI key from .env so GPT-4o vision calls can authenticate.
@@ -130,15 +129,17 @@ def html_table_to_text(html: str) -> str:
     and pipe-separated columns preserve the row structure in a way that both
     BM25 term matching and dense embeddings can reason over.
     """
-    soup = BeautifulSoup(html, "html.parser")       # parse the raw HTML string into a tree
+    soup = BeautifulSoup(html, "html.parser")  # parse the raw HTML string into a tree
     rows = []
-    for tr in soup.find_all("tr"):                  # iterate every table row <tr>
+    for tr in soup.find_all("tr"):  # iterate every table row <tr>
         # Pull the visible text from every cell — <td> (data cell) or <th> (header cell).
         # strip=True removes leading/trailing whitespace inside each cell.
         cells = [cell.get_text(strip=True) for cell in tr.find_all(["td", "th"])]
         if cells:
-            rows.append(" | ".join(cells))          # join all cells in the row with a pipe delimiter
-    return "\n".join(rows)                          # each row becomes its own line in the output
+            rows.append(
+                " | ".join(cells)
+            )  # join all cells in the row with a pipe delimiter
+    return "\n".join(rows)  # each row becomes its own line in the output
 
 
 def tokenize(text: str) -> list[str]:
@@ -165,11 +166,13 @@ def tokenize(text: str) -> list[str]:
         → filter:  ["world", "running", "fast"]   (stopwords removed, len > 2)
         → stem:    ["world", "run", "fast"]
     """
-    text = text.lower()                                                     # "Hello World" → "hello world"
-    text = re.sub(r"[^a-z0-9\s]", " ", text)                               # "hello, world!" → "hello  world "
-    tokens = text.split()                                                   # split on any whitespace
-    tokens = [t for t in tokens if t not in _stop_words and len(t) > 2]    # drop stopwords & 1-2 char tokens
-    tokens = [_stemmer.stem(t) for t in tokens]                             # "running" → "run"
+    text = text.lower()  # "Hello World" → "hello world"
+    text = re.sub(r"[^a-z0-9\s]", " ", text)  # "hello, world!" → "hello  world "
+    tokens = text.split()  # split on any whitespace
+    tokens = [
+        t for t in tokens if t not in _stop_words and len(t) > 2
+    ]  # drop stopwords & 1-2 char tokens
+    tokens = [_stemmer.stem(t) for t in tokens]  # "running" → "run"
     # → returned list is consumed by BM25Okapi at index time (build_bm25)
     #   or by bm25.get_scores() at query time (retrieve.py → retrieve_bm25)
     return tokens
@@ -275,9 +278,11 @@ def table_text_segregation(all_elements):
     tables = []
     texts = []
     for el in all_elements:
-        if isinstance(el, Table):               # HTML table detected by unstructured
+        if isinstance(el, Table):  # HTML table detected by unstructured
             tables.append(el)
-        elif isinstance(el, CompositeElement):  # main text block; may contain embedded images
+        elif isinstance(
+            el, CompositeElement
+        ):  # main text block; may contain embedded images
             texts.append(el)
     # → (tables, texts) returned to ingest_pdfs() for separate chunk-building loops
     return tables, texts
@@ -325,15 +330,19 @@ def get_images(chunks):
             # image_base64 is populated by extract_image_block_to_payload=True in partition_pdf()
             img_b64 = el.metadata.image_base64
 
-            if not img_b64:                     # unstructured couldn't extract data for this image
+            if not img_b64:  # unstructured couldn't extract data for this image
                 continue
-            if len(img_b64) < 1500:             # too small to be a meaningful content image (~1 KB)
+            if (
+                len(img_b64) < 1500
+            ):  # too small to be a meaningful content image (~1 KB)
                 continue
 
             # First 300 chars of base64 are a fast, cheap fingerprint.
             # Two identical images will always share the same first 300 chars.
             img_hash = img_b64[:300]
-            if img_hash in seen_hashes:         # already collected this image from an earlier chunk
+            if (
+                img_hash in seen_hashes
+            ):  # already collected this image from an earlier chunk
                 continue
 
             seen_hashes.add(img_hash)
@@ -396,8 +405,8 @@ def describe_image(image_b64: str) -> str:
     _vision_llm = ChatOpenAI(
         model="gpt-4o",
         api_key=OPENAI_API_KEY,
-        temperature=0,      # deterministic — want consistent, reproducible descriptions
-        max_tokens=1024,    # enough room for a thorough description of complex figures
+        temperature=0,  # deterministic — want consistent, reproducible descriptions
+        max_tokens=1024,  # enough room for a thorough description of complex figures
     )
     # StrOutputParser extracts the plain string from LangChain's AIMessage response object
     _parser = StrOutputParser()
@@ -413,7 +422,7 @@ def describe_image(image_b64: str) -> str:
                 "type": "image_url",
                 "image_url": {
                     "url": data_url,
-                    "detail": "high",   # high-res mode — needed for charts with small text
+                    "detail": "high",  # high-res mode — needed for charts with small text
                 },
             },
             {
@@ -442,9 +451,9 @@ def describe_image(image_b64: str) -> str:
     )
 
     try:
-        response = _vision_llm.invoke([message])    # send image + prompt to GPT-4o
+        response = _vision_llm.invoke([message])  # send image + prompt to GPT-4o
         # → description string returned to the image chunk loop in ingest_pdfs()
-        return _parser.invoke(response)             # pull the plain string out of the response
+        return _parser.invoke(response)  # pull the plain string out of the response
     except Exception as e:
         # Do not crash ingestion on a single failed image — the chunk will be created
         # with a placeholder retrieval_text so the rest of the pipeline continues.
@@ -529,9 +538,11 @@ def build_faiss(chunks: list[dict], model: SentenceTransformer) -> faiss.IndexFl
     # Normalise every row vector to unit length so dot product == cosine similarity
     faiss.normalize_L2(embeddings)
 
-    dim = embeddings.shape[1]       # vector dimension — 768 for bge-base-en-v1.5
-    index = faiss.IndexFlatIP(dim)  # exact inner-product (cosine) search, no approximation
-    index.add(embeddings)           # load all vectors; FAISS assigns position 0, 1, 2, …
+    dim = embeddings.shape[1]  # vector dimension — 768 for bge-base-en-v1.5
+    index = faiss.IndexFlatIP(
+        dim
+    )  # exact inner-product (cosine) search, no approximation
+    index.add(embeddings)  # load all vectors; FAISS assigns position 0, 1, 2, …
 
     print(f"FAISS index built: {index.ntotal} vectors, dim={dim}")
     # → index stored in indexes["faiss"], consumed by retrieve.py → retrieve_dense / retrieve_hybrid
@@ -598,7 +609,9 @@ def ingest_pdfs(uploaded_files: list, embedder, reranker):
 
     # ── Per-file loop ─────────────────────────────────────────────────────────
     for file_index, uploaded_file in enumerate(uploaded_files):
-        st.write(f"uploaded_file: {uploaded_file.name} ({file_index + 1}/{total_files})")
+        st.write(
+            f"uploaded_file: {uploaded_file.name} ({file_index + 1}/{total_files})"
+        )
 
         # unstructured.partition_pdf() requires a real filesystem path, not in-memory bytes.
         # mkdtemp() creates a unique temporary directory that we can safely delete afterward.
@@ -645,16 +658,20 @@ def ingest_pdfs(uploaded_files: list, embedder, reranker):
             # Use .text attribute if available (standard for CompositeElement);
             # fall back to str() for any unexpected element types.
             raw_text = text.text if hasattr(text, "text") else str(text)
-            raw_text = clean_text(raw_text)     # normalise whitespace
+            raw_text = clean_text(raw_text)  # normalise whitespace
 
             chunk = {
-                "chunk_id": str(uuid.uuid4()),                              # unique ID for BM25/FAISS position tracking
+                "chunk_id": str(
+                    uuid.uuid4()
+                ),  # unique ID for BM25/FAISS position tracking
                 "modality": "text",
-                "source_pdf": uploaded_file.name,                           # used in UI source citations
-                "page_number": getattr(text.metadata, "page_number", None), # None if unstructured couldn't determine
-                "raw_text": raw_text,                                        # sent to LLM as [TEXT] context block
-                "image_b64": None,                                           # not applicable for text chunks
-                "retrieval_text": raw_text,                                  # indexed by BM25 and FAISS
+                "source_pdf": uploaded_file.name,  # used in UI source citations
+                "page_number": getattr(
+                    text.metadata, "page_number", None
+                ),  # None if unstructured couldn't determine
+                "raw_text": raw_text,  # sent to LLM as [TEXT] context block
+                "image_b64": None,  # not applicable for text chunks
+                "retrieval_text": raw_text,  # indexed by BM25 and FAISS
             }
             all_chunks.append(chunk)
 
@@ -664,7 +681,9 @@ def ingest_pdfs(uploaded_files: list, embedder, reranker):
         # because the HTML preserves row/column structure, making it more readable and
         # giving BM25 better keyword coverage over table cell values.
         for table in tables:
-            if hasattr(table, "metadata") and getattr(table.metadata, "text_as_html", None):
+            if hasattr(table, "metadata") and getattr(
+                table.metadata, "text_as_html", None
+            ):
                 # Convert HTML table → pipe-delimited text so the LLM and search indexes
                 # can reason over the structure without parsing HTML
                 table_text = html_table_to_text(table.metadata.text_as_html)
@@ -677,9 +696,9 @@ def ingest_pdfs(uploaded_files: list, embedder, reranker):
                 "modality": "table",
                 "source_pdf": uploaded_file.name,
                 "page_number": getattr(table.metadata, "page_number", None),
-                "raw_text": table_text,           # sent to LLM as [TABLE] context block
-                "image_b64": None,                # not applicable for table chunks
-                "retrieval_text": table_text,     # indexed by BM25 and FAISS
+                "raw_text": table_text,  # sent to LLM as [TABLE] context block
+                "image_b64": None,  # not applicable for table chunks
+                "retrieval_text": table_text,  # indexed by BM25 and FAISS
             }
             all_chunks.append(chunk)
 
@@ -706,10 +725,10 @@ def ingest_pdfs(uploaded_files: list, embedder, reranker):
                 "chunk_id": chunk_id,
                 "modality": "image",
                 "source_pdf": uploaded_file.name,
-                "page_number": None,              # unstructured doesn't track image page numbers
-                "raw_text": None,                 # no raw text for image chunks
-                "image_b64": image,               # kept here for reference; lookup is the authoritative source
-                "retrieval_text": description,    # GPT-4o description — indexed by BM25 and FAISS
+                "page_number": None,  # unstructured doesn't track image page numbers
+                "raw_text": None,  # no raw text for image chunks
+                "image_b64": image,  # kept here for reference; lookup is the authoritative source
+                "retrieval_text": description,  # GPT-4o description — indexed by BM25 and FAISS
             }
 
             # Register this image in the lookup dict so retrieve.py can re-attach
@@ -738,12 +757,12 @@ def ingest_pdfs(uploaded_files: list, embedder, reranker):
     # position i in the FAISS index and BM25 corpus. Do not sort or reorder.
     meta = [
         {
-            "chunk_id":       c["chunk_id"],
-            "modality":       c["modality"],
-            "source_pdf":     c["source_pdf"],
-            "page_number":    c["page_number"],
+            "chunk_id": c["chunk_id"],
+            "modality": c["modality"],
+            "source_pdf": c["source_pdf"],
+            "page_number": c["page_number"],
             "retrieval_text": c["retrieval_text"],
-            "raw_text":       c.get("raw_text"),  # None for image chunks
+            "raw_text": c.get("raw_text"),  # None for image chunks
         }
         for c in all_chunks
     ]
@@ -768,11 +787,11 @@ def ingest_pdfs(uploaded_files: list, embedder, reranker):
     # This dict is stored in st.session_state["indexes"] by streamlit_app.py and
     # passed verbatim to retrieve() in retrieve.py on every user query.
     return {
-        "bm25":             bm25,             # sparse keyword index → retrieve.py → retrieve_bm25
-        "faiss":            faiss_index,      # dense semantic index → retrieve.py → retrieve_dense
-        "meta":             meta,             # list of chunk metadata dicts (no image bytes)
-        "chunk_id_to_meta": chunk_id_to_meta, # chunk_id → meta dict for O(1) lookup in hybrid retrieval
-        "image_b64_lookup": image_b64_lookup, # chunk_id → base64 string for image modality only
-        "embedder":         embedder,         # passed through so retrieve.py can embed queries
-        "reranker":         reranker,         # passed through so retrieve.py can rerank candidates
+        "bm25": bm25,  # sparse keyword index → retrieve.py → retrieve_bm25
+        "faiss": faiss_index,  # dense semantic index → retrieve.py → retrieve_dense
+        "meta": meta,  # list of chunk metadata dicts (no image bytes)
+        "chunk_id_to_meta": chunk_id_to_meta,  # chunk_id → meta dict for O(1) lookup in hybrid retrieval
+        "image_b64_lookup": image_b64_lookup,  # chunk_id → base64 string for image modality only
+        "embedder": embedder,  # passed through so retrieve.py can embed queries
+        "reranker": reranker,  # passed through so retrieve.py can rerank candidates
     }

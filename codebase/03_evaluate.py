@@ -208,6 +208,7 @@ def score_ragas(question, answer, contexts, ground_truth):
         ]
     }
 
+
 # ── Aggregation ───────────────────────────────────────────────
 def mean_std(vals):
     clean = [v for v in vals if isinstance(v, float)]

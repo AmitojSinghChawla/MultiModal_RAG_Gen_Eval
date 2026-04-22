@@ -31,7 +31,6 @@ import os
 from langchain_openai import ChatOpenAI
 from langchain_core.output_parsers import StrOutputParser
 
-
 # ─────────────────────────────────────────
 # 1. Constants
 # ─────────────────────────────────────────
@@ -57,6 +56,7 @@ Model = "gpt-4o-mini"
 #    blocks. This is the step that makes the pipeline "multimodal" — images are
 #    sent as base64 data URIs alongside text and table blocks.
 # ─────────────────────────────────────────
+
 
 def _build_context_content(retrieved_chunks: list) -> tuple[list, list]:
     """
@@ -114,9 +114,9 @@ def _build_context_content(retrieved_chunks: list) -> tuple[list, list]:
     ctx_texts = []
 
     for chunk in retrieved_chunks:
-        source   = chunk["source_pdf"]    # filename for citation (e.g. "paper.pdf")
-        page     = chunk["page_number"]   # page number for citation (None for images)
-        modality = chunk["modality"]      # "text" | "table" | "image"
+        source = chunk["source_pdf"]  # filename for citation (e.g. "paper.pdf")
+        page = chunk["page_number"]  # page number for citation (None for images)
+        modality = chunk["modality"]  # "text" | "table" | "image"
 
         # ── IMAGE CHUNK ───────────────────────────────────────────────────────
         # Only enter this branch if the chunk is an image AND we have the actual
@@ -127,23 +127,27 @@ def _build_context_content(retrieved_chunks: list) -> tuple[list, list]:
             # OpenAI vision API expects images as data URIs inside image_url blocks.
             # The format is: "data:<mime-type>;base64,<base64string>"
             # This is the same format a browser uses to embed images inline in HTML.
-            content.append({
-                "type": "image_url",
-                "image_url": {
-                    "url": f"data:image/jpeg;base64,{chunk['image_b64']}",
-                    # "high" detail mode tiles the image and processes each tile separately,
-                    # needed for charts where axis labels or table values are in small text.
-                    "detail": "high",
-                },
-            })
+            content.append(
+                {
+                    "type": "image_url",
+                    "image_url": {
+                        "url": f"data:image/jpeg;base64,{chunk['image_b64']}",
+                        # "high" detail mode tiles the image and processes each tile separately,
+                        # needed for charts where axis labels or table values are in small text.
+                        "detail": "high",
+                    },
+                }
+            )
 
             # Follow the image with a short caption so the model can cite the source.
             # The model sees: [image] then [caption text] — the caption anchors the
             # image to a specific document and page in the model's response.
-            content.append({
-                "type": "text",
-                "text": f"Image from {source} page {page}",
-            })
+            content.append(
+                {
+                    "type": "text",
+                    "text": f"Image from {source} page {page}",
+                }
+            )
 
             # For the sources expander in the UI: show the GPT-4o description
             # (retrieval_text) rather than the raw base64, which is not human-readable.
@@ -164,10 +168,12 @@ def _build_context_content(retrieved_chunks: list) -> tuple[list, list]:
             # "TEXT" tells it this is prose — it will quote or paraphrase accordingly.
             label = "TABLE" if modality == "table" else "TEXT"
 
-            content.append({
-                "type": "text",
-                "text": f"[{label} from {source}, page {page}]\n{text}\n",
-            })
+            content.append(
+                {
+                    "type": "text",
+                    "text": f"[{label} from {source}, page {page}]\n{text}\n",
+                }
+            )
 
             # ctx_texts gets the same text shown to the LLM — what the user sees
             # in the "View sources" expander mirrors what the model received.
@@ -186,6 +192,7 @@ def _build_context_content(retrieved_chunks: list) -> tuple[list, list]:
 #    a sliding window of recent chat history, and the current query with
 #    its retrieved context blocks.
 # ─────────────────────────────────────────
+
 
 def _build_messages(question: str, context_content: list, chat_history: list) -> list:
     """
@@ -235,15 +242,17 @@ def _build_messages(question: str, context_content: list, chat_history: list) ->
     # it sees any history or the current question.
     # "strictly from the provided document context" instructs the model not to use
     # its parametric knowledge — reducing hallucinations about document content.
-    messages.append({
-        "role": "system",
-        "content": (
-            "You are a precise research assistant answering questions strictly "
-            "from the provided document context (text, tables, and images). "
-            "If the answer is not in the context, say 'Not found in context.' "
-            "Be concise. Cite the source PDF and page where possible."
-        ),
-    })
+    messages.append(
+        {
+            "role": "system",
+            "content": (
+                "You are a precise research assistant answering questions strictly "
+                "from the provided document context (text, tables, and images). "
+                "If the answer is not in the context, say 'Not found in context.' "
+                "Be concise. Cite the source PDF and page where possible."
+            ),
+        }
+    )
 
     # ── Sliding history window ────────────────────────────────────────────────
     # CHAT_HISTORY_WINDOW = 3 turns.
@@ -252,16 +261,18 @@ def _build_messages(question: str, context_content: list, chat_history: list) ->
     # "system" role messages in chat_history (ingestion notifications) are passed
     # through as-is — the API ignores role="system" mid-conversation by treating
     # it as additional context, which is acceptable behaviour.
-    window = chat_history[-(CHAT_HISTORY_WINDOW) * 2:]
+    window = chat_history[-(CHAT_HISTORY_WINDOW) * 2 :]
 
     for msg in window:
         # Re-package each history message into a clean dict.
         # The "sources" key present on assistant messages in session_state is
         # intentionally excluded — it is UI metadata, not conversation content.
-        messages.append({
-            "role":    msg["role"],
-            "content": msg["content"],
-        })
+        messages.append(
+            {
+                "role": msg["role"],
+                "content": msg["content"],
+            }
+        )
 
     # ── Current turn user message ─────────────────────────────────────────────
     # current_content is a copy of the context blocks so we don't mutate the
@@ -273,23 +284,27 @@ def _build_messages(question: str, context_content: list, chat_history: list) ->
     # Placing the question AFTER the context is intentional: the model should
     # read the evidence first, then answer — reducing the chance of it generating
     # an answer from prior knowledge before processing the context.
-    current_content.append({
-        "type": "text",
-        "text": (
-            "\n─────────────────────────────────────\n"
-            "Using only the context above, answer the question.\n"
-            "If the context doesn't contain the answer, say 'Not found in context.'\n\n"
-            f"Question: {question}\n\nAnswer:"
-        ),
-    })
+    current_content.append(
+        {
+            "type": "text",
+            "text": (
+                "\n─────────────────────────────────────\n"
+                "Using only the context above, answer the question.\n"
+                "If the context doesn't contain the answer, say 'Not found in context.'\n\n"
+                f"Question: {question}\n\nAnswer:"
+            ),
+        }
+    )
 
     # The final user message uses a list of content blocks (not a plain string)
     # because it may contain image_url blocks. The OpenAI API requires this format
     # for multimodal messages — a plain string would cause the image blocks to be ignored.
-    messages.append({
-        "role":    "user",
-        "content": current_content,    # list of text + image_url blocks
-    })
+    messages.append(
+        {
+            "role": "user",
+            "content": current_content,  # list of text + image_url blocks
+        }
+    )
 
     # → messages list returned to generate_answer() for llm.invoke()
     return messages
@@ -300,6 +315,7 @@ def _build_messages(question: str, context_content: list, chat_history: list) ->
 #    Orchestrates the full generation pipeline for one user turn:
 #    retrieved chunks → context blocks → API messages → answer string.
 # ─────────────────────────────────────────
+
 
 def generate_answer(
     question: str,

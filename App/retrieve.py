@@ -41,7 +41,6 @@ import faiss
 from sentence_transformers import SentenceTransformer, CrossEncoder
 from Ingestion import tokenize
 
-
 # ─────────────────────────────────────────
 # 1. Result Dict Builder
 #    Every retrieval method produces its own raw scores and indices,
@@ -51,7 +50,10 @@ from Ingestion import tokenize
 #    can read the same keys without knowing which retrieval path ran.
 # ─────────────────────────────────────────
 
-def _make_result(rank: int, score: float, meta_entry: dict, image_b64_lookup: dict) -> dict:
+
+def _make_result(
+    rank: int, score: float, meta_entry: dict, image_b64_lookup: dict
+) -> dict:
     """
     Build a single standardised result dict from retrieval metadata.
 
@@ -82,15 +84,21 @@ def _make_result(rank: int, score: float, meta_entry: dict, image_b64_lookup: di
 
     # → this dict is the fundamental unit consumed by generate.py and displayed in streamlit_app.py
     return {
-        "rank":           rank,
-        "chunk_id":       chunk_id,
-        "score":          round(float(score), 4),          # 4 decimal places is enough for display/debugging
-        "modality":       modality,
-        "source_pdf":     meta_entry["source_pdf"],
-        "page_number":    meta_entry.get("page_number"),   # .get() returns None if key missing
-        "retrieval_text": meta_entry["retrieval_text"],    # used as the reranker input pair
-        "raw_text":       meta_entry.get("raw_text"),      # None for image chunks
-        "image_b64":      image_b64,                       # base64 string → sent to LLM as image_url block
+        "rank": rank,
+        "chunk_id": chunk_id,
+        "score": round(
+            float(score), 4
+        ),  # 4 decimal places is enough for display/debugging
+        "modality": modality,
+        "source_pdf": meta_entry["source_pdf"],
+        "page_number": meta_entry.get(
+            "page_number"
+        ),  # .get() returns None if key missing
+        "retrieval_text": meta_entry[
+            "retrieval_text"
+        ],  # used as the reranker input pair
+        "raw_text": meta_entry.get("raw_text"),  # None for image chunks
+        "image_b64": image_b64,  # base64 string → sent to LLM as image_url block
     }
 
 
@@ -101,7 +109,10 @@ def _make_result(rank: int, score: float, meta_entry: dict, image_b64_lookup: di
 #    (model names, figure numbers, rare technical terms).
 # ─────────────────────────────────────────
 
-def retrieve_bm25(query: str, bm25, meta: list, image_b64_lookup: dict, top_k: int = 5) -> list:
+
+def retrieve_bm25(
+    query: str, bm25, meta: list, image_b64_lookup: dict, top_k: int = 5
+) -> list:
     """
     Retrieve the top-k chunks using BM25 sparse keyword scoring.
 
@@ -140,8 +151,10 @@ def retrieve_bm25(query: str, bm25, meta: list, image_b64_lookup: dict, top_k: i
     top_indices = np.argsort(scores)[::-1][:top_k]
 
     # → list of result dicts passed back to retrieve() or to retrieve_hybrid()
-    return [_make_result(rank, scores[idx], meta[idx], image_b64_lookup)
-            for rank, idx in enumerate(top_indices, start=1)]
+    return [
+        _make_result(rank, scores[idx], meta[idx], image_b64_lookup)
+        for rank, idx in enumerate(top_indices, start=1)
+    ]
 
 
 # ─────────────────────────────────────────
@@ -151,7 +164,15 @@ def retrieve_bm25(query: str, bm25, meta: list, image_b64_lookup: dict, top_k: i
 #    Best for paraphrases and semantic questions that don't use exact keywords.
 # ─────────────────────────────────────────
 
-def retrieve_dense(query: str, faiss_index, meta: list, embedder, image_b64_lookup: dict, top_k: int = 5) -> list:
+
+def retrieve_dense(
+    query: str,
+    faiss_index,
+    meta: list,
+    embedder,
+    image_b64_lookup: dict,
+    top_k: int = 5,
+) -> list:
     """
     Retrieve the top-k chunks using dense vector similarity (cosine search via FAISS).
 
@@ -217,9 +238,18 @@ def retrieve_dense(query: str, faiss_index, meta: list, embedder, image_b64_look
 #    than strong in just one modality. This is the foundation for method 4.
 # ─────────────────────────────────────────
 
-def retrieve_hybrid(query: str, bm25, faiss_index, meta: list, embedder,
-                    chunk_id_to_meta: dict, image_b64_lookup: dict,
-                    top_k: int = 5, rrf_k: int = 60) -> list:
+
+def retrieve_hybrid(
+    query: str,
+    bm25,
+    faiss_index,
+    meta: list,
+    embedder,
+    chunk_id_to_meta: dict,
+    image_b64_lookup: dict,
+    top_k: int = 5,
+    rrf_k: int = 60,
+) -> list:
     """
     Fuse BM25 and dense results using Reciprocal Rank Fusion (RRF).
 
@@ -259,8 +289,10 @@ def retrieve_hybrid(query: str, bm25, faiss_index, meta: list, embedder,
 
     # Run both retrievers independently — each sees the same query but uses a
     # completely different scoring mechanism (keyword vs. semantic)
-    bm25_results  = retrieve_bm25(query, bm25, meta, image_b64_lookup, top_k=fetch_k)
-    dense_results = retrieve_dense(query, faiss_index, meta, embedder, image_b64_lookup, top_k=fetch_k)
+    bm25_results = retrieve_bm25(query, bm25, meta, image_b64_lookup, top_k=fetch_k)
+    dense_results = retrieve_dense(
+        query, faiss_index, meta, embedder, image_b64_lookup, top_k=fetch_k
+    )
 
     # rrf_scores maps chunk_id → cumulative RRF score across both lists
     rrf_scores: dict = {}
@@ -285,8 +317,10 @@ def retrieve_hybrid(query: str, bm25, faiss_index, meta: list, embedder,
     # We can't use list indices here because RRF re-orders chunks from both lists
     # — chunk_id is the only stable identifier across both retrieval results.
     # → list of result dicts passed back to retrieve() or to retrieve_hybrid_reranked()
-    return [_make_result(rank, rrf_scores[cid], chunk_id_to_meta[cid], image_b64_lookup)
-            for rank, cid in enumerate(sorted_ids, start=1)]
+    return [
+        _make_result(rank, rrf_scores[cid], chunk_id_to_meta[cid], image_b64_lookup)
+        for rank, cid in enumerate(sorted_ids, start=1)
+    ]
 
 
 # ─────────────────────────────────────────
@@ -298,9 +332,18 @@ def retrieve_hybrid(query: str, bm25, faiss_index, meta: list, embedder,
 #    full corpus, so it only reruns the top candidates from the hybrid step.
 # ─────────────────────────────────────────
 
-def retrieve_hybrid_reranked(query: str, bm25, faiss_index, meta: list, embedder,
-                              reranker, chunk_id_to_meta: dict, image_b64_lookup: dict,
-                              top_k: int = 5) -> list:
+
+def retrieve_hybrid_reranked(
+    query: str,
+    bm25,
+    faiss_index,
+    meta: list,
+    embedder,
+    reranker,
+    chunk_id_to_meta: dict,
+    image_b64_lookup: dict,
+    top_k: int = 5,
+) -> list:
     """
     Retrieve and rerank: hybrid RRF fusion → CrossEncoder reranking → top-k.
 
@@ -337,8 +380,14 @@ def retrieve_hybrid_reranked(query: str, bm25, faiss_index, meta: list, embedder
     # More candidates = higher recall going into stage 2, at the cost of more
     # reranker forward passes. top_k * 3 is a practical balance.
     candidates = retrieve_hybrid(
-        query, bm25, faiss_index, meta, embedder,
-        chunk_id_to_meta, image_b64_lookup, top_k=top_k * 3,
+        query,
+        bm25,
+        faiss_index,
+        meta,
+        embedder,
+        chunk_id_to_meta,
+        image_b64_lookup,
+        top_k=top_k * 3,
     )
 
     # Guard: if hybrid returned nothing (e.g. empty index), return immediately.
@@ -380,6 +429,7 @@ def retrieve_hybrid_reranked(query: str, bm25, faiss_index, meta: list, embedder
 #    All retrieval complexity is hidden behind this interface.
 # ─────────────────────────────────────────
 
+
 def retrieve(query: str, method: str, indexes: dict, top_k: int = 5) -> list:
     """
     Single entry point called by streamlit_app.py for every user query.
@@ -405,26 +455,55 @@ def retrieve(query: str, method: str, indexes: dict, top_k: int = 5) -> list:
     """
     # Unpack the indexes dict into named variables for clarity.
     # All of these were built by ingest_pdfs() in Ingestion.py and stored in session_state.
-    bm25             = indexes["bm25"]             # ← Ingestion.py → build_bm25()
-    faiss_index      = indexes["faiss"]            # ← Ingestion.py → build_faiss()
-    meta             = indexes["meta"]             # ← Ingestion.py → lightweight chunk metadata list
-    chunk_id_to_meta = indexes["chunk_id_to_meta"] # ← Ingestion.py → O(1) chunk lookup dict
-    image_b64_lookup = indexes["image_b64_lookup"] # ← Ingestion.py → chunk_id → base64 for images
-    embedder         = indexes["embedder"]         # ← streamlit_app.py → load_models() → passed through ingest
-    reranker         = indexes["reranker"]         # ← streamlit_app.py → load_models() → passed through ingest
+    bm25 = indexes["bm25"]  # ← Ingestion.py → build_bm25()
+    faiss_index = indexes["faiss"]  # ← Ingestion.py → build_faiss()
+    meta = indexes["meta"]  # ← Ingestion.py → lightweight chunk metadata list
+    chunk_id_to_meta = indexes[
+        "chunk_id_to_meta"
+    ]  # ← Ingestion.py → O(1) chunk lookup dict
+    image_b64_lookup = indexes[
+        "image_b64_lookup"
+    ]  # ← Ingestion.py → chunk_id → base64 for images
+    embedder = indexes[
+        "embedder"
+    ]  # ← streamlit_app.py → load_models() → passed through ingest
+    reranker = indexes[
+        "reranker"
+    ]  # ← streamlit_app.py → load_models() → passed through ingest
 
     # Dispatch to the correct retrieval function based on the method string.
     # "hybrid_reranker" is the default used by streamlit_app.py — it is the most accurate.
     if method == "bm25":
         return retrieve_bm25(query, bm25, meta, image_b64_lookup, top_k)
     elif method == "dense":
-        return retrieve_dense(query, faiss_index, meta, embedder, image_b64_lookup, top_k)
+        return retrieve_dense(
+            query, faiss_index, meta, embedder, image_b64_lookup, top_k
+        )
     elif method == "hybrid":
-        return retrieve_hybrid(query, bm25, faiss_index, meta, embedder,
-                               chunk_id_to_meta, image_b64_lookup, top_k)
+        return retrieve_hybrid(
+            query,
+            bm25,
+            faiss_index,
+            meta,
+            embedder,
+            chunk_id_to_meta,
+            image_b64_lookup,
+            top_k,
+        )
     elif method == "hybrid_reranker":
-        return retrieve_hybrid_reranked(query, bm25, faiss_index, meta, embedder,
-                                        reranker, chunk_id_to_meta, image_b64_lookup, top_k)
+        return retrieve_hybrid_reranked(
+            query,
+            bm25,
+            faiss_index,
+            meta,
+            embedder,
+            reranker,
+            chunk_id_to_meta,
+            image_b64_lookup,
+            top_k,
+        )
     else:
         # Fail loudly on an unrecognised method so bugs surface immediately
-        raise ValueError(f"Unknown method '{method}'. Choose from: bm25, dense, hybrid, hybrid_reranker")
+        raise ValueError(
+            f"Unknown method '{method}'. Choose from: bm25, dense, hybrid, hybrid_reranker"
+        )

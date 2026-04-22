@@ -48,11 +48,12 @@ sys.path.append(os.path.join(os.path.dirname(__file__), "app", "utils"))
 
 # ← ingest_pdfs() is the main entry point in Ingestion.py
 from Ingestion import ingest_pdfs
+
 # ← generate_answer() converts retrieved chunks + question → final answer string
 from generate import generate_answer
+
 # ← retrieve() is the unified entry point in retrieve.py
 from retrieve import retrieve
-
 
 # ─────────────────────────────────────────
 # 1. Model Loading
@@ -62,6 +63,7 @@ from retrieve import retrieve
 #    Without this decorator, Streamlit would reload the models on every button
 #    click or slider change, making the app unusably slow.
 # ─────────────────────────────────────────
+
 
 @st.cache_resource
 def load_models():
@@ -194,7 +196,12 @@ with st.sidebar:
     # After successful ingestion, this block is skipped entirely so the user can't re-ingest
     # without first clicking "Clear & Reset" (which sets ingestion_done back to False).
     if uploaded_files and not st.session_state.ingestion_done:
-        if st.button("Ingest PDFs", type="primary", use_container_width=True, disabled=not ingest_ready):
+        if st.button(
+            "Ingest PDFs",
+            type="primary",
+            use_container_width=True,
+            disabled=not ingest_ready,
+        ):
 
             # ── Reset state before a fresh ingestion ──────────────────────────
             # Clear any previous conversation and indexes so the new ingestion
@@ -222,7 +229,9 @@ with st.sidebar:
                     # → st.session_state["indexes"] is passed to retrieve() on every query
                     st.session_state.indexes = indexes
                     st.session_state.ingestion_done = True
-                    status.update(label="✅ Ingestion complete", state="complete", expanded=False)
+                    status.update(
+                        label="✅ Ingestion complete", state="complete", expanded=False
+                    )
 
                     # st.rerun() forces a full Streamlit rerun so the chat input
                     # (gated on ingestion_done below) becomes visible immediately.
@@ -242,7 +251,7 @@ with st.sidebar:
 
         # Three side-by-side metric tiles — one per modality
         c1, c2, c3 = st.columns(3)
-        c1.metric("Text",   sum(1 for m in meta if m["modality"] == "text"))
+        c1.metric("Text", sum(1 for m in meta if m["modality"] == "text"))
         c2.metric("Tables", sum(1 for m in meta if m["modality"] == "table"))
         c3.metric("Images", sum(1 for m in meta if m["modality"] == "image"))
 
@@ -258,7 +267,8 @@ with st.sidebar:
     # → st.session_state.top_k passed to retrieve() on every user query below
     st.session_state.top_k = st.slider(
         "🎯 Top-K chunks",
-        min_value=1, max_value=10,
+        min_value=1,
+        max_value=10,
         value=st.session_state.top_k,
     )
 
@@ -271,7 +281,7 @@ with st.sidebar:
     if st.session_state.ingestion_done:
         if st.button("🗑️ Clear & Reset", use_container_width=True):
             for key in ["messages", "ingestion_done", "indexes", "top_k"]:
-                st.session_state.pop(key, None)    # pop() with default avoids KeyError
+                st.session_state.pop(key, None)  # pop() with default avoids KeyError
             st.rerun()
 
 
@@ -297,7 +307,7 @@ st.markdown("---")
 # ─────────────────────────────────────────
 
 for message in st.session_state.messages:
-    role    = message["role"]
+    role = message["role"]
     content = message["content"]
 
     if role == "system":
@@ -364,9 +374,9 @@ if st.session_state.ingestion_done:
                 # → chunks passed directly to generate_answer() below
                 chunks = retrieve(
                     query=user_query,
-                    method="hybrid_reranker",          # always use the most accurate method
+                    method="hybrid_reranker",  # always use the most accurate method
                     indexes=st.session_state.indexes,  # ← built by ingest_pdfs() in Ingestion.py
-                    top_k=st.session_state.top_k,      # ← set by the sidebar slider above
+                    top_k=st.session_state.top_k,  # ← set by the sidebar slider above
                 )
 
                 # ── Step 2: Generate ──────────────────────────────────────────
@@ -377,28 +387,32 @@ if st.session_state.ingestion_done:
                 answer, ctx_texts = generate_answer(
                     question=user_query,
                     retrieved_chunks=chunks,
-                    chat_history=st.session_state.messages,   # full history; windowed internally
-                    api_key=OPENAI_API_KEY
+                    chat_history=st.session_state.messages,  # full history; windowed internally
+                    api_key=OPENAI_API_KEY,
                 )
 
         except Exception as e:
             # Surface retrieval or generation errors as an assistant message
             # rather than crashing the app with an unhandled exception.
             # The chat history is preserved so the user can see what failed.
-            st.session_state.messages.append({
-                "role":    "assistant",
-                "content": f"Error: {e}",
-            })
+            st.session_state.messages.append(
+                {
+                    "role": "assistant",
+                    "content": f"Error: {e}",
+                }
+            )
 
         # Append the assistant's answer and its source snippets to the history.
         # "sources" is a custom key (not a standard OpenAI role key) — it is only
         # used by the rendering loop above to populate the "View sources" expander.
         # generate.py's _build_messages() skips non-standard keys when building API messages.
-        st.session_state.messages.append({
-            "role":    "assistant",
-            "content": answer,
-            "sources": ctx_texts,   # ← ctx_texts from generate_answer() in generate.py
-        })
+        st.session_state.messages.append(
+            {
+                "role": "assistant",
+                "content": answer,
+                "sources": ctx_texts,  # ← ctx_texts from generate_answer() in generate.py
+            }
+        )
 
         # Force a full rerun so the new assistant message is rendered in the chat history above.
         # Without st.rerun(), Streamlit would wait for the next user interaction before refreshing.
@@ -408,3 +422,5 @@ else:
     # Before ingestion: show a prompt guiding the user to upload files.
     # The chat input is intentionally absent here to prevent queries against an empty index.
     st.info("👆 Upload and ingest PDFs from the sidebar to start chatting.")
+
+

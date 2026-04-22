@@ -269,7 +269,8 @@ def export_chunk(record: dict, output_file: str) -> None:
 
 
 def process_pdfs_in_directory(
-    directory_path: str, output_file: str = r"C:\Users\amito\PycharmProjects\MultiModal_RAG_Gen_Eval\Chunks\chunks.json"
+    directory_path: str,
+    output_file: str = r"C:\Users\amito\PycharmProjects\MultiModal_RAG_Gen_Eval\Chunks\chunks.json",
 ) -> None:
     """
     Iterate over every PDF in directory_path, partition each one, and write
@@ -301,7 +302,7 @@ def process_pdfs_in_directory(
         except FileNotFoundError:
             print(f"   WARNING: PDF {filename} could not be found. SKIPPING")
             continue
-        except (ValueError,RuntimeError) as e:
+        except (ValueError, RuntimeError) as e:
             print(f" Error Partitioning PDF {filename}: {e}")
             continue
 
@@ -330,7 +331,9 @@ def process_pdfs_in_directory(
 
         # -------- TABLE CHUNKS --------
         for table in tables:
-            if hasattr(table, "metadata") and getattr(table.metadata, "text_as_html", None):
+            if hasattr(table, "metadata") and getattr(
+                table.metadata, "text_as_html", None
+            ):
                 table_text = html_table_to_text(table.metadata.text_as_html)
             else:
                 table_text = clean_text(str(table))
